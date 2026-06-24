@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>قَبَس | کانال‌های ما</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-header: #0a1a12; --bg-card: rgba(22, 38, 30, 0.7);
+      --glass-border: rgba(201, 168, 76, 0.15); --gold: #c9a84c;
+      --gold-light: #e2c87a; --text: #e8e6e0; --text-muted: #a4a098;
+    }
+    body {
+      font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+      background: radial-gradient(ellipse at top, #1d3528 0%, #0a1410 60%);
+      color: var(--text); min-height: 100vh;
+      direction: rtl; line-height: 1.7;
+      display: flex; flex-direction: column;
+    }
+    .header {
+      background: var(--bg-header); border-bottom: 1px solid rgba(201,168,76,0.2);
+      padding: 14px 20px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 100;
+    }
+    .header-back { color: var(--gold); font-size: 14px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .header-title {
+      font-family: 'Vazirmatn', sans-serif; font-size: 1.4rem; font-weight: 800;
+      background: linear-gradient(180deg, #f5dea3 0%, #c9a84c 50%, #8a6914 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .container { max-width: 550px; margin: 0 auto; padding: 20px 16px; flex: 1; width: 100%; }
+
+    .channel-list { display: flex; flex-direction: column; gap: 10px; }
+    .channel-item {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--bg-card); backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border); border-radius: 12px;
+      padding: 15px; text-decoration: none; transition: all 0.3s;
+    }
+    .channel-item:hover { border-color: var(--gold); background: rgba(201,168,76,0.05); transform: translateX(-5px); }
+    .channel-icon { font-size: 30px; color: var(--gold); flex-shrink: 0; width: 40px; text-align: center; }
+    .channel-info { flex: 1; min-width: 0; }
+    .channel-name { color: var(--gold); font-size: 1rem; font-weight: bold; }
+    .channel-messenger { color: var(--text-muted); font-size: 0.75rem; margin-top: 3px; }
+    .channel-arrow { color: var(--gold); font-size: 1.2rem; }
+    .empty-state { text-align: center; padding: 50px 20px; color: var(--text-muted); }
+    .empty-state .icon { font-size: 60px; margin-bottom: 15px; color: var(--gold); }
+
+    .footer {
+      background: var(--bg-header); border-top: 1px solid rgba(201,168,76,0.2);
+      text-align: center; padding: 16px; margin-top: auto;
+    }
+    .footer-text { font-size: 11px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="../index.html" class="header-back"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
+    <div class="header-title">کانال‌های ما</div>
+    <div style="width:60px;"></div>
+  </header>
+
+  <div class="container">
+
+    <div class="channel-list" id="channelList">
+      <div class="empty-state">
+        <div class="icon"><i class="fa-solid fa-spinner fa-spin"></i></div>
+        <p>در حال بارگذاری</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <p class="footer-text"><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p>
+  </footer>
+
+  <script>
+    var API_URL = 'https://script.google.com/macros/s/AKfycbzuhWUIJ_d0bfIctIwcsQ61ELOpYUDKLT1KU5zNci1OT4ie1g_3pd3sRZlVJJzCAXllnA/exec';
+    var CHANNELS_API = API_URL + '?type=channels';
+
+    async function loadChannels() {
+      try {
+        var response = await fetch(CHANNELS_API);
+        var data = await response.json();
+        var container = document.getElementById('channelList');
+        if (data.length === 0) {
+          container.innerHTML = '<div class="empty-state"><div class="icon"><i class="fa-solid fa-bullhorn"></i></div><p>کانالی ثبت نشده</p></div>';
+          return;
+        }
+        var html = '';
+        for (var i = 0; i < data.length; i++) {
+          var ch = data[i];
+          var iconClass = 'fa-bullhorn';
+          if (ch.messenger && ch.messenger.indexOf('ایتا') !== -1) iconClass = 'fa-comment';
+          else if (ch.messenger && ch.messenger.indexOf('تلگرام') !== -1) iconClass = 'fa-paper-plane';
+          else if (ch.messenger && ch.messenger.indexOf('روبیکا') !== -1) iconClass = 'fa-comment-dots';
+          else if (ch.messenger && ch.messenger.indexOf('سروش') !== -1) iconClass = 'fa-comments';
+          html += '<a href="' + (ch.channel_link || '#') + '" target="_blank" class="channel-item">' +
+            '<span class="channel-icon"><i class="fa-solid ' + iconClass + '"></i></span>' +
+            '<div class="channel-info"><div class="channel-name">' + (ch.channel_name || '') + '</div><div class="channel-messenger">' + (ch.messenger || '') + '</div></div>' +
+            '<span class="channel-arrow"><i class="fa-solid fa-chevron-left"></i></span></a>';
+        }
+        container.innerHTML = html;
+      } catch(e) {
+        document.getElementById('channelList').innerHTML = '<div class="empty-state"><div class="icon"><i class="fa-solid fa-triangle-exclamation"></i></div><p>خطا در بارگذاری</p></div>';
+      }
+    }
+
+    loadChannels();
+  </script>
+</body>
+</html>
