@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>قَبَس | آلبوم شهدا</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-header: #0a1a12; --bg-card: rgba(22, 38, 30, 0.7);
+      --glass-border: rgba(201, 168, 76, 0.15); --gold: #c9a84c;
+      --gold-light: #e2c87a; --text: #e8e6e0; --text-muted: #a4a098;
+    }
+    body {
+      font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+      background: radial-gradient(ellipse at top, #1d3528 0%, #0a1410 60%);
+      color: var(--text); min-height: 100vh;
+      direction: rtl; line-height: 1.7;
+      display: flex; flex-direction: column;
+    }
+    .header {
+      background: var(--bg-header); border-bottom: 1px solid rgba(201,168,76,0.2);
+      padding: 14px 20px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 100;
+    }
+    .header-back { color: var(--gold); font-size: 14px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .header-title {
+      font-family: 'Vazirmatn', sans-serif; font-size: 1.4rem; font-weight: 800;
+      background: linear-gradient(180deg, #f5dea3 0%, #c9a84c 50%, #8a6914 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .container { max-width: 700px; margin: 0 auto; padding: 20px 16px; flex: 1; width: 100%; }
+
+    .search-box {
+      background: var(--bg-card); backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border); border-radius: 15px;
+      padding: 15px; margin-bottom: 20px; display: flex; gap: 10px; align-items: center;
+    }
+    .search-box i { color: var(--gold); font-size: 1.2rem; }
+    .search-input { flex: 1; background: none; border: none; color: var(--text); font-size: 1rem; font-family: inherit; outline: none; }
+    .search-input::placeholder { color: rgba(255,255,255,0.3); }
+
+    .shahed-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; max-height: 400px; overflow-y: auto; padding-left: 5px; }
+    .shahed-list::-webkit-scrollbar { width: 5px; }
+    .shahed-list::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+    .shahed-item {
+      display: flex; align-items: center; gap: 15px;
+      background: var(--bg-card); backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border); border-radius: 14px;
+      padding: 15px 18px; cursor: pointer; transition: all 0.3s ease;
+    }
+    .shahed-item:hover { border-color: var(--gold); background: rgba(201,168,76,0.05); transform: translateX(-5px); }
+    .shahed-item.active { border-color: var(--gold); background: rgba(201,168,76,0.1); box-shadow: 0 0 20px rgba(201,168,76,0.1); }
+    .shahed-avatar {
+      width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #2a1a3a, #1a3a2a);
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+      flex-shrink: 0; border: 2px solid rgba(201,168,76,0.3);
+    }
+    .shahed-info { flex: 1; min-width: 0; }
+    .shahed-name { color: var(--gold); font-size: 1.05rem; font-weight: bold; }
+    .shahed-desc { color: var(--text-muted); font-size: 0.8rem; margin-top: 3px; }
+    .shahed-arrow { color: var(--gold); font-size: 1.2rem; transition: all 0.3s ease; }
+    .shahed-item:hover .shahed-arrow { transform: translateX(-5px); }
+
+    .gallery-title { color: var(--gold); font-size: 1.2rem; margin-bottom: 15px; text-align: center; }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+    .gallery-item {
+      aspect-ratio: 1/1; border-radius: 12px; overflow: hidden; cursor: pointer;
+      border: 2px solid transparent; transition: all 0.3s ease; background: rgba(255,255,255,0.03);
+    }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+    .gallery-item:hover { border-color: var(--gold); transform: scale(1.03); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
+    .no-image { color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 30px; }
+
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; align-items: center; justify-content: center; }
+    .modal.show { display: flex; }
+    .modal img { max-width: 90%; max-height: 85vh; border-radius: 15px; border: 3px solid var(--gold); }
+    .modal-close { position: absolute; top: 20px; left: 20px; color: white; font-size: 2rem; cursor: pointer; background: rgba(255,255,255,0.1); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; }
+    .modal-prev, .modal-next { position: absolute; top: 50%; transform: translateY(-50%); color: white; font-size: 2rem; cursor: pointer; background: rgba(255,255,255,0.1); width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; }
+    .modal-prev { right: 20px; }
+    .modal-next { left: 20px; }
+
+    .footer {
+      background: var(--bg-header); border-top: 1px solid rgba(201,168,76,0.2);
+      text-align: center; padding: 16px; margin-top: auto;
+    }
+    .footer-text { font-size: 11px; color: var(--text-muted); }
+
+    @media (max-width: 480px) { .gallery { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); } .shahed-item { padding: 12px 14px; } .shahed-avatar { width: 40px; height: 40px; font-size: 18px; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="../index.html" class="header-back"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
+    <div class="header-title">آلبوم شهدا</div>
+    <div style="width:60px;"></div>
+  </header>
+
+  <div class="container">
+
+    <div class="search-box">
+      <i class="fa-solid fa-search"></i>
+      <input type="text" class="search-input" id="searchInput" placeholder="جستجوی نام شهید...">
+    </div>
+
+    <div class="shahed-list" id="shahedList">
+      <div class="no-image">در حال بارگذاری</div>
+    </div>
+
+    <div id="gallerySection" style="display:none;">
+      <h2 class="gallery-title" id="galleryTitle">تصاویر</h2>
+      <div class="gallery" id="gallery"></div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <p class="footer-text"><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p>
+  </footer>
+
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-times"></i></button>
+    <button class="modal-prev" onclick="prevImage()"><i class="fa-solid fa-chevron-right"></i></button>
+    <img src="" alt="" id="modalImage">
+    <button class="modal-next" onclick="nextImage()"><i class="fa-solid fa-chevron-left"></i></button>
+  </div>
+
+  <script>
+    var API_URL = 'https://script.google.com/macros/s/AKfycbzuhWUIJ_d0bfIctIwcsQ61ELOpYUDKLT1KU5zNci1OT4ie1g_3pd3sRZlVJJzCAXllnA/exec';
+    var SHOHADA_API = API_URL + '?type=shohada_list';
+
+    var shohada = [];
+    var currentShahed = null;
+    var currentImageIndex = 0;
+
+    async function loadShohadaFromAPI() {
+      try { var r = await fetch(SHOHADA_API); var d = await r.json(); if (d.length > 0) { shohada = d; } renderShahedList(); } catch(e) { document.getElementById('shahedList').innerHTML = '<div class="no-image">خطا در دریافت</div>'; }
+    }
+
+    function renderShahedList(filter) {
+      var list = document.getElementById('shahedList');
+      var filtered = filter ? shohada.filter(function(s) { return s.name.indexOf(filter) !== -1; }) : shohada;
+      if (filtered.length === 0) { list.innerHTML = '<div class="no-image">شهیدی با این نام یافت نشد</div>'; return; }
+      var html = '';
+      for (var i = 0; i < filtered.length; i++) {
+        var s = filtered[i];
+        html += '<div class="shahed-item" onclick="selectShahed(' + s.id + ')" data-id="' + s.id + '">' +
+          '<div class="shahed-avatar"><i class="fa-solid fa-dove"></i></div>' +
+          '<div class="shahed-info"><div class="shahed-name">' + s.name + '</div><div class="shahed-desc">' + (s.birth || '') + ' — ' + (s.martyrdom || '') + '</div></div>' +
+          '<span class="shahed-arrow"><i class="fa-solid fa-chevron-left"></i></span></div>';
+      }
+      list.innerHTML = html;
+    }
+
+    function selectShahed(id) {
+      var items = document.querySelectorAll('.shahed-item');
+      for (var i = 0; i < items.length; i++) items[i].classList.remove('active');
+      var item = document.querySelector('[data-id="' + id + '"]');
+      if (item) item.classList.add('active');
+      for (var i = 0; i < shohada.length; i++) { if (shohada[i].id === id) { currentShahed = shohada[i]; break; } }
+      showGallery();
+    }
+
+    function showGallery() {
+      var gallerySection = document.getElementById('gallerySection');
+      var galleryTitle = document.getElementById('galleryTitle');
+      var gallery = document.getElementById('gallery');
+      if (!currentShahed) { gallerySection.style.display = 'none'; return; }
+      gallerySection.style.display = 'block';
+      galleryTitle.textContent = 'تصاویر ' + currentShahed.name;
+      if (!currentShahed.images || currentShahed.images.length === 0) {
+        gallery.innerHTML = '<div class="no-image">تصویری برای این شهید یافت نشد</div>'; return;
+      }
+      var html = '';
+      for (var i = 0; i < currentShahed.images.length; i++) {
+        html += '<div class="gallery-item" onclick="openModal(' + i + ')"><img src="' + currentShahed.images[i] + '" alt="' + currentShahed.name + '" loading="lazy"></div>';
+      }
+      gallery.innerHTML = html;
+    }
+
+    function openModal(index) { currentImageIndex = index; document.getElementById('modalImage').src = currentShahed.images[currentImageIndex]; document.getElementById('modal').classList.add('show'); }
+    function closeModal() { document.getElementById('modal').classList.remove('show'); }
+    function prevImage() { if (!currentShahed?.images?.length) return; currentImageIndex--; if (currentImageIndex < 0) currentImageIndex = currentShahed.images.length - 1; document.getElementById('modalImage').src = currentShahed.images[currentImageIndex]; }
+    function nextImage() { if (!currentShahed?.images?.length) return; currentImageIndex++; if (currentImageIndex >= currentShahed.images.length) currentImageIndex = 0; document.getElementById('modalImage').src = currentShahed.images[currentImageIndex]; }
+
+    document.addEventListener('keydown', function(e) { if (!document.getElementById('modal').classList.contains('show')) return; if (e.key === 'Escape') closeModal(); if (e.key === 'ArrowRight') prevImage(); if (e.key === 'ArrowLeft') nextImage(); });
+    document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+    document.getElementById('searchInput').addEventListener('input', function() { renderShahedList(this.value.trim()); });
+
+    loadShohadaFromAPI();
+  </script>
+</body>
+</html>
