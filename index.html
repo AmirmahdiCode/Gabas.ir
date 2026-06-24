@@ -6,20 +6,16 @@
   <title>قَبَس | شعله‌ای از نور شهدا</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    @font-face {
-      font-family: 'FarArabs';
-      src: url('https://cdn.imgurl.ir/uploads/h441390_Far_Arabics.ttf') format('truetype');
-      font-weight: normal; font-style: normal;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;800&display=swap');
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --cream: #fdfbf7; --milk: #f5efe6; --beige: #ede4d8;
       --gold: #c8af93; --brown: #8b6f4e; --dark: #3e2c1c;
       --text: #5c4a3a; --white: #ffffff; --red: #e74c3c;
-      --orange: #e67e22; --blue: #2196F3; --purple: #8e44ad;
     }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
       background: var(--cream); color: var(--text); min-height: 100vh;
     }
     .header {
@@ -31,9 +27,8 @@
       max-width: 1100px; margin: 0 auto;
     }
     .header-title {
-      font-family: 'FarArabs', 'Segoe UI', Tahoma, sans-serif;
-      font-size: 32px; font-weight: 400; color: var(--dark);
-      letter-spacing: 2px;
+      font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+      font-size: 32px; font-weight: 800; color: var(--dark); letter-spacing: 2px;
     }
     .header-login-btn {
       display: flex; align-items: center; gap: 6px;
@@ -46,7 +41,6 @@
 
     .container { max-width: 1100px; margin: 0 auto; padding: 16px; }
 
-    /* ========== RADIO ========== */
     .radio-card {
       background: var(--white); border-radius: 16px; padding: 20px;
       margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04);
@@ -67,7 +61,6 @@
     .radio-footer { display: flex; justify-content: space-between; font-size: 12px; color: #a08b73; }
     .radio-link { color: var(--brown); font-weight: 600; cursor: pointer; text-decoration: none; }
 
-    /* ========== SHAHADA ========== */
     .shahada-card {
       background: var(--white); border-radius: 16px; padding: 20px;
       margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04);
@@ -81,21 +74,6 @@
     .shahada-text { font-size: 14px; font-style: italic; color: var(--text); line-height: 1.8; }
     .shahada-author { color: var(--brown); font-weight: 600; font-size: 13px; margin-top: 4px; }
 
-    /* ========== AD SLOT 1 (horizontal) ========== */
-    .ad-horizontal {
-      background: var(--white); border-radius: 16px; padding: 16px 20px;
-      margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-      display: flex; align-items: center; gap: 16px; cursor: pointer;
-      border: 2px dashed var(--red); transition: all 0.3s;
-    }
-    .ad-horizontal:hover { border-color: var(--brown); }
-    .ad-horizontal img { width: 70px; height: 70px; border-radius: 14px; object-fit: cover; flex-shrink: 0; }
-    .ad-horizontal .ad-info { flex: 1; }
-    .ad-horizontal .ad-label { color: var(--red); font-size: 11px; font-weight: 600; margin-bottom: 4px; }
-    .ad-horizontal .ad-title { font-size: 15px; font-weight: 700; color: var(--dark); }
-    .ad-horizontal .ad-desc { font-size: 12px; color: #a08b73; }
-
-    /* ========== PRODUCTS GRID ========== */
     .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
     .product-card {
       background: var(--white); border-radius: 12px; overflow: hidden;
@@ -113,14 +91,12 @@
     .product-card.ad-card { border: 2px dashed var(--red); }
     .product-card.ad-card .product-category { background: var(--red); color: #fff; }
 
-    /* ========== FOOTER ========== */
     .footer { text-align: center; padding: 24px 20px; background: var(--white); margin-top: 20px; border-top: 1px solid #f0e8dc; }
     .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; }
     .footer-links a { color: var(--brown); font-size: 13px; text-decoration: none; display: flex; align-items: center; gap: 4px; }
     .footer-links a:hover { color: var(--dark); }
     .footer-text { font-size: 11px; color: #b8a48e; }
 
-    /* ========== FLOATING ========== */
     .floating-support {
       position: fixed; bottom: 24px; right: 24px;
       width: 56px; height: 56px;
@@ -136,7 +112,7 @@
     @media (max-width: 992px) { .products-grid { grid-template-columns: repeat(3, 1fr); } .product-image { height: 160px; } }
     @media (max-width: 768px) {
       .products-grid { grid-template-columns: repeat(2, 1fr); }
-      .shahada-card, .ad-horizontal { flex-direction: column; text-align: center; }
+      .shahada-card { flex-direction: column; text-align: center; }
       .header-title { font-size: 26px; }
       .product-image { height: 140px; }
     }
@@ -156,7 +132,6 @@
 
   <div class="container">
 
-    <!-- RADIO -->
     <div class="radio-card" id="radioCard">
       <div class="radio-body">
         <button class="play-btn" id="playBtn"><i class="fa-solid fa-play"></i></button>
@@ -172,17 +147,6 @@
       </div>
     </div>
 
-    <!-- AD SLOT 1 (horizontal) -->
-    <div class="ad-horizontal" id="adHorizontal" style="display:none;">
-      <img src="" id="adHImg" alt="">
-      <div class="ad-info">
-        <div class="ad-label" id="adHLabel">تبلیغ</div>
-        <div class="ad-title" id="adHTitle"></div>
-        <div class="ad-desc" id="adHDesc"></div>
-      </div>
-    </div>
-
-    <!-- SHAHADA -->
     <div class="shahada-card" id="shahadaCard">
       <img src="https://via.placeholder.com/70/1a3a2a/c9a84c?text=Q" class="shahada-img" id="shahadaImg">
       <div>
@@ -192,8 +156,13 @@
       </div>
     </div>
 
-    <!-- MENU ROW 1 -->
     <div class="products-grid">
+      <!-- AD SLOT (first card) -->
+      <div class="product-card ad-card" id="adSlot" style="display:none;">
+        <img src="" id="adImg" style="width:100%;height:180px;object-fit:cover;">
+        <div class="product-image" id="adImageDefault"><i class="fa-solid fa-ad"></i></div>
+        <div class="product-info"><div class="product-name" id="adTitle">تبلیغات</div><div class="product-meta"><span class="product-category" id="adCat">تبلیغ</span></div></div>
+      </div>
       <a href="list/radio.html" class="product-card">
         <div class="product-image"><i class="fa-solid fa-radio"></i></div>
         <div class="product-info"><div class="product-name">رادیو</div><div class="product-meta"><span class="product-category">پخش زنده</span></div></div>
@@ -210,10 +179,6 @@
         <div class="product-image"><i class="fa-solid fa-comments"></i></div>
         <div class="product-info"><div class="product-name">قَبَس چت</div><div class="product-meta"><span class="product-category">گفتگو</span></div></div>
       </a>
-    </div>
-
-    <!-- MENU ROW 2 -->
-    <div class="products-grid">
       <a href="list/channel.html?tab=anon" class="product-card">
         <div class="product-image"><i class="fa-solid fa-envelope"></i></div>
         <div class="product-info"><div class="product-name">پیام ناشناس</div><div class="product-meta"><span class="product-category">محرمانه</span></div></div>
@@ -226,16 +191,6 @@
         <div class="product-image"><i class="fa-solid fa-mosque"></i></div>
         <div class="product-info"><div class="product-name">همیار نماز</div><div class="product-meta"><span class="product-category">عبادی</span></div></div>
       </a>
-      <!-- AD SLOT 2 -->
-      <div class="product-card ad-card" id="adSlot2" style="display:none;">
-        <img src="" id="adImg2" style="width:100%;height:180px;object-fit:cover;">
-        <div class="product-image" id="adImageDefault2"><i class="fa-solid fa-ad"></i></div>
-        <div class="product-info"><div class="product-name" id="adTitle2">تبلیغات</div><div class="product-meta"><span class="product-category" id="adCat2">تبلیغ</span></div></div>
-      </div>
-    </div>
-
-    <!-- MENU ROW 3 -->
-    <div class="products-grid">
       <a href="list/news.html" class="product-card">
         <div class="product-image"><i class="fa-solid fa-newspaper"></i></div>
         <div class="product-info"><div class="product-name">اخبار مرتبط</div><div class="product-meta"><span class="product-category">اطلاعیه</span></div></div>
@@ -264,18 +219,13 @@
 
   <script>
     var API_URL = 'https://script.google.com/macros/s/AKfycbzuhWUIJ_d0bfIctIwcsQ61ELOpYUDKLT1KU5zNci1OT4ie1g_3pd3sRZlVJJzCAXllnA/exec';
-
     var audio = document.getElementById('heroAudio');
     var playlist = [];
     var track = null;
     var playing = false;
 
     async function fetchMadahiList() {
-      try {
-        var response = await fetch(API_URL + '?type=madahi');
-        var data = await response.json();
-        if (data.length > 0) { playlist = data; loadRandomTrack(); }
-      } catch(e) {}
+      try { var r = await fetch(API_URL + '?type=madahi'); var d = await r.json(); if (d.length > 0) { playlist = d; loadRandomTrack(); } } catch(e) {}
     }
 
     function loadRandomTrack() {
@@ -294,93 +244,48 @@
       else { audio.play(); playing = true; document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-pause"></i>'; }
     });
 
-    audio.addEventListener('timeupdate', function() {
-      if (audio.duration) document.getElementById('progressFill').style.width = (audio.currentTime / audio.duration) * 100 + '%';
-    });
+    audio.addEventListener('timeupdate', function() { if (audio.duration) document.getElementById('progressFill').style.width = (audio.currentTime / audio.duration) * 100 + '%'; });
 
     setInterval(function() {
       if (playing && audio.duration) {
         var c = audio.currentTime, d = audio.duration;
-        document.getElementById('radioTime').innerText =
-          String(Math.floor(c/60)).padStart(2,'0') + ':' + String(Math.floor(c%60)).padStart(2,'0') +
-          ' / -' + String(Math.floor((d-c)/60)).padStart(2,'0') + ':' + String(Math.floor((d-c)%60)).padStart(2,'0');
+        document.getElementById('radioTime').innerText = String(Math.floor(c/60)).padStart(2,'0') + ':' + String(Math.floor(c%60)).padStart(2,'0') + ' / -' + String(Math.floor((d-c)/60)).padStart(2,'0') + ':' + String(Math.floor((d-c)%60)).padStart(2,'0');
       }
     }, 1000);
 
-    audio.addEventListener('ended', function() {
-      playing = false; document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>';
-      document.getElementById('progressFill').style.width = '0%'; loadRandomTrack();
-    });
-    audio.addEventListener('error', function() {
-      playing = false; document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>';
-      loadRandomTrack();
-    });
+    audio.addEventListener('ended', function() { playing = false; document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>'; loadRandomTrack(); });
+    audio.addEventListener('error', function() { playing = false; document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>'; loadRandomTrack(); });
 
     fetchMadahiList();
 
     async function fetchShohadaMessage() {
-      try {
-        var response = await fetch(API_URL + '?type=shahid');
-        var data = await response.json();
-        if (data.length > 0) {
-          var randomMsg = data[Math.floor(Math.random() * data.length)];
-          document.getElementById('shahadaText').innerText = '"' + randomMsg.text + '"';
-          document.getElementById('shahadaAuthor').innerText = '— ' + randomMsg.author;
-          if (randomMsg.image) document.getElementById('shahadaImg').src = randomMsg.image;
-        }
-      } catch(e) {}
+      try { var r = await fetch(API_URL + '?type=shahid'); var d = await r.json(); if (d.length > 0) { var m = d[Math.floor(Math.random() * d.length)]; document.getElementById('shahadaText').innerText = '"' + m.text + '"'; document.getElementById('shahadaAuthor').innerText = '— ' + m.author; if (m.image) document.getElementById('shahadaImg').src = m.image; } } catch(e) {}
     }
     fetchShohadaMessage();
 
     async function loadAds() {
       var defaultSupportImg = 'https://cdn.imgurl.ir/uploads/m87412_4b5310ee-fa5a-4d2e-a58c-a9337ddb4f92.png';
       var defaultSupportLink = 'https://eitaa.com/Amirmahdi_code';
-      var ad1Data = null, ad2Data = null;
+      var adData = null;
+      try { var r = await fetch(API_URL + '?type=ads'); var d = await r.json(); if (d && d.length > 0) { var a = d.filter(function(x) { return x.status === 'approved'; }); if (a.length > 0) adData = a[0]; } } catch(e) {}
 
-      try {
-        var response = await fetch(API_URL + '?type=ads');
-        var data = await response.json();
-        if (data && data.length > 0) {
-          var approvedAds = data.filter(function(a) { return a.status === 'approved'; });
-          if (approvedAds.length > 0) ad1Data = approvedAds[0];
-          if (approvedAds.length > 1) ad2Data = approvedAds[1];
-        }
-      } catch(e) {}
-
-      var adH = document.getElementById('adHorizontal');
-      if (ad1Data) {
-        document.getElementById('adHImg').src = ad1Data.image || '';
-        document.getElementById('adHLabel').innerText = 'تبلیغ';
-        document.getElementById('adHTitle').innerText = ad1Data.title || '';
-        document.getElementById('adHDesc').innerText = ad1Data.description || '';
-        adH.onclick = function() { if(ad1Data.link) window.open(ad1Data.link, '_blank'); };
-        adH.style.display = 'flex';
+      var adSlot = document.getElementById('adSlot');
+      if (adData) {
+        document.getElementById('adImg').src = adData.image || '';
+        document.getElementById('adImg').style.display = 'block';
+        document.getElementById('adImageDefault').style.display = 'none';
+        document.getElementById('adTitle').innerText = adData.title || 'تبلیغات';
+        document.getElementById('adCat').innerText = adData.description || 'تبلیغ';
+        adSlot.onclick = function() { if(adData.link) window.open(adData.link, '_blank'); };
+        adSlot.style.display = 'block';
       } else {
-        document.getElementById('adHImg').src = defaultSupportImg;
-        document.getElementById('adHLabel').innerText = 'حمایت از سازنده';
-        document.getElementById('adHTitle').innerText = 'از سازنده حمایت کنید';
-        document.getElementById('adHDesc').innerText = 'کلیک کنید';
-        adH.onclick = function() { window.open(defaultSupportLink, '_blank'); };
-        adH.style.display = 'flex';
-      }
-
-      var adSlot2 = document.getElementById('adSlot2');
-      if (ad2Data) {
-        document.getElementById('adImg2').src = ad2Data.image || '';
-        document.getElementById('adImg2').style.display = 'block';
-        document.getElementById('adImageDefault2').style.display = 'none';
-        document.getElementById('adTitle2').innerText = ad2Data.title || 'تبلیغات';
-        document.getElementById('adCat2').innerText = ad2Data.description || 'تبلیغ';
-        adSlot2.onclick = function() { if(ad2Data.link) window.open(ad2Data.link, '_blank'); };
-        adSlot2.style.display = 'block';
-      } else {
-        document.getElementById('adImg2').src = defaultSupportImg;
-        document.getElementById('adImg2').style.display = 'block';
-        document.getElementById('adImageDefault2').style.display = 'none';
-        document.getElementById('adTitle2').innerText = 'حمایت از سازنده';
-        document.getElementById('adCat2').innerText = 'کلیک کنید';
-        adSlot2.onclick = function() { window.open(defaultSupportLink, '_blank'); };
-        adSlot2.style.display = 'block';
+        document.getElementById('adImg').src = defaultSupportImg;
+        document.getElementById('adImg').style.display = 'block';
+        document.getElementById('adImageDefault').style.display = 'none';
+        document.getElementById('adTitle').innerText = 'حمایت از سازنده';
+        document.getElementById('adCat').innerText = 'کلیک کنید';
+        adSlot.onclick = function() { window.open(defaultSupportLink, '_blank'); };
+        adSlot.style.display = 'block';
       }
     }
 
