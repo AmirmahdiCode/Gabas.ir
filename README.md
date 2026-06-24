@@ -1,1 +1,0 @@
-# Gabas.ir
