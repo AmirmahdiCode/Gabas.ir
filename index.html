@@ -10,7 +10,7 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --bg-deep: #0e1a16; --bg-card: rgba(22, 38, 30, 0.7);
+      --bg-header: #0a1a12; --bg-card: rgba(22, 38, 30, 0.7);
       --glass-border: rgba(201, 168, 76, 0.15); --gold: #c9a84c;
       --gold-light: #e2c87a; --text: #e8e6e0; --text-muted: #a4a098;
       --red: #e74c3c;
@@ -18,16 +18,20 @@
     body {
       font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
       background: radial-gradient(ellipse at top, #1d3528 0%, #0a1410 60%);
-      color: var(--text); min-height: 100vh; padding: 2rem 1rem;
+      color: var(--text); min-height: 100vh;
       direction: rtl; line-height: 1.7;
     }
     .header {
-      max-width: 1100px; margin: 0 auto 2rem;
+      background: var(--bg-header); border-bottom: 1px solid rgba(201,168,76,0.2);
+      padding: 16px 20px; position: sticky; top: 0; z-index: 100;
+    }
+    .header-inner {
+      max-width: 1100px; margin: 0 auto;
       display: flex; justify-content: space-between; align-items: center;
     }
     .header-title {
       font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
-      font-size: 2.5rem; font-weight: 800;
+      font-size: 2rem; font-weight: 800;
       background: linear-gradient(180deg, #f5dea3 0%, #c9a84c 50%, #8a6914 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; letter-spacing: 2px;
@@ -41,12 +45,12 @@
     }
     .header-login-btn:hover { background: rgba(201,168,76,0.1); }
 
-    .container { max-width: 1100px; margin: 0 auto; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
 
     .radio-card {
       background: var(--bg-card); backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border);
-      border-radius: 16px; padding: 20px; margin-bottom: 16px;
+      border: 1px solid var(--glass-border); border-radius: 16px;
+      padding: 20px; margin-bottom: 16px;
     }
     .radio-body { display: flex; align-items: center; gap: 16px; }
     .play-btn {
@@ -67,7 +71,7 @@
     .shahada-card {
       background: var(--bg-card); backdrop-filter: blur(16px);
       border: 1px solid var(--glass-border); border-radius: 16px;
-      padding: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px;
+      padding: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px;
     }
     .shahada-img {
       width: 70px; height: 70px; border-radius: 16px; object-fit: cover;
@@ -82,11 +86,12 @@
       background: var(--bg-card); backdrop-filter: blur(16px);
       border: 1px solid var(--glass-border); border-radius: 12px;
       overflow: hidden; transition: all 0.3s ease; cursor: pointer;
-      text-decoration: none; display: block;
+      text-decoration: none; display: flex; flex-direction: column;
     }
     .product-card:hover { transform: translateY(-4px); border-color: var(--gold); box-shadow: 0 12px 24px rgba(0,0,0,0.4); }
-    .product-image { width: 100%; height: 180px; object-fit: cover; display: flex; align-items: center; justify-content: center; }
-    .product-image i { font-size: 48px; color: var(--gold-light); }
+    .product-image { width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; }
+    .product-image i { font-size: 44px; color: var(--gold-light); }
+    .product-divider { height: 1px; background: rgba(201,168,76,0.2); margin: 0 14px; }
     .product-info { padding: 12px 14px; }
     .product-name { font-size: 13px; font-weight: 700; color: var(--gold-light); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .product-meta { display: flex; justify-content: space-between; align-items: center; }
@@ -95,8 +100,11 @@
     .product-card.ad-card { border: 2px dashed var(--red); }
     .product-card.ad-card .product-category { background: var(--red); color: #fff; }
 
-    .footer { text-align: center; padding: 24px 20px; margin-top: 20px; }
-    .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; }
+    .footer {
+      background: var(--bg-header); border-top: 1px solid rgba(201,168,76,0.2);
+      text-align: center; padding: 20px; margin-top: 20px;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 10px; }
     .footer-links a { color: var(--gold); font-size: 13px; text-decoration: none; display: flex; align-items: center; gap: 4px; }
     .footer-links a:hover { color: var(--gold-light); }
     .footer-text { font-size: 11px; color: var(--text-muted); }
@@ -113,24 +121,25 @@
     }
     .floating-support:hover { transform: scale(1.1); }
 
-    @media (max-width: 992px) { .products-grid { grid-template-columns: repeat(3, 1fr); } .product-image { height: 160px; } }
+    @media (max-width: 992px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 768px) {
       .products-grid { grid-template-columns: repeat(2, 1fr); }
       .shahada-card { flex-direction: column; text-align: center; }
-      .header { flex-direction: column; gap: 12px; text-align: center; }
-      .header-title { font-size: 2rem; }
-      .product-image { height: 140px; }
+      .header-title { font-size: 1.6rem; }
+      .product-image { height: 130px; }
     }
-    @media (max-width: 400px) { .products-grid { gap: 8px; } .product-image { height: 120px; } }
+    @media (max-width: 400px) { .products-grid { gap: 8px; } .product-image { height: 110px; } }
   </style>
 </head>
 <body>
 
   <header class="header">
-    <div class="header-title">قَبَس</div>
-    <a href="list/profile.html" class="header-login-btn">
-      <i class="fa-solid fa-user"></i> ورود به حساب کاربری
-    </a>
+    <div class="header-inner">
+      <div class="header-title">قَبَس</div>
+      <a href="list/profile.html" class="header-login-btn">
+        <i class="fa-solid fa-user"></i> ورود به حساب کاربری
+      </a>
+    </div>
   </header>
 
   <div class="container">
@@ -139,8 +148,8 @@
       <div class="radio-body">
         <button class="play-btn" id="playBtn"><i class="fa-solid fa-play"></i></button>
         <div class="radio-info">
-          <div class="radio-title" id="radioTitle">در حال دریافت...</div>
-          <div class="radio-artist" id="radioArtist">---</div>
+          <div class="radio-title" id="radioTitle">منتظر مداحی...</div>
+          <div class="radio-artist" id="radioArtist">لیست پخش خالیست</div>
         </div>
       </div>
       <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -154,7 +163,7 @@
       <img src="https://via.placeholder.com/70/0a1410/c9a84c?text=Q" class="shahada-img" id="shahadaImg">
       <div>
         <div class="shahada-label"><i class="fa-solid fa-feather"></i> پیام شهدا</div>
-        <div class="shahada-text" id="shahadaText">"در حال دریافت..."</div>
+        <div class="shahada-text" id="shahadaText">"اطلاعاتی یافت نشد"</div>
         <div class="shahada-author" id="shahadaAuthor">—</div>
       </div>
     </div>
@@ -162,44 +171,54 @@
     <div class="products-grid">
       <!-- AD SLOT -->
       <div class="product-card ad-card" id="adSlot" style="display:none;">
-        <img src="" id="adImg" style="width:100%;height:180px;object-fit:cover;">
+        <img src="" id="adImg" style="width:100%;height:160px;object-fit:cover;">
         <div class="product-image" id="adImageDefault"><i class="fa-solid fa-ad"></i></div>
+        <div class="product-divider"></div>
         <div class="product-info"><div class="product-name" id="adTitle">تبلیغات</div><div class="product-meta"><span class="product-category" id="adCat">تبلیغ</span></div></div>
       </div>
       <a href="list/radio.html" class="product-card">
         <div class="product-image"><i class="fa-solid fa-radio"></i></div>
+        <div class="product-divider"></div>
         <div class="product-info"><div class="product-name">رادیو قَبَس</div><div class="product-meta"><span class="product-category">پخش زنده</span></div></div>
       </a>
       <a href="list/chat.html" class="product-card">
         <div class="product-image"><i class="fa-solid fa-comments"></i></div>
+        <div class="product-divider"></div>
         <div class="product-info"><div class="product-name">قَبَس چت</div><div class="product-meta"><span class="product-category">گفتگو</span></div></div>
       </a>
       <a href="list/calendar.html" class="product-card">
         <div class="product-image"><i class="fa-solid fa-calendar-days"></i></div>
+        <div class="product-divider"></div>
         <div class="product-info"><div class="product-name">تقویم شهدا</div><div class="product-meta"><span class="product-category">مناسبت‌ها</span></div></div>
       </a>
       <a href="list/album.html" class="product-card">
         <div class="product-image"><i class="fa-solid fa-images"></i></div>
+        <div class="product-divider"></div>
         <div class="product-info"><div class="product-name">آلبوم شهدا</div><div class="product-meta"><span class="product-category">گالری</span></div></div>
       </a>
       <a href="list/channel.html?tab=anon" class="product-card">
         <div class="product-image"><i class="fa-solid fa-envelope"></i></div>
+        <div class="product-divider"></div>
         <div class="product-info"><div class="product-name">پیام ناشناس</div><div class="product-meta"><span class="product-category">محرمانه</span></div></div>
       </a>
       <a href="list/challenges.html" class="product-card">
         <div class="product-image"><i class="fa-solid fa-bullseye"></i></div>
+        <div class="product-divider"></div>
         <div class="product-info"><div class="product-name">چالش شهدایی</div><div class="product-meta"><span class="product-category">سرگرمی</span></div></div>
       </a>
       <a href="list/prayer.html" class="product-card">
         <div class="product-image"><i class="fa-solid fa-mosque"></i></div>
+        <div class="product-divider"></div>
         <div class="product-info"><div class="product-name">همیار نماز</div><div class="product-meta"><span class="product-category">عبادی</span></div></div>
       </a>
       <a href="list/news.html" class="product-card">
         <div class="product-image"><i class="fa-solid fa-newspaper"></i></div>
+        <div class="product-divider"></div>
         <div class="product-info"><div class="product-name">اخبار مرتبط</div><div class="product-meta"><span class="product-category">اطلاعیه</span></div></div>
       </a>
       <a href="list/channel.html" class="product-card">
         <div class="product-image"><i class="fa-solid fa-bullhorn"></i></div>
+        <div class="product-divider"></div>
         <div class="product-info"><div class="product-name">کانال‌های ما</div><div class="product-meta"><span class="product-category">ارتباط</span></div></div>
       </a>
     </div>
@@ -228,7 +247,7 @@
     var playing = false;
 
     async function fetchMadahiList() {
-      try { var r = await fetch(API_URL + '?type=madahi'); var d = await r.json(); if (d.length > 0) { playlist = d; loadRandomTrack(); } } catch(e) {}
+      try { var r = await fetch(API_URL + '?type=madahi'); var d = await r.json(); if (d.length > 0) { playlist = d; loadRandomTrack(); } else { document.getElementById('radioTitle').innerText = 'لیست خالیست'; document.getElementById('radioArtist').innerText = 'مداحی ثبت نشده'; } } catch(e) { document.getElementById('radioTitle').innerText = 'خطا در دریافت'; }
     }
 
     function loadRandomTrack() {
@@ -262,7 +281,7 @@
     fetchMadahiList();
 
     async function fetchShohadaMessage() {
-      try { var r = await fetch(API_URL + '?type=shahid'); var d = await r.json(); if (d.length > 0) { var m = d[Math.floor(Math.random() * d.length)]; document.getElementById('shahadaText').innerText = '"' + m.text + '"'; document.getElementById('shahadaAuthor').innerText = '— ' + m.author; if (m.image) document.getElementById('shahadaImg').src = m.image; } } catch(e) {}
+      try { var r = await fetch(API_URL + '?type=shahid'); var d = await r.json(); if (d.length > 0) { var m = d[Math.floor(Math.random() * d.length)]; document.getElementById('shahadaText').innerText = '"' + m.text + '"'; document.getElementById('shahadaAuthor').innerText = '— ' + m.author; if (m.image) document.getElementById('shahadaImg').src = m.image; } else { document.getElementById('shahadaText').innerText = '"اطلاعاتی یافت نشد"'; } } catch(e) { document.getElementById('shahadaText').innerText = '"خطا در دریافت"'; }
     }
     fetchShohadaMessage();
 
@@ -280,7 +299,7 @@
         document.getElementById('adTitle').innerText = adData.title || 'تبلیغات';
         document.getElementById('adCat').innerText = adData.description || 'تبلیغ';
         adSlot.onclick = function() { if(adData.link) window.open(adData.link, '_blank'); };
-        adSlot.style.display = 'block';
+        adSlot.style.display = 'flex';
       } else {
         document.getElementById('adImg').src = defaultSupportImg;
         document.getElementById('adImg').style.display = 'block';
@@ -288,7 +307,7 @@
         document.getElementById('adTitle').innerText = 'حمایت از سازنده';
         document.getElementById('adCat').innerText = 'رسمی';
         adSlot.onclick = function() { window.open(defaultSupportLink, '_blank'); };
-        adSlot.style.display = 'block';
+        adSlot.style.display = 'flex';
       }
     }
 
