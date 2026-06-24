@@ -9,8 +9,7 @@
     @font-face {
       font-family: 'FarArabs';
       src: url('https://cdn.imgurl.ir/uploads/h441390_Far_Arabics.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
+      font-weight: normal; font-style: normal;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -101,19 +100,19 @@
     .section-title::after { content: ''; display: block; width: 50px; height: 2px; background: var(--gold); margin: 10px auto 0; border-radius: 1px; }
     .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
     .menu-card {
-      background: var(--white); border-radius: 14px; padding: 22px 12px;
+      background: var(--white); border-radius: 14px; padding: 20px 14px;
       text-align: center; cursor: pointer; transition: all 0.3s ease;
       box-shadow: 0 3px 14px rgba(0,0,0,0.04); text-decoration: none;
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
       border: 2px solid transparent;
     }
     .menu-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); border-color: var(--gold); }
-    .menu-icon { font-size: 36px; }
+    .menu-icon { font-size: 36px; color: var(--brown); }
     .menu-title { font-size: 14px; font-weight: 700; color: var(--dark); }
     .menu-desc { font-size: 10px; color: #a08b73; }
 
     .menu-card.ad-card-grid {
-      border: 2px dashed var(--red);
+      border: 2px dashed var(--red); padding: 16px 14px;
     }
     .menu-card.ad-card-grid .menu-title { color: var(--red); }
 
@@ -143,7 +142,7 @@
       .shahada-card, .ad-horizontal { flex-direction: column; text-align: center; }
       .header-title { font-size: 26px; }
     }
-    @media (max-width: 400px) { .products-grid { gap: 8px; } .menu-card { padding: 16px 8px; } }
+    @media (max-width: 400px) { .products-grid { gap: 10px; } .menu-card { padding: 16px 10px; } }
   </style>
 </head>
 <body>
@@ -195,18 +194,18 @@
       </div>
     </div>
 
-    <!-- MENU ROW 1 -->
+    <!-- MENU ROW 1 (4 items) -->
     <div class="products-grid">
-      <a href="list/radio.html" class="menu-card"><i class="fa-solid fa-radio menu-icon" style="color:var(--brown);"></i><span class="menu-title">رادیو</span></a>
-      <a href="list/calendar.html" class="menu-card"><i class="fa-solid fa-calendar-days menu-icon" style="color:var(--purple);"></i><span class="menu-title">تقویم شهدا</span></a>
-      <a href="list/album.html" class="menu-card"><i class="fa-solid fa-images menu-icon" style="color:var(--orange);"></i><span class="menu-title">آلبوم شهدا</span></a>
-      <a href="list/channel.html?tab=anon" class="menu-card"><i class="fa-solid fa-envelope menu-icon" style="color:var(--blue);"></i><span class="menu-title">پیام ناشناس</span></a>
+      <a href="list/radio.html" class="menu-card"><i class="fa-solid fa-radio menu-icon"></i><span class="menu-title">رادیو</span></a>
+      <a href="list/calendar.html" class="menu-card"><i class="fa-solid fa-calendar-days menu-icon"></i><span class="menu-title">تقویم شهدا</span></a>
+      <a href="list/album.html" class="menu-card"><i class="fa-solid fa-images menu-icon"></i><span class="menu-title">آلبوم شهدا</span></a>
+      <a href="list/channel.html?tab=anon" class="menu-card"><i class="fa-solid fa-envelope menu-icon"></i><span class="menu-title">پیام ناشناس</span></a>
     </div>
 
-    <!-- MENU ROW 2 -->
+    <!-- MENU ROW 2 (4 items) -->
     <div class="products-grid">
-      <a href="list/challenges.html" class="menu-card"><i class="fa-solid fa-bullseye menu-icon" style="color:var(--red);"></i><span class="menu-title">چالش شهدایی</span></a>
-      <a href="list/prayer.html" class="menu-card"><i class="fa-solid fa-mosque menu-icon" style="color:var(--brown);"></i><span class="menu-title">همیار نماز</span></a>
+      <a href="list/challenges.html" class="menu-card"><i class="fa-solid fa-bullseye menu-icon"></i><span class="menu-title">چالش شهدایی</span></a>
+      <a href="list/prayer.html" class="menu-card"><i class="fa-solid fa-mosque menu-icon"></i><span class="menu-title">همیار نماز</span></a>
       <!-- AD SLOT 2 (as grid card) -->
       <div class="menu-card ad-card-grid" id="adSlot2" style="display:none;">
         <img src="" id="adImg2" style="width:100%;height:100px;object-fit:cover;border-radius:8px;display:none;">
@@ -214,8 +213,8 @@
         <span class="menu-title" id="adTitle2">تبلیغات</span>
         <span class="menu-desc" id="adDesc2">جایگاه تبلیغاتی</span>
       </div>
-      <a href="list/news.html" class="menu-card"><i class="fa-solid fa-newspaper menu-icon" style="color:#f39c12;"></i><span class="menu-title">اخبار مرتبط</span></a>
-      <a href="list/channel.html" class="menu-card"><i class="fa-solid fa-bullhorn menu-icon" style="color:var(--brown);"></i><span class="menu-title">کانال‌های ما</span></a>
+      <a href="list/news.html" class="menu-card"><i class="fa-solid fa-newspaper menu-icon"></i><span class="menu-title">اخبار مرتبط</span></a>
+      <a href="list/channel.html" class="menu-card"><i class="fa-solid fa-bullhorn menu-icon"></i><span class="menu-title">کانال‌های ما</span></a>
     </div>
 
   </div>
@@ -247,10 +246,7 @@
       try {
         var response = await fetch(API_URL + '?type=madahi');
         var data = await response.json();
-        if (data.length > 0) {
-          playlist = data;
-          loadRandomTrack();
-        }
+        if (data.length > 0) { playlist = data; loadRandomTrack(); }
       } catch(e) {}
     }
 
@@ -266,19 +262,12 @@
 
     document.getElementById('playBtn').addEventListener('click', function() {
       if (playlist.length === 0) { fetchMadahiList(); return; }
-      if (playing) {
-        audio.pause(); playing = false;
-        document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>';
-      } else {
-        audio.play(); playing = true;
-        document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-pause"></i>';
-      }
+      if (playing) { audio.pause(); playing = false; document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>'; }
+      else { audio.play(); playing = true; document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-pause"></i>'; }
     });
 
     audio.addEventListener('timeupdate', function() {
-      if (audio.duration) {
-        document.getElementById('progressFill').style.width = (audio.currentTime / audio.duration) * 100 + '%';
-      }
+      if (audio.duration) document.getElementById('progressFill').style.width = (audio.currentTime / audio.duration) * 100 + '%';
     });
 
     setInterval(function() {
@@ -291,15 +280,12 @@
     }, 1000);
 
     audio.addEventListener('ended', function() {
-      playing = false;
-      document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>';
-      document.getElementById('progressFill').style.width = '0%';
-      loadRandomTrack();
+      playing = false; document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>';
+      document.getElementById('progressFill').style.width = '0%'; loadRandomTrack();
     });
 
     audio.addEventListener('error', function() {
-      playing = false;
-      document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>';
+      playing = false; document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>';
       loadRandomTrack();
     });
 
@@ -314,9 +300,7 @@
           var randomMsg = data[Math.floor(Math.random() * data.length)];
           document.getElementById('shahadaText').innerText = '"' + randomMsg.text + '"';
           document.getElementById('shahadaAuthor').innerText = '— ' + randomMsg.author;
-          if (randomMsg.image) {
-            document.getElementById('shahadaImg').src = randomMsg.image;
-          }
+          if (randomMsg.image) document.getElementById('shahadaImg').src = randomMsg.image;
         }
       } catch(e) {}
     }
@@ -333,7 +317,6 @@
         var response = await fetch(API_URL + '?type=ads');
         var data = await response.json();
         if (data && data.length > 0) {
-          // Filter approved ads
           var approvedAds = data.filter(function(a) { return a.status === 'approved'; });
           if (approvedAds.length > 0) ad1Data = approvedAds[0];
           if (approvedAds.length > 1) ad2Data = approvedAds[1];
@@ -350,7 +333,6 @@
         adH.onclick = function() { if(ad1Data.link) window.open(ad1Data.link, '_blank'); };
         adH.style.display = 'flex';
       } else {
-        // Default: حمایت از سازنده
         document.getElementById('adHImg').src = defaultSupportImg;
         document.getElementById('adHLabel').innerText = 'حمایت از سازنده';
         document.getElementById('adHTitle').innerText = 'از سازنده حمایت کنید';
@@ -370,7 +352,6 @@
         adSlot2.onclick = function() { if(ad2Data.link) window.open(ad2Data.link, '_blank'); };
         adSlot2.style.display = 'flex';
       } else {
-        // Default: حمایت از سازنده as grid card
         document.getElementById('adImg2').src = defaultSupportImg;
         document.getElementById('adImg2').style.display = 'block';
         document.getElementById('adIcon2').style.display = 'none';
