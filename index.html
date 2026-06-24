@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>قَبَس | شعله‌ای از نور شهدا</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --cream: #fdfbf7; --milk: #f5efe6; --beige: #ede4d8;
+      --gold: #c8af93; --brown: #8b6f4e; --dark: #3e2c1c;
+      --text: #5c4a3a; --white: #ffffff; --green: #27ae60; --red: #e74c3c;
+      --orange: #e67e22; --blue: #2196F3;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--cream); color: var(--text); min-height: 100vh;
+    }
+    .header {
+      background: var(--white); box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+      padding: 16px 20px; position: sticky; top: 0; z-index: 100;
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .header-title {
+      font-size: 28px; font-weight: 800; color: var(--dark);
+      font-family: 'Segoe UI', Tahoma, sans-serif; letter-spacing: 2px;
+    }
+    .header-login-btn {
+      display: flex; align-items: center; gap: 6px;
+      color: var(--green); font-size: 13px; font-weight: 600;
+      text-decoration: none; padding: 8px 14px;
+      border: 1.5px solid var(--green); border-radius: 10px;
+      transition: all 0.3s ease; white-space: nowrap;
+    }
+    .header-login-btn:hover { background: #eafaf1; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 16px; }
+
+    /* ========== RADIO ========== */
+    .radio-card {
+      background: var(--white); border-radius: 16px; padding: 20px;
+      margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+    .radio-body { display: flex; align-items: center; gap: 16px; }
+    .play-btn {
+      background: var(--green); border: none; color: #fff;
+      width: 50px; height: 50px; border-radius: 50%; font-size: 20px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: all 0.3s;
+    }
+    .play-btn:hover { background: #219a52; }
+    .radio-info { flex: 1; min-width: 0; }
+    .radio-title { font-weight: 700; font-size: 16px; color: var(--dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .radio-artist { font-size: 12px; color: #a08b73; }
+    .progress-bar { height: 4px; background: #f0e8dc; border-radius: 4px; margin: 12px 0; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--green); width: 0%; transition: width 0.3s linear; }
+    .radio-footer { display: flex; justify-content: space-between; font-size: 12px; color: #a08b73; }
+    .radio-link { color: var(--green); font-weight: 600; cursor: pointer; text-decoration: none; }
+
+    /* ========== SHAHADA ========== */
+    .shahada-card {
+      background: var(--white); border-radius: 16px; padding: 20px;
+      margin-bottom: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+      display: flex; align-items: center; gap: 16px;
+    }
+    .shahada-img {
+      width: 70px; height: 70px; border-radius: 16px; object-fit: cover;
+      border: 2px solid var(--gold); flex-shrink: 0;
+    }
+    .shahada-label { color: var(--green); font-size: 11px; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .shahada-text { font-size: 14px; font-style: italic; color: var(--text); line-height: 1.8; }
+    .shahada-author { color: var(--green); font-weight: 600; font-size: 13px; margin-top: 4px; }
+
+    /* ========== PRODUCTS GRID ========== */
+    .section-title { text-align: center; font-size: 20px; color: var(--dark); margin: 20px 0; position: relative; }
+    .section-title::after { content: ''; display: block; width: 50px; height: 2px; background: var(--gold); margin: 10px auto 0; border-radius: 1px; }
+    .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+    .menu-card {
+      background: var(--white); border-radius: 14px; padding: 22px 12px;
+      text-align: center; cursor: pointer; transition: all 0.3s ease;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.04); text-decoration: none;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      border: 2px solid transparent;
+    }
+    .menu-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); border-color: var(--gold); }
+    .menu-icon { font-size: 36px; }
+    .menu-title { font-size: 14px; font-weight: 700; color: var(--dark); }
+    .menu-desc { font-size: 10px; color: #a08b73; }
+
+    .menu-card.ad-card { border: 2px dashed var(--red); }
+    .menu-card.ad-card .menu-title { color: var(--red); }
+
+    /* ========== FOOTER ========== */
+    .footer { text-align: center; padding: 24px 20px; background: var(--white); margin-top: 20px; border-top: 1px solid #f0e8dc; }
+    .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; }
+    .footer-links a { color: var(--brown); font-size: 13px; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .footer-links a:hover { color: var(--green); }
+    .footer-text { font-size: 11px; color: #b8a48e; }
+
+    /* ========== FLOATING ========== */
+    .floating-support {
+      position: fixed; bottom: 24px; right: 24px;
+      width: 56px; height: 56px;
+      background: linear-gradient(145deg, #2196F3, #1976D2);
+      color: #fff; border: none; border-radius: 50%;
+      font-size: 24px; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(33,150,243,0.35);
+      z-index: 999; display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s ease; text-decoration: none;
+    }
+    .floating-support:hover { transform: scale(1.1); }
+
+    @media (max-width: 992px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 768px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .shahada-card { flex-direction: column; text-align: center; }
+      .header-title { font-size: 22px; }
+    }
+    @media (max-width: 400px) { .products-grid { gap: 8px; } .menu-card { padding: 16px 8px; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-title">قَبَس</div>
+      <a href="list/profile.html" class="header-login-btn">
+        <i class="fa-solid fa-user"></i> ورود به حساب کاربری
+      </a>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- RADIO -->
+    <div class="radio-card" id="radioCard">
+      <div class="radio-body">
+        <button class="play-btn" id="playBtn"><i class="fa-solid fa-play"></i></button>
+        <div class="radio-info">
+          <div class="radio-title" id="radioTitle">در حال دریافت...</div>
+          <div class="radio-artist" id="radioArtist">---</div>
+        </div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="radio-footer">
+        <span id="radioTime">00:00 / 00:00</span>
+        <a href="list/radio.html" class="radio-link"><i class="fa-solid fa-radio"></i> رادیو قَبَس <i class="fa-solid fa-arrow-left"></i></a>
+      </div>
+    </div>
+
+    <!-- SHAHADA -->
+    <div class="shahada-card" id="shahadaCard">
+      <img src="https://via.placeholder.com/70/1a3a2a/c9a84c?text=Q" class="shahada-img" id="shahadaImg">
+      <div>
+        <div class="shahada-label"><i class="fa-solid fa-feather"></i> پیام شهدا</div>
+        <div class="shahada-text" id="shahadaText">"در حال دریافت..."</div>
+        <div class="shahada-author" id="shahadaAuthor">—</div>
+      </div>
+    </div>
+
+    <!-- MENU ROW 1 -->
+    <div class="products-grid">
+      <a href="list/radio.html" class="menu-card"><i class="fa-solid fa-radio menu-icon" style="color:#27ae60;"></i><span class="menu-title">رادیو</span></a>
+      <a href="list/calendar.html" class="menu-card"><i class="fa-solid fa-calendar-days menu-icon" style="color:#8e44ad;"></i><span class="menu-title">تقویم شهدا</span></a>
+      <a href="list/album.html" class="menu-card"><i class="fa-solid fa-images menu-icon" style="color:#e67e22;"></i><span class="menu-title">آلبوم شهدا</span></a>
+      <!-- AD SLOT 1 -->
+      <div class="menu-card ad-card" id="adSlot1">
+        <img src="" id="adImg1" style="width:100%;height:100px;object-fit:cover;border-radius:8px;display:none;">
+        <i class="fa-solid fa-ad menu-icon" style="color:#e74c3c;" id="adIcon1"></i>
+        <span class="menu-title" id="adTitle1">تبلیغات</span>
+        <span class="menu-desc" id="adDesc1">جایگاه تبلیغاتی</span>
+      </div>
+    </div>
+
+    <!-- MENU ROW 2 -->
+    <div class="products-grid">
+      <a href="list/channel.html?tab=anon" class="menu-card"><i class="fa-solid fa-envelope menu-icon" style="color:#2980b9;"></i><span class="menu-title">پیام ناشناس</span></a>
+      <a href="list/challenges.html" class="menu-card"><i class="fa-solid fa-bullseye menu-icon" style="color:#e74c3c;"></i><span class="menu-title">چالش شهدایی</span></a>
+      <a href="list/prayer.html" class="menu-card"><i class="fa-solid fa-mosque menu-icon" style="color:#27ae60;"></i><span class="menu-title">همیار نماز</span></a>
+      <!-- AD SLOT 2 -->
+      <div class="menu-card ad-card" id="adSlot2">
+        <img src="" id="adImg2" style="width:100%;height:100px;object-fit:cover;border-radius:8px;display:none;">
+        <i class="fa-solid fa-ad menu-icon" style="color:#e74c3c;" id="adIcon2"></i>
+        <span class="menu-title" id="adTitle2">تبلیغات</span>
+        <span class="menu-desc" id="adDesc2">جایگاه تبلیغاتی</span>
+      </div>
+    </div>
+
+    <!-- MENU ROW 3 -->
+    <div class="products-grid">
+      <a href="list/news.html" class="menu-card"><i class="fa-solid fa-newspaper menu-icon" style="color:#f39c12;"></i><span class="menu-title">اخبار مرتبط</span></a>
+      <a href="list/channel.html" class="menu-card"><i class="fa-solid fa-bullhorn menu-icon" style="color:#27ae60;"></i><span class="menu-title">کانال‌های ما</span></a>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="list/ads.html"><i class="fa-solid fa-ad"></i> رزرو تبلیغات</a>
+      <a href="list/support.html"><i class="fa-solid fa-headset"></i> پشتیبانی</a>
+    </div>
+    <p class="footer-text"><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا | کلیه حقوق محفوظ است</p>
+  </footer>
+
+  <a href="list/support.html" class="floating-support" title="پشتیبانی">
+    <i class="fa-solid fa-headset"></i>
+  </a>
+
+  <audio id="heroAudio" preload="none"></audio>
+
+  <script>
+    var API_URL = 'https://script.google.com/macros/s/AKfycbzuhWUIJ_d0bfIctIwcsQ61ELOpYUDKLT1KU5zNci1OT4ie1g_3pd3sRZlVJJzCAXllnA/exec';
+
+    // ========== RADIO ==========
+    var audio = document.getElementById('heroAudio');
+    var playlist = [];
+    var track = null;
+    var playing = false;
+
+    async function fetchMadahiList() {
+      try {
+        var response = await fetch(API_URL + '?type=madahi');
+        var data = await response.json();
+        if (data.length > 0) {
+          playlist = data;
+          loadRandomTrack();
+        }
+      } catch(e) {}
+    }
+
+    function loadRandomTrack() {
+      if (playlist.length === 0) return;
+      track = playlist[Math.floor(Math.random() * playlist.length)];
+      document.getElementById('radioTitle').innerText = track.title;
+      document.getElementById('radioArtist').innerText = track.artist;
+      document.getElementById('radioTime').innerText = '00:00 / ' + (track.duration || '--:--');
+      document.getElementById('progressFill').style.width = '0%';
+      audio.src = track.src;
+    }
+
+    document.getElementById('playBtn').addEventListener('click', function() {
+      if (playlist.length === 0) { fetchMadahiList(); return; }
+      if (playing) {
+        audio.pause(); playing = false;
+        document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>';
+      } else {
+        audio.play(); playing = true;
+        document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-pause"></i>';
+      }
+    });
+
+    audio.addEventListener('timeupdate', function() {
+      if (audio.duration) {
+        document.getElementById('progressFill').style.width = (audio.currentTime / audio.duration) * 100 + '%';
+      }
+    });
+
+    setInterval(function() {
+      if (playing && audio.duration) {
+        var c = audio.currentTime, d = audio.duration;
+        document.getElementById('radioTime').innerText =
+          String(Math.floor(c/60)).padStart(2,'0') + ':' + String(Math.floor(c%60)).padStart(2,'0') +
+          ' / -' + String(Math.floor((d-c)/60)).padStart(2,'0') + ':' + String(Math.floor((d-c)%60)).padStart(2,'0');
+      }
+    }, 1000);
+
+    audio.addEventListener('ended', function() {
+      playing = false;
+      document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>';
+      document.getElementById('progressFill').style.width = '0%';
+      loadRandomTrack();
+    });
+
+    audio.addEventListener('error', function() {
+      playing = false;
+      document.getElementById('playBtn').innerHTML = '<i class="fa-solid fa-play"></i>';
+      loadRandomTrack();
+    });
+
+    fetchMadahiList();
+
+    // ========== SHAHADA ==========
+    async function fetchShohadaMessage() {
+      try {
+        var response = await fetch(API_URL + '?type=shahid');
+        var data = await response.json();
+        if (data.length > 0) {
+          var randomMsg = data[Math.floor(Math.random() * data.length)];
+          document.getElementById('shahadaText').innerText = '"' + randomMsg.text + '"';
+          document.getElementById('shahadaAuthor').innerText = '— ' + randomMsg.author;
+          if (randomMsg.image) {
+            document.getElementById('shahadaImg').src = randomMsg.image;
+          }
+        }
+      } catch(e) {}
+    }
+
+    fetchShohadaMessage();
+
+    // ========== ADS ==========
+    async function loadAds() {
+      try {
+        var response = await fetch(API_URL + '?type=ads');
+        var data = await response.json();
+        if (data && data.length > 0) {
+          // Slot 1
+          if (data[0]) {
+            document.getElementById('adIcon1').style.display = 'none';
+            document.getElementById('adImg1').style.display = 'block';
+            document.getElementById('adImg1').src = data[0].image || '';
+            document.getElementById('adTitle1').textContent = data[0].title || 'تبلیغات';
+            document.getElementById('adDesc1').textContent = data[0].desc || '';
+            if (data[0].link) {
+              document.getElementById('adSlot1').onclick = function() { window.open(data[0].link, '_blank'); };
+            }
+          }
+          // Slot 2
+          if (data[1]) {
+            document.getElementById('adIcon2').style.display = 'none';
+            document.getElementById('adImg2').style.display = 'block';
+            document.getElementById('adImg2').src = data[1].image || '';
+            document.getElementById('adTitle2').textContent = data[1].title || 'تبلیغات';
+            document.getElementById('adDesc2').textContent = data[1].desc || '';
+            if (data[1].link) {
+              document.getElementById('adSlot2').onclick = function() { window.open(data[1].link, '_blank'); };
+            }
+          }
+        }
+      } catch(e) {}
+    }
+
+    loadAds();
+  </script>
+</body>
+</html>
