@@ -26,10 +26,7 @@
       padding: 14px 20px; display: flex; align-items: center;
       justify-content: space-between; position: sticky; top: 0; z-index: 100;
     }
-    .header-back {
-      color: var(--gold); font-size: 14px; font-weight: 600;
-      text-decoration: none; display: flex; align-items: center; gap: 4px;
-    }
+    .header-back { color: var(--gold); font-size: 14px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 4px; }
     .header-title {
       font-family: 'Vazirmatn', sans-serif; font-size: 1.4rem; font-weight: 800;
       background: linear-gradient(180deg, #f5dea3 0%, #c9a84c 50%, #8a6914 100%);
@@ -61,9 +58,8 @@
     .cover-icon { font-size: 60px; color: var(--gold); opacity: 0.8; }
 
     .info { text-align: center; margin-bottom: 20px; }
-    .track-title { font-size: 1.3rem; color: var(--gold-light); margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .track-artist { color: var(--text-muted); font-size: 0.95rem; }
-    .track-views { color: var(--text-muted); font-size: 0.75rem; margin-top: 3px; }
+    .track-title { font-size: 1.2rem; color: var(--gold-light); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .track-artist { color: var(--text-muted); font-size: 0.9rem; }
 
     .progress-container { display: flex; align-items: center; gap: 10px; margin-bottom: 25px; }
     .time { font-size: 0.8rem; color: var(--text-muted); min-width: 40px; text-align: center; }
@@ -136,9 +132,8 @@
     <div class="player">
       <div class="cover" id="coverContainer"><div class="cover-inner"><i class="fa-solid fa-mosque cover-icon"></i></div></div>
       <div class="info">
-        <h2 class="track-title" id="trackTitle">منتظر مداحی...</h2>
-        <p class="track-artist" id="trackArtist">لیست پخش خالیست</p>
-        <p class="track-views" id="trackViews"></p>
+        <h2 class="track-title" id="trackTitle">در حال بارگذاری</h2>
+        <p class="track-artist" id="trackArtist">—</p>
       </div>
       <div class="progress-container">
         <span class="time" id="currentTime">00:00</span>
@@ -156,22 +151,22 @@
         <button class="btn-small btn-like" id="likeBtn" onclick="toggleLike()"><i class="fa-solid fa-heart"></i></button>
         <div class="volume-control"><i class="fa-solid fa-volume-up volume-icon"></i><input type="range" id="volumeSlider" min="0" max="100" value="70" class="volume-slider"></div>
       </div>
-      <a href="#" id="downloadLink" class="download-btn" download><i class="fa-solid fa-download"></i> دریافت مداحی</a>
+      <a href="#" id="downloadLink" class="download-btn" download><i class="fa-solid fa-download"></i> دریافت فایل</a>
     </div>
 
     <div class="search-box">
       <i class="fa-solid fa-search" style="color:var(--gold);"></i>
-      <input type="text" id="searchInput" placeholder="جستجوی مداحی یا مداح...">
+      <input type="text" id="searchInput" placeholder="جستجو...">
       <i class="fa-solid fa-times" id="searchClear" style="color:var(--text-muted);cursor:pointer;display:none;" onclick="clearSearch()"></i>
     </div>
 
     <div class="category-tabs">
       <button class="cat-btn active" onclick="filterCategory('همه')"><i class="fa-solid fa-list"></i> همه</button>
-      <button class="cat-btn" onclick="filterCategory('محرم')"><i class="fa-solid fa-mosque"></i> محرم</button>
-      <button class="cat-btn" onclick="filterCategory('حماسی')"><i class="fa-solid fa-fist-raised"></i> حماسی</button>
-      <button class="cat-btn" onclick="filterCategory('شور')"><i class="fa-solid fa-music"></i> شور</button>
-      <button class="cat-btn" onclick="filterCategory('مولودی')"><i class="fa-solid fa-star"></i> مولودی</button>
-      <button class="cat-btn" onclick="filterCategory('سایر')"><i class="fa-solid fa-ellipsis-h"></i> سایر</button>
+      <button class="cat-btn" onclick="filterCategory('محرم')">محرم</button>
+      <button class="cat-btn" onclick="filterCategory('حماسی')">حماسی</button>
+      <button class="cat-btn" onclick="filterCategory('شور')">شور</button>
+      <button class="cat-btn" onclick="filterCategory('مولودی')">مولودی</button>
+      <button class="cat-btn" onclick="filterCategory('سایر')">سایر</button>
       <button class="cat-btn" onclick="filterCategory('favorites')"><i class="fa-solid fa-heart"></i> مورد علاقه</button>
     </div>
 
@@ -211,7 +206,9 @@
     function toggleLike() { if (!currentTrack) return; toggleFavorite(currentTrack.title); }
     function updateLikeButton() { var btn = document.getElementById('likeBtn'); if (currentTrack && isFavorite(currentTrack.title)) { btn.classList.add('liked'); } else { btn.classList.remove('liked'); } }
 
-    async function loadPlaylistFromAPI() { try { var response = await fetch(MADAHI_API); var data = await response.json(); playlist = data; applyFilters(); document.getElementById('trackCount').textContent = playlist.length + ' مداحی'; if (playlist.length > 0) loadTrack(0); else { document.getElementById('trackTitle').innerText = 'لیست خالیست'; document.getElementById('trackArtist').innerText = 'مداحی ثبت نشده'; } } catch(e) {} }
+    async function loadPlaylistFromAPI() {
+      try { var response = await fetch(MADAHI_API); var data = await response.json(); playlist = data; applyFilters(); document.getElementById('trackCount').textContent = playlist.length + ' مداحی'; if (playlist.length > 0) loadTrack(0); else { document.getElementById('trackTitle').innerText = 'لیست خالی'; document.getElementById('trackArtist').innerText = '—'; } } catch(e) { document.getElementById('trackTitle').innerText = 'خطا در دریافت'; document.getElementById('trackArtist').innerText = '—'; }
+    }
 
     document.getElementById('searchInput').addEventListener('input', function() { searchQuery = this.value.trim(); document.getElementById('searchClear').style.display = searchQuery ? 'block' : 'none'; currentTrackIndex = 0; applyFilters(); buildPlaylistUI(); });
     function clearSearch() { document.getElementById('searchInput').value = ''; searchQuery = ''; document.getElementById('searchClear').style.display = 'none'; applyFilters(); buildPlaylistUI(); }
@@ -241,7 +238,6 @@
       currentTrackIndex = index; currentTrack = filteredPlaylist[currentTrackIndex];
       document.getElementById('trackTitle').innerText = currentTrack.title;
       document.getElementById('trackArtist').innerText = currentTrack.artist;
-      document.getElementById('trackViews').innerHTML = '<i class="fa-solid fa-eye"></i> ' + (currentTrack.views || 0) + ' بازدید';
       audio.src = currentTrack.src;
       document.getElementById('downloadLink').href = currentTrack.src;
       document.getElementById('downloadLink').setAttribute('download', currentTrack.title + '.mp3');
@@ -259,8 +255,7 @@
 
     audio.addEventListener('timeupdate', function() { if (audio.duration) { document.getElementById('progress').style.width = (audio.currentTime / audio.duration) * 100 + '%'; var m = Math.floor(audio.currentTime / 60), s = Math.floor(audio.currentTime % 60); document.getElementById('currentTime').innerText = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0'); var rem = audio.duration - audio.currentTime; document.getElementById('duration').innerText = '-' + String(Math.floor(rem/60)).padStart(2,'0') + ':' + String(Math.floor(rem%60)).padStart(2,'0'); } });
     audio.addEventListener('ended', function() { if (isRepeat) { loadTrack(currentTrackIndex); audio.play(); } else { document.getElementById('nextBtn').click(); } });
-    document.getElementById('volumeSlider').addEventListener('input', function() { audio.volume = this.value / 100; });
-    audio.volume = 0.7;
+    document.getElementById('volumeSlider').addEventListener('input', function() { audio.volume = this.value / 100; }); audio.volume = 0.7;
     document.getElementById('shuffleBtn').addEventListener('click', function() { isShuffle = !isShuffle; this.classList.toggle('active', isShuffle); });
     document.getElementById('repeatBtn').addEventListener('click', function() { isRepeat = !isRepeat; this.classList.toggle('active', isRepeat); });
     document.getElementById('progressBar').addEventListener('click', function(e) { var rect = this.getBoundingClientRect(); var pct = (rect.right - e.clientX) / rect.width; audio.currentTime = Math.max(0, Math.min(1, pct)) * audio.duration; });
