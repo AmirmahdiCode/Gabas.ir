@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>قَبَس | پیام ناشناس</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-header: #0a1a12; --bg-card: rgba(22, 38, 30, 0.7);
+      --glass-border: rgba(201, 168, 76, 0.15); --gold: #c9a84c;
+      --gold-light: #e2c87a; --text: #e8e6e0; --text-muted: #a4a098;
+      --red: #e74c3c; --green: #4caf84;
+    }
+    body {
+      font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+      background: radial-gradient(ellipse at top, #1d3528 0%, #0a1410 60%);
+      color: var(--text); min-height: 100vh;
+      direction: rtl; line-height: 1.7;
+      display: flex; flex-direction: column;
+    }
+    .header {
+      background: var(--bg-header); border-bottom: 1px solid rgba(201,168,76,0.2);
+      padding: 14px 20px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 100;
+    }
+    .header-back { color: var(--gold); font-size: 14px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .header-title {
+      font-family: 'Vazirmatn', sans-serif; font-size: 1.4rem; font-weight: 800;
+      background: linear-gradient(180deg, #f5dea3 0%, #c9a84c 50%, #8a6914 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .container { max-width: 500px; margin: 0 auto; padding: 20px 16px; flex: 1; width: 100%; }
+
+    .card {
+      background: var(--bg-card); backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border); border-radius: 16px;
+      padding: 25px; margin-bottom: 15px;
+    }
+    .card h3 { color: var(--gold); margin-bottom: 15px; text-align: center; font-size: 1.1rem; }
+    .subtitle { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; margin-bottom: 5px; font-size: 0.85rem; color: var(--text-muted); }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 10px; background: rgba(255,255,255,0.05);
+      border: 1px solid var(--glass-border); border-radius: 8px;
+      color: var(--text); font-family: inherit; font-size: 0.9rem; outline: none;
+    }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .btn {
+      width: 100%; padding: 12px; background: linear-gradient(135deg, var(--gold), #a6842a);
+      color: #0a1410; border: none; border-radius: 10px; font-size: 1rem;
+      font-weight: bold; cursor: pointer; font-family: inherit; transition: all 0.3s;
+    }
+    .btn:hover { box-shadow: 0 8px 25px rgba(201,168,76,0.4); }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .msg { text-align: center; margin-top: 10px; font-size: 0.9rem; display: none; padding: 10px; border-radius: 8px; }
+    .msg.show { display: block; }
+    .msg.success { background: rgba(76,175,132,0.2); border: 1px solid var(--green); color: var(--green); }
+    .msg.error { background: rgba(255,107,107,0.2); border: 1px solid var(--red); color: var(--red); }
+
+    .footer {
+      background: var(--bg-header); border-top: 1px solid rgba(201,168,76,0.2);
+      text-align: center; padding: 16px; margin-top: auto;
+    }
+    .footer-text { font-size: 11px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="../index.html" class="header-back"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
+    <div class="header-title">پیام ناشناس</div>
+    <div style="width:60px;"></div>
+  </header>
+
+  <div class="container">
+
+    <div class="card">
+      <h3><i class="fa-solid fa-user-secret"></i> پیام ناشناس</h3>
+      <p class="subtitle">پیام شما کاملاً ناشناس می‌ماند</p>
+      <div class="form-group">
+        <label><i class="fa-solid fa-tag"></i> لقب دلخواه</label>
+        <input type="text" id="anonNick" placeholder="یه اسم مستعار انتخاب کن">
+      </div>
+      <div class="form-group">
+        <label><i class="fa-solid fa-pen"></i> پیام</label>
+        <textarea id="anonMsg" placeholder="پیامت رو اینجا بنویس..."></textarea>
+      </div>
+      <button class="btn" onclick="submitAnonymous()" id="submitBtn"><i class="fa-solid fa-paper-plane"></i> ارسال پیام</button>
+      <div class="msg" id="msgEl"></div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <p class="footer-text"><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p>
+  </footer>
+
+  <script>
+    var API_URL = 'https://script.google.com/macros/s/AKfycbzuhWUIJ_d0bfIctIwcsQ61ELOpYUDKLT1KU5zNci1OT4ie1g_3pd3sRZlVJJzCAXllnA/exec';
+
+    async function submitAnonymous() {
+      var nick = document.getElementById('anonNick').value.trim() || 'ناشناس';
+      var message = document.getElementById('anonMsg').value.trim();
+      var msgEl = document.getElementById('msgEl');
+      var btn = document.getElementById('submitBtn');
+
+      if (!message) { showMsg(msgEl, 'لطفاً پیام خود را بنویسید', 'error'); return; }
+
+      btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال ارسال...';
+
+      try {
+        var response = await fetch(API_URL, { method: 'POST', body: JSON.stringify({ action: 'sendAnonymous', nickname: nick, message: message }) });
+        var result = await response.json();
+        if (result.status === 'success') {
+          document.getElementById('anonNick').value = '';
+          document.getElementById('anonMsg').value = '';
+          showMsg(msgEl, 'پیام شما با موفقیت ثبت شد', 'success');
+        } else {
+          showMsg(msgEl, 'خطا در ارسال پیام', 'error');
+        }
+      } catch(e) {
+        showMsg(msgEl, 'خطا در ارتباط با سرور', 'error');
+      } finally {
+        btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ارسال پیام';
+      }
+    }
+
+    function showMsg(el, text, type) {
+      el.innerHTML = text; el.className = 'msg show ' + type;
+      setTimeout(function() { el.classList.remove('show'); }, 4000);
+    }
+  </script>
+</body>
+</html>
