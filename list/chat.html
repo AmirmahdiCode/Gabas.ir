@@ -36,15 +36,14 @@
 
     .chat-container { max-width: 650px; margin: 0 auto; padding: 16px; flex: 1; width: 100%; display: flex; flex-direction: column; }
     .chat-messages { flex: 1; overflow-y: auto; padding: 8px 0; display: flex; flex-direction: column; gap: 12px; }
-    
+
     .msg { display: flex; gap: 10px; animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
     .msg-avatar {
       width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
       background: rgba(201,168,76,0.15); color: var(--gold);
-      font-size: 16px; cursor: pointer; transition: all 0.3s;
-      text-decoration: none;
+      font-size: 16px; cursor: pointer; transition: all 0.3s; text-decoration: none;
     }
     .msg-avatar:hover { background: rgba(201,168,76,0.3); }
     .msg-avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
@@ -79,9 +78,21 @@
     }
     .chat-input-area button:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    .login-prompt { text-align: center; padding: 60px 20px; color: var(--text-muted); flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
-    .login-prompt i { font-size: 64px; color: var(--gold); }
-    .btn-login { padding: 12px 28px; background: var(--gold); color: #0a1410; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-family: inherit; font-size: 14px; text-decoration: none; }
+    .login-prompt { text-align: center; padding: 40px 20px; color: var(--text-muted); flex: 1; display: flex; align-items: center; justify-content: center; }
+    .login-card { background: var(--bg-card); backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 40px 30px; max-width: 380px; width: 100%; }
+    .login-card i { font-size: 56px; color: var(--gold); margin-bottom: 16px; display: block; }
+    .login-card h3 { color: var(--gold-light); font-size: 1.3rem; margin-bottom: 8px; }
+    .login-card p { font-size: 0.9rem; margin-bottom: 24px; }
+    .login-btns { display: flex; gap: 10px; }
+    .btn-login, .btn-register {
+      flex: 1; padding: 12px; border-radius: 10px; font-weight: bold; font-size: 14px;
+      cursor: pointer; font-family: inherit; text-decoration: none; text-align: center;
+      transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn-login { background: var(--gold); color: #0a1410; }
+    .btn-login:hover { box-shadow: 0 8px 25px rgba(201,168,76,0.4); }
+    .btn-register { background: transparent; color: var(--gold); border: 2px solid var(--gold); }
+    .btn-register:hover { background: rgba(201,168,76,0.1); }
 
     .footer { background: var(--bg-header); border-top: 1px solid rgba(201,168,76,0.2); text-align: center; padding: 16px; }
     .footer-text { font-size: 11px; color: var(--text-muted); }
@@ -98,19 +109,21 @@
   </header>
 
   <div class="chat-container" id="chatContainer">
-    <!-- Login prompt -->
+
     <div class="login-prompt" id="loginPrompt">
-      <i class="fa-solid fa-comments"></i>
-      <p>برای شرکت در گفتگو باید وارد حساب کاربری خود شوید</p>
-      <a href="profile.html" class="btn-login"><i class="fa-solid fa-right-to-bracket"></i> ورود / ثبت‌نام</a>
+      <div class="login-card">
+        <i class="fa-solid fa-comments"></i>
+        <h3>قَبَس چت</h3>
+        <p>برای شرکت در گفتگو باید وارد حساب کاربری خود شوید</p>
+        <div class="login-btns">
+          <a href="profile.html" class="btn-login"><i class="fa-solid fa-right-to-bracket"></i> ورود</a>
+          <a href="profile.html" class="btn-register"><i class="fa-solid fa-user-plus"></i> ثبت‌نام</a>
+        </div>
+      </div>
     </div>
 
-    <!-- Chat -->
     <div class="chat-messages" id="chatMessages" style="display:none;"></div>
-
-    <!-- AI reject message -->
     <div class="ai-reject" id="aiReject"></div>
-
     <div class="chat-input-area" id="chatInputArea" style="display:none;">
       <input type="text" id="chatInput" placeholder="پیام خود را بنویسید..." onkeypress="if(event.key==='Enter')sendMessage()">
       <button onclick="sendMessage()" id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
@@ -120,7 +133,7 @@
   <footer class="footer"><p class="footer-text"><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p></footer>
 
   <script>
-    var API_URL = 'https://script.google.com/macros/s/AKfycbzuhWUIJ_d0bfIctIwcsQ61ELOpYUDKLT1KU5zNci1OT4ie1g_3pd3sRZlVJJzCAXllnA/exec';
+    var API_URL = 'https://script.google.com/macros/s/AKfycbx6Eh-tM-FWt8wNx798RWGaM7BZ7JFfycwpi4mFPfoNti_rpY6DIyF_7OwPygbWxX05-g/exec';
     var currentUser = null;
 
     window.addEventListener('DOMContentLoaded', function() {
@@ -134,7 +147,7 @@
       document.getElementById('chatMessages').style.display = 'flex';
       document.getElementById('chatInputArea').style.display = 'flex';
       loadMessages();
-      setInterval(loadMessages, 5000); // Refresh every 5 seconds
+      setInterval(loadMessages, 5000);
     }
 
     async function loadMessages() {
@@ -144,7 +157,6 @@
         if (d.status === 'success' && d.data.messages) {
           var container = document.getElementById('chatMessages');
           container.innerHTML = d.data.messages.map(function(m) {
-            var isMe = m.sender_id === currentUser.user_id;
             return '<div class="msg">' +
               '<a href="members.html" class="msg-avatar" onclick="localStorage.setItem(\'qabas_member\',\'' + m.sender_id + '\')">' +
                 (m.avatar ? '<img src="' + m.avatar + '" alt="">' : '<i class="fa-solid fa-user"></i>') +
@@ -173,17 +185,14 @@
       btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
       try {
-        // Check with AI
         var checkRes = await fetch(API_URL, { method:'POST', body: JSON.stringify({ action:'checkMessage', message: msg }) });
         var checkData = await checkRes.json();
 
         if (checkData.status === 'success' && checkData.data.status === 'approved') {
-          // Send message
           await fetch(API_URL, { method:'POST', body: JSON.stringify({ action:'sendMessage', sender_id: currentUser.user_id, receiver_id: 'public', message: msg }) });
           input.value = '';
           loadMessages();
         } else {
-          // Rejected by AI
           rejectDiv.innerHTML = '<i class="fa-solid fa-robot"></i> پیام شما تأیید نشد: ' + (checkData.data?.reason || 'لطفاً بازنویسی کنید');
           rejectDiv.style.display = 'block';
         }
