@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>قَبَس | همیار نماز</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-header: #0a1a12; --bg-card: rgba(22, 38, 30, 0.7);
+      --glass-border: rgba(201, 168, 76, 0.15); --gold: #c9a84c;
+      --gold-light: #e2c87a; --text: #e8e6e0; --text-muted: #a4a098;
+      --green: #4caf84; --red: #ff6b6b;
+    }
+    body {
+      font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+      background: radial-gradient(ellipse at top, #1d3528 0%, #0a1410 60%);
+      color: var(--text); min-height: 100vh;
+      direction: rtl; line-height: 1.7;
+      display: flex; flex-direction: column;
+    }
+    .header {
+      background: var(--bg-header); border-bottom: 1px solid rgba(201,168,76,0.2);
+      padding: 14px 20px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 100;
+    }
+    .header-back { color: var(--gold); font-size: 14px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .header-title {
+      font-family: 'Vazirmatn', sans-serif; font-size: 1.4rem; font-weight: 800;
+      background: linear-gradient(180deg, #f5dea3 0%, #c9a84c 50%, #8a6914 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .container { max-width: 550px; margin: 0 auto; padding: 20px 16px; flex: 1; width: 100%; }
+
+    .tabs { display: flex; gap: 6px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
+    .tab-btn { padding: 10px 16px; background: var(--bg-card); border: 1px solid var(--glass-border); border-radius: 25px; color: var(--text); cursor: pointer; font-size: 0.85rem; font-family: inherit; transition: all 0.3s; }
+    .tab-btn:hover { border-color: var(--gold); background: rgba(201,168,76,0.08); }
+    .tab-btn.active { background: var(--gold); color: #0a1410; border-color: var(--gold); font-weight: bold; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .card { background: var(--bg-card); backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-radius: 16px; padding: 25px; margin-bottom: 15px; }
+    .card h3 { color: var(--gold); margin-bottom: 20px; text-align: center; font-size: 1.1rem; }
+
+    .prayer-row { display: flex; align-items: center; justify-content: space-between; padding: 15px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); gap: 10px; }
+    .prayer-name { color: var(--gold); font-weight: bold; width: 60px; font-size: 0.9rem; }
+    .counter { display: flex; align-items: center; gap: 10px; }
+    .counter button { width: 35px; height: 35px; border-radius: 8px; border: 1px solid rgba(201,168,76,0.3); background: rgba(255,255,255,0.03); color: var(--text); cursor: pointer; font-size: 1.2rem; transition: all 0.3s; font-family: inherit; display: flex; align-items: center; justify-content: center; }
+    .counter button:hover { background: rgba(201,168,76,0.1); border-color: var(--gold); }
+    .count-input { width: 45px; text-align: center; background: transparent; border: none; color: var(--gold); font-size: 1.3rem; font-weight: bold; font-family: inherit; }
+    .reset-btn { display: block; margin: 20px auto 0; padding: 10px 25px; background: transparent; border: 1px solid var(--red); color: var(--red); border-radius: 25px; cursor: pointer; font-family: inherit; transition: all 0.3s; }
+    .reset-btn:hover { background: rgba(255,107,107,0.1); }
+
+    .rakat-select { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+    .rakat-btn { width: 60px; height: 60px; border-radius: 12px; border: 2px solid rgba(201,168,76,0.3); background: rgba(255,255,255,0.03); color: var(--text); cursor: pointer; font-size: 1.5rem; font-weight: bold; font-family: inherit; transition: all 0.3s; }
+    .rakat-btn:hover { border-color: var(--gold); background: rgba(201,168,76,0.1); }
+    .rakat-btn.selected { background: var(--gold); color: #0a1410; border-color: var(--gold); }
+    .counter-screen { text-align: center; padding: 30px 20px; background: rgba(0,0,0,0.2); border-radius: 12px; cursor: pointer; user-select: none; min-height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: background 0.3s; }
+    .counter-screen:active { background: rgba(201,168,76,0.15); }
+    .step-text { font-size: 1.2rem; color: var(--gold); font-weight: bold; margin-bottom: 5px; }
+    .step-sub { font-size: 0.8rem; color: var(--text-muted); }
+    .progress-dots { display: flex; gap: 8px; justify-content: center; margin-top: 15px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+    .dot.done { background: var(--gold); }
+
+    .dua-list { display: flex; flex-direction: column; gap: 8px; }
+    .dua-item { display: flex; align-items: center; gap: 12px; padding: 15px; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; transition: all 0.3s; }
+    .dua-item:hover { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+    .dua-icon { font-size: 24px; color: var(--gold); }
+    .dua-info { flex: 1; }
+    .dua-title { color: var(--gold); font-weight: bold; }
+    .dua-artist { color: var(--text-muted); font-size: 0.8rem; }
+
+    .footer { background: var(--bg-header); border-top: 1px solid rgba(201,168,76,0.2); text-align: center; padding: 16px; margin-top: auto; }
+    .footer-text { font-size: 11px; color: var(--text-muted); }
+
+    @media (max-width: 400px) { .prayer-name { width: 45px; font-size: 0.8rem; } .counter button { width: 30px; height: 30px; font-size: 1rem; } }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="../index.html" class="header-back"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
+    <div class="header-title">همیار نماز</div>
+    <div style="width:60px;"></div>
+  </header>
+
+  <div class="container">
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('qaza')">قضا</button>
+      <button class="tab-btn" onclick="switchTab('rakat')">رکعت‌شمار</button>
+      <button class="tab-btn" onclick="switchTab('dua')">دعاها</button>
+    </div>
+
+    <!-- قضا -->
+    <div class="tab-content active" id="tab-qaza">
+      <div class="card"><h3>شمارنده نماز قضا</h3><div id="qazaList"></div><button class="reset-btn" onclick="resetQaza()">ریست همه</button></div>
+    </div>
+
+    <!-- رکعت‌شمار -->
+    <div class="tab-content" id="tab-rakat">
+      <div class="card">
+        <h3>رکعت‌شمار</h3>
+        <div class="rakat-select" id="rakatSelect">
+          <button class="rakat-btn" onclick="startRakat(2)">۲</button>
+          <button class="rakat-btn" onclick="startRakat(3)">۳</button>
+          <button class="rakat-btn" onclick="startRakat(4)">۴</button>
+        </div>
+        <div id="rakatScreen" style="display:none;"></div>
+      </div>
+    </div>
+
+    <!-- دعاها -->
+    <div class="tab-content" id="tab-dua">
+      <div class="card"><h3>دعاها و مناجات</h3><div class="dua-list" id="duaList"><div style="text-align:center;color:var(--text-muted);padding:20px;">در حال بارگذاری</div></div></div>
+    </div>
+
+  </div>
+
+  <footer class="footer"><p class="footer-text"><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p></footer>
+
+  <script>
+    var API_URL = 'https://script.google.com/macros/s/AKfycbzuhWUIJ_d0bfIctIwcsQ61ELOpYUDKLT1KU5zNci1OT4ie1g_3pd3sRZlVJJzCAXllnA/exec';
+    var PRAYERS_API = API_URL + '?type=prayers';
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+      document.querySelectorAll('.tab-content').forEach(function(c){ c.classList.remove('active'); });
+      event.target.classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
+    }
+
+    // ========== قضا ==========
+    var prayers = ['صبح', 'ظهر', 'عصر', 'مغرب', 'عشا'];
+    var qazaData = {};
+    function loadQaza() { try { var s = localStorage.getItem('qaza_counter'); if (s) qazaData = JSON.parse(s); } catch(e) { qazaData = {}; } for (var i = 0; i < prayers.length; i++) { if (!(prayers[i] in qazaData)) qazaData[prayers[i]] = 0; } }
+    function saveQaza() { localStorage.setItem('qaza_counter', JSON.stringify(qazaData)); }
+    function renderQaza() { loadQaza(); var html = ''; for (var i = 0; i < prayers.length; i++) { html += '<div class="prayer-row"><span class="prayer-name">' + prayers[i] + '</span><div class="counter"><button onclick="changeQaza(\'' + prayers[i] + '\', -1)">−</button><input type="number" class="count-input" value="' + qazaData[prayers[i]] + '" onchange="setQaza(\'' + prayers[i] + '\', this.value)" min="0"><button onclick="changeQaza(\'' + prayers[i] + '\', 1)">+</button></div></div>'; } document.getElementById('qazaList').innerHTML = html; }
+    function changeQaza(name, delta) { qazaData[name] = Math.max(0, (qazaData[name] || 0) + delta); saveQaza(); renderQaza(); }
+    function setQaza(name, value) { qazaData[name] = Math.max(0, parseInt(value) || 0); saveQaza(); renderQaza(); }
+    function resetQaza() { if (!confirm('همه اعداد صفر بشن؟')) return; for (var i = 0; i < prayers.length; i++) { qazaData[prayers[i]] = 0; } saveQaza(); renderQaza(); }
+
+    // ========== رکعت‌شمار ==========
+    var rakatSteps = [], rakatIndex = 0, totalSteps = 0;
+    function startRakat(n) { rakatSteps = []; rakatIndex = 0; for (var r = 1; r <= n; r++) { rakatSteps.push('سجده اول رکعت ' + r); rakatSteps.push('سجده دوم رکعت ' + r); } rakatSteps.push('پایان نماز'); totalSteps = rakatSteps.length; document.getElementById('rakatSelect').style.display = 'none'; document.getElementById('rakatScreen').style.display = 'block'; renderRakatScreen(); }
+    function renderRakatScreen() { var screen = document.getElementById('rakatScreen'); var dots = ''; for (var i = 0; i < totalSteps; i++) { dots += '<div class="dot' + (i < rakatIndex ? ' done' : '') + '"></div>'; } screen.innerHTML = '<div class="counter-screen" onclick="nextRakat()"><div class="step-text">' + rakatSteps[Math.min(rakatIndex, totalSteps - 1)] + '</div><div class="step-sub">' + (rakatIndex < totalSteps - 1 ? 'برای ادامه کلیک کن' : 'نماز تمام شد') + '</div><div class="progress-dots">' + dots + '</div></div><button class="reset-btn" onclick="resetRakat()" style="margin-top:15px;">شروع دوباره</button>'; }
+    function nextRakat() { if (rakatIndex < totalSteps - 1) { rakatIndex++; renderRakatScreen(); if (navigator.vibrate) navigator.vibrate(15); } }
+    function resetRakat() { document.getElementById('rakatSelect').style.display = 'flex'; document.getElementById('rakatScreen').style.display = 'none'; rakatIndex = 0; }
+
+    // ========== دعاها ==========
+    async function loadDuas() { try { var response = await fetch(PRAYERS_API); var data = await response.json(); var container = document.getElementById('duaList'); if (data.length === 0) { container.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:20px;">دعایی ثبت نشده</div>'; return; } var html = ''; for (var i = 0; i < data.length; i++) { html += '<div class="dua-item" onclick="playDua(\'' + data[i].src + '\')"><span class="dua-icon"><i class="fa-solid fa-play-circle"></i></span><div class="dua-info"><div class="dua-title">' + data[i].title + '</div><div class="dua-artist">' + (data[i].artist || '') + '</div></div></div>'; } container.innerHTML = html; } catch(e) { document.getElementById('duaList').innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:20px;">خطا در بارگذاری</div>'; } }
+    var currentAudio = null;
+    function playDua(link) { if (!link) return; if (currentAudio) { currentAudio.pause(); currentAudio = null; } currentAudio = new Audio(link); currentAudio.play(); currentAudio.addEventListener('ended', function() { currentAudio = null; }); }
+
+    renderQaza();
+    loadDuas();
+  </script>
+</body>
+</html>
