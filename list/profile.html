@@ -176,6 +176,7 @@
 
 <script>
 var API = 'https://script.google.com/macros/s/AKfycbxUIo8Ig-Ff7vnSXOOe00jT6p--ObusMg-KbR33yt9UchCBHHst5_kVNmo4_uthhgeLOw/exec';
+var STORAGE_KEY = 'qabas_user';
 var app = document.getElementById('app');
 
 var avatarIcons = [
@@ -185,7 +186,18 @@ var avatarIcons = [
   'fa-otter', 'fa-spider', 'fa-hippo', 'fa-dove', 'fa-feather'
 ];
 
-// ========== TOOLS ==========
+function getLocalUser() {
+  return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+}
+
+function saveLocalUser(user) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+}
+
+function clearLocalUser() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
 function showLoading(msg) {
   app.innerHTML = '<div class="loading"><div class="spinner"></div><p style="color:var(--text-muted);">' + (msg || 'در حال بارگذاری...') + '</p></div>';
 }
@@ -203,7 +215,7 @@ async function api(action, data) {
 
 // ========== PROFILE VIEW ==========
 function showProfile(user) {
-  var local = JSON.parse(localStorage.getItem('user') || 'null');
+  var local = getLocalUser();
   var isOwner = local && local.username === user.username;
 
   var avatarHtml = user.avatar && user.avatar.startsWith('fa-')
@@ -254,7 +266,7 @@ function showProfile(user) {
 
 // ========== EDIT PROFILE ==========
 window.showEditProfile = function() {
-  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var user = getLocalUser() || {};
 
   var html = '<div class="card"><h3><i class="fa-solid fa-pen-to-square"></i> ویرایش پروفایل</h3>';
 
@@ -287,13 +299,13 @@ window.selectAvatar = function(icon) {
 };
 
 window.cancelEdit = function() {
-  var user = JSON.parse(localStorage.getItem('user') || 'null');
+  var user = getLocalUser();
   if (user && user.username) { showProfile(user); }
   else { showLoginRegister(); }
 };
 
 window.saveProfile = async function() {
-  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var user = getLocalUser() || {};
   var name = document.getElementById('editName').value.trim();
   var bio = document.getElementById('editBio').value.trim();
   var interests = document.getElementById('editInterests').value.trim();
@@ -325,7 +337,7 @@ window.saveProfile = async function() {
     user.interests = interests;
     user.birth_date = birth_date;
     user.avatar = avatar;
-    localStorage.setItem('user', JSON.stringify(user));
+    saveLocalUser(user);
 
     msg.className = 'msg success show';
     msg.innerHTML = '<i class="fa-solid fa-circle-check"></i> تغییرات ذخیره شد';
@@ -379,7 +391,7 @@ window.doLogin = async function() {
   var res = await api('login', { username: u, password: p });
   btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> ورود';
   if (res.status === 'success') {
-    localStorage.setItem('user', JSON.stringify(res.data));
+    saveLocalUser(res.data);
     showProfile(res.data);
   } else {
     msg.className = 'msg error show';
@@ -416,7 +428,7 @@ window.copyLink = function(username) {
 };
 
 window.logout = function() {
-  localStorage.removeItem('user');
+  clearLocalUser();
   location.reload();
 };
 
@@ -433,12 +445,16 @@ async function init() {
     return;
   }
 
-  var local = JSON.parse(localStorage.getItem('user') || 'null');
+  var local = getLocalUser();
   if (local && local.username) {
     showLoading('بازیابی حساب...');
     var res = await api('get_user', { username: local.username });
-    if (res.status === 'success' && res.data) { showProfile(res.data); return; }
-    localStorage.removeItem('user');
+    if (res.status === 'success' && res.data) {
+      saveLocalUser(res.data);
+      showProfile(res.data);
+      return;
+    }
+    clearLocalUser();
   }
 
   showLoginRegister();
