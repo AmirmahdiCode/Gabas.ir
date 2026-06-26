@@ -300,8 +300,8 @@
     }
   </style>
 </head>
-<body>
 
+  <body>
   <header class="header">
     <a href="../index.html" class="header-back"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
     <div class="header-title">پروفایل</div>
@@ -310,6 +310,7 @@
 
   <div class="container">
     <div id="profileContainer">
+      <!-- لودینگ اولیه -->
       <div class="loading-spinner">
         <div class="spinner"></div>
         <div class="loading-text">در حال بارگذاری...</div>
@@ -317,6 +318,7 @@
     </div>
   </div>
 
+  <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
 
   <footer class="footer">
@@ -324,192 +326,232 @@
   </footer>
 
     <script>
-    // ==================== API Configuration ====================
-    var API_URL = 'https://script.google.com/macros/s/AKfycbzT4Z5kTEy_OpMPplQPIjginQ8YbbxU2qjp9gsPCPLuYgTB95gImN4s-fEGn3JrxhfkJw/exec';
+  // ==================== API Configuration ====================
+  var API_URL = 'https://script.google.com/macros/s/AKfycbzT4Z5kTEy_OpMPplQPIjginQ8YbbxU2qjp9gsPCPLuYgTB95gImN4s-fEGn3JrxhfkJw/exec';
+  var API_TIMEOUT = 8000; // 8 ثانیه
 
-    // ==================== Toast System ====================
-    function showToast(message, type) {
-      type = type || 'info';
-      var icons = {
-        success: 'fa-circle-check',
-        error: 'fa-circle-xmark',
-        warning: 'fa-triangle-exclamation',
-        info: 'fa-circle-info'
-      };
-      
-      var container = document.getElementById('toastContainer');
-      var toast = document.createElement('div');
-      toast.className = 'toast ' + type;
-      toast.innerHTML = '<i class="fa-solid ' + icons[type] + '"></i> ' + message;
-      
-      container.appendChild(toast);
-      
-      setTimeout(function() {
-        if (toast.parentNode) toast.remove();
-      }, 3000);
-    }
-
-    // ==================== Modal System ====================
-    function showModal(title, message, icon, buttons) {
-      var overlay = document.createElement('div');
-      overlay.className = 'modal-overlay';
-      
-      var icons = {
-        success: '<i class="fa-solid fa-circle-check"></i>',
-        error: '<i class="fa-solid fa-circle-xmark"></i>',
-        warning: '<i class="fa-solid fa-triangle-exclamation"></i>',
-        info: '<i class="fa-solid fa-circle-info"></i>'
-      };
-      
-      var iconHtml = icons[icon] || icons.info;
-      
-      var buttonsHtml = '<button class="btn-sm" onclick="closeModal()">باشه</button>';
-      if (buttons && buttons.length) {
-        buttonsHtml = '<div class="modal-actions">';
-        buttons.forEach(function(btn) {
-          var btnClass = btn.type === 'danger' ? 'btn-sm danger' : 'btn-sm';
-          buttonsHtml += '<button class="' + btnClass + '" onclick="' + btn.action + '">' + btn.text + '</button>';
-        });
-        buttonsHtml += '</div>';
-      }
-      
-      overlay.innerHTML = `
-        <div class="modal">
-          <div class="modal-icon ${icon}">${iconHtml}</div>
-          <h3>${title}</h3>
-          <p>${message}</p>
-          ${buttonsHtml}
-        </div>
-      `;
-      
-      overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) closeModal();
-      });
-      
-      document.body.appendChild(overlay);
-    }
-
-    window.closeModal = function() {
-      var modal = document.querySelector('.modal-overlay');
-      if (modal) modal.remove();
+  // ==================== Toast System ====================
+  function showToast(message, type) {
+    type = type || 'info';
+    var icons = {
+      success: 'fa-circle-check',
+      error: 'fa-circle-xmark',
+      warning: 'fa-triangle-exclamation',
+      info: 'fa-circle-info'
     };
-
-    // ==================== Form Validation ====================
-    function showFieldError(fieldId, message) {
-      var field = document.getElementById(fieldId);
-      if (!field) return;
-      
-      field.classList.add('error');
-      
-      var errorDiv = field.parentElement.querySelector('.field-error');
-      if (!errorDiv) {
-        errorDiv = document.createElement('div');
-        errorDiv.className = 'field-error';
-        field.parentElement.appendChild(errorDiv);
-      }
-      errorDiv.textContent = message;
-      errorDiv.classList.add('show');
-      
-      field.addEventListener('input', function() {
-        field.classList.remove('error');
-        field.classList.add('success');
-        errorDiv.classList.remove('show');
-      }, { once: true });
+    
+    var container = document.getElementById('toastContainer');
+    if (!container) {
+      container = document.createElement('div');
+      container.className = 'toast-container';
+      container.id = 'toastContainer';
+      document.body.appendChild(container);
     }
+    
+    var toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    toast.innerHTML = '<i class="fa-solid ' + icons[type] + '"></i> ' + message;
+    
+    container.appendChild(toast);
+    
+    setTimeout(function() {
+      if (toast.parentNode) toast.remove();
+    }, 4000);
+  }
 
-    function clearFieldErrors() {
-      document.querySelectorAll('.field-error').forEach(function(el) {
-        el.classList.remove('show');
+  // ==================== Modal System ====================
+  function showModal(title, message, icon, buttons) {
+    var overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    
+    var icons = {
+      success: '<i class="fa-solid fa-circle-check"></i>',
+      error: '<i class="fa-solid fa-circle-xmark"></i>',
+      warning: '<i class="fa-solid fa-triangle-exclamation"></i>',
+      info: '<i class="fa-solid fa-circle-info"></i>'
+    };
+    
+    var iconHtml = icons[icon] || icons.info;
+    
+    var buttonsHtml = '<button class="btn-sm" onclick="closeModal()">باشه</button>';
+    if (buttons && buttons.length) {
+      buttonsHtml = '<div class="modal-actions">';
+      buttons.forEach(function(btn) {
+        var btnClass = btn.type === 'danger' ? 'btn-sm danger' : 'btn-sm';
+        buttonsHtml += '<button class="' + btnClass + '" onclick="' + btn.action + '">' + btn.text + '</button>';
       });
-      document.querySelectorAll('.error').forEach(function(el) {
-        el.classList.remove('error');
-      });
-      document.querySelectorAll('.success').forEach(function(el) {
-        el.classList.remove('success');
-      });
+      buttonsHtml += '</div>';
     }
+    
+    overlay.innerHTML = `
+      <div class="modal">
+        <div class="modal-icon ${icon}">${iconHtml}</div>
+        <h3>${title}</h3>
+        <p>${message}</p>
+        ${buttonsHtml}
+      </div>
+    `;
+    
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) closeModal();
+    });
+    
+    document.body.appendChild(overlay);
+  }
 
-    // ==================== Loading Helpers ====================
-    function showLoading() {
-      document.getElementById('profileContainer').innerHTML = `
-        <div class="loading-spinner">
-          <div class="spinner"></div>
-          <div class="loading-text">در حال بارگذاری...</div>
-        </div>
-      `;
+  window.closeModal = function() {
+    var modal = document.querySelector('.modal-overlay');
+    if (modal) modal.remove();
+  };
+
+  // ==================== Form Validation ====================
+  function showFieldError(fieldId, message) {
+    var field = document.getElementById(fieldId);
+    if (!field) return;
+    
+    field.classList.add('error');
+    
+    var errorDiv = field.parentElement.querySelector('.field-error');
+    if (!errorDiv) {
+      errorDiv = document.createElement('div');
+      errorDiv.className = 'field-error';
+      field.parentElement.appendChild(errorDiv);
     }
+    errorDiv.textContent = message;
+    errorDiv.classList.add('show');
+    
+    field.addEventListener('input', function() {
+      field.classList.remove('error');
+      errorDiv.classList.remove('show');
+    }, { once: true });
+  }
 
-    function setButtonLoading(button, text) {
-      button.classList.add('loading');
-      button.disabled = true;
-      if (text) {
-        button.dataset.originalText = button.innerHTML;
-        button.textContent = text;
-      }
+  function clearFieldErrors() {
+    document.querySelectorAll('.field-error').forEach(function(el) {
+      el.classList.remove('show');
+    });
+    document.querySelectorAll('.error').forEach(function(el) {
+      el.classList.remove('error');
+    });
+  }
+
+  // ==================== Loading Helpers ====================
+  function showLoading(message) {
+    message = message || 'در حال بارگذاری...';
+    document.getElementById('profileContainer').innerHTML = `
+      <div class="loading-spinner">
+        <div class="spinner"></div>
+        <div class="loading-text">${message}</div>
+      </div>
+    `;
+  }
+
+  function showErrorWithRetry(message) {
+    document.getElementById('profileContainer').innerHTML = `
+      <div class="card" style="text-align:center;padding:40px;animation: fadeIn 0.5s ease;">
+        <i class="fa-solid fa-wifi" style="font-size:48px;color:var(--red);"></i>
+        <p style="color:var(--text-muted);margin:16px 0;">${message}</p>
+        <button onclick="window.location.reload()" class="btn-sm" style="margin-top:8px;">
+          <i class="fa-solid fa-rotate"></i> تلاش مجدد
+        </button>
+      </div>
+    `;
+  }
+
+  function setButtonLoading(button, text) {
+    button.classList.add('loading');
+    button.disabled = true;
+    if (text) {
+      button.dataset.originalText = button.innerHTML;
+      button.innerHTML = text;
     }
+  }
 
-    function resetButton(button) {
-      button.classList.remove('loading');
-      button.disabled = false;
-      if (button.dataset.originalText) {
-        button.innerHTML = button.dataset.originalText;
-      }
+  function resetButton(button) {
+    button.classList.remove('loading');
+    button.disabled = false;
+    if (button.dataset.originalText) {
+      button.innerHTML = button.dataset.originalText;
     }
+  }
 
-    // ==================== Eitaa Integration ====================
-    function getEitaaUser() {
-      try {
-        if (window.Eitaa && window.Eitaa.WebApp && window.Eitaa.WebApp.initDataUnsafe) {
-          var user = window.Eitaa.WebApp.initDataUnsafe.user;
-          if (user && user.id) {
-            return {
-              id: user.id,
-              username: 'et_' + user.id,
-              first_name: user.first_name || '',
-              last_name: user.last_name || '',
-              avatar: user.photo_url || ''
-            };
-          }
+  // ==================== Eitaa Integration ====================
+  function getEitaaUser() {
+    try {
+      if (window.Eitaa && window.Eitaa.WebApp && window.Eitaa.WebApp.initDataUnsafe) {
+        var user = window.Eitaa.WebApp.initDataUnsafe.user;
+        if (user && user.id) {
+          return {
+            id: user.id,
+            username: 'et_' + user.id,
+            first_name: user.first_name || '',
+            last_name: user.last_name || '',
+            avatar: user.photo_url || ''
+          };
         }
-      } catch(e) {
-        console.log('Not in Eitaa environment');
       }
-      return null;
+    } catch(e) {
+      console.log('Not in Eitaa environment');
     }
+    return null;
+  }
 
-    // ==================== API Helper ====================
-    async function callAPI(data, showLoadingToast) {
-      if (showLoadingToast !== false) {
-        showToast('در حال ارتباط با سرور...', 'info');
-      }
+  // ==================== API Helper with Timeout ====================
+  async function callAPI(data, showLoadingToast) {
+    if (showLoadingToast !== false) {
+      showToast('در حال ارتباط با سرور...', 'info');
+    }
+    
+    var timeoutPromise = new Promise(function(_, reject) {
+      setTimeout(function() {
+        reject(new Error('Timeout'));
+      }, API_TIMEOUT);
+    });
+    
+    try {
+      var fetchPromise = fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      
+      var res = await Promise.race([fetchPromise, timeoutPromise]);
+      
+      if (!res.ok) throw new Error('HTTP Error: ' + res.status);
+      
+      var text = await res.text();
       
       try {
-        var res = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        
-        if (!res.ok) throw new Error('HTTP Error: ' + res.status);
-        
-        var result = await res.json();
+        var result = JSON.parse(text);
         return result;
       } catch(e) {
-        console.error('API Error:', e);
-        showToast('خطا در ارتباط با سرور. لطفاً دوباره تلاش کنید.', 'error');
+        throw new Error('Invalid JSON response');
+      }
+    } catch(e) {
+      console.error('API Error:', e.message);
+      
+      if (e.message === 'Timeout') {
+        showToast('⏱️ سرور پاسخ نداد. لطفاً دوباره تلاش کنید', 'error');
         return { 
-          status: 'error', 
-          message: 'خطا در ارتباط با سرور. اینترنت خود را بررسی کنید.' 
+          status: 'timeout', 
+          message: 'زمان درخواست به پایان رسید. لطفاً دوباره تلاش کنید.' 
         };
       }
+      
+      showToast('❌ خطا در ارتباط با سرور', 'error');
+      return { 
+        status: 'error', 
+        message: 'خطا در ارتباط با سرور. اینترنت خود را بررسی کنید.' 
+      };
     }
+  }
 
-    async function checkUserExists(username) {
-      var data = await callAPI({ action: 'get_user', username: username }, false);
-      return data.status === 'success' ? data.data : null;
-    }
+  async function checkUserExists(username) {
+    var data = await callAPI({ action: 'get_user', username: username }, false);
+    return data.status === 'success' ? data.data : null;
+  }
 
-    // ==================== Profile Display ====================
+          // ==================== Profile Display ====================
     function showProfile(user) {
       var container = document.getElementById('profileContainer');
       var currentUser = JSON.parse(localStorage.getItem('qabas_user') || 'null');
@@ -560,7 +602,7 @@
       }
     };
 
-    // ==================== Logout Confirmation ====================
+    // ==================== Logout ====================
     window.confirmLogout = function() {
       showModal(
         'خروج از حساب',
@@ -578,9 +620,9 @@
       window.location.href = window.location.pathname;
     };
 
-    // ==================== View Other User Profile ====================
+    // ==================== View Other User ====================
     async function showOtherProfile(username) {
-      showLoading();
+      showLoading('در حال دریافت پروفایل...');
       
       var user = await checkUserExists(username);
       
@@ -592,9 +634,8 @@
           <div class="card" style="text-align:center;padding:40px;animation: fadeIn 0.5s ease;">
             <i class="fa-solid fa-user-slash" style="font-size:48px;color:var(--text-muted);"></i>
             <p style="color:var(--text-muted);margin:12px 0;">⛔ کاربری با نام @${username} پیدا نشد</p>
-            <p style="color:var(--text-muted);font-size:11px;">ممکن است این کاربر ثبت‌نام نکرده باشد</p>
             <a href="${window.location.pathname}" class="btn-sm" style="margin-top:16px;">
-              <i class="fa-solid fa-arrow-right"></i> بازگشت به پروفایل من
+              <i class="fa-solid fa-arrow-right"></i> بازگشت
             </a>
           </div>
         `;
@@ -602,7 +643,7 @@
       }
     }
 
-    // ==================== Quick Registration (Eitaa) ====================
+    // ==================== Quick Register (Eitaa) ====================
     function showQuickRegister(eitaaUser) {
       var container = document.getElementById('profileContainer');
       container.innerHTML = `
@@ -644,7 +685,6 @@
         var msg = document.getElementById('qrMsg');
         var submitBtn = document.getElementById('qrSubmitBtn');
         
-        // Validation
         if (!name) {
           showFieldError('qrName', 'لطفاً نام خود را وارد کنید');
           showToast('نام و نام خانوادگی الزامی است', 'warning');
@@ -657,7 +697,6 @@
           return;
         }
 
-        // Show loading
         setButtonLoading(submitBtn, 'در حال ثبت‌نام...');
         msg.className = 'msg show info';
         msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال ثبت اطلاعات...';
@@ -686,19 +725,14 @@
             'success',
             [{ text: 'مشاهده پروفایل', action: 'window.location.reload()', type: 'default' }]
           );
-          
-          setTimeout(function() {
-            window.location.reload();
-          }, 2000);
+        } else if (data.status === 'timeout') {
+          msg.className = 'msg show error';
+          msg.innerHTML = '⏱️ سرور پاسخ نداد. لطفاً دوباره تلاش کنید';
+          showToast('سرور پاسخ نداد. لطفاً دوباره تلاش کنید', 'error');
         } else {
           msg.className = 'msg show error';
           msg.innerHTML = '❌ ' + (data.message || 'خطا در ثبت‌نام');
-          showToast(data.message || 'خطا در ثبت‌نام. لطفاً دوباره تلاش کنید', 'error');
-          showModal(
-            'خطا در ثبت‌نام',
-            data.message || 'متأسفانه خطایی رخ داد. لطفاً دوباره تلاش کنید.',
-            'error'
-          );
+          showToast(data.message || 'خطا در ثبت‌نام', 'error');
         }
       });
     }
@@ -761,7 +795,6 @@
         </div>
       `;
 
-      // Event Listeners
       document.getElementById('tabLogin').addEventListener('click', function() {
         switchAuthTab('login');
       });
@@ -803,7 +836,6 @@
       var msg = document.getElementById('loginMsg');
       var submitBtn = document.getElementById('loginSubmitBtn');
       
-      // Validation
       if (!u) {
         showFieldError('loginUsername', 'نام کاربری الزامی است');
         showToast('لطفاً نام کاربری را وارد کنید', 'warning');
@@ -816,7 +848,6 @@
         return;
       }
       
-      // Loading
       setButtonLoading(submitBtn, 'در حال ورود...');
       msg.className = 'msg show info';
       msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال بررسی اطلاعات...';
@@ -830,12 +861,165 @@
         
         msg.className = 'msg show success';
         msg.innerHTML = '✅ ورود موفق! در حال انتقال...';
-        showToast('✅ خوش آمدید! ورود با موفقیت انجام شد', 'success');
+        showToast('✅ خوش آمدید!', 'success');
         
         setTimeout(function() {
           window.location.reload();
         }, 1000);
+      } else if (data.status === 'timeout') {
+        msg.className = 'msg show error';
+        msg.innerHTML = '⏱️ سرور پاسخ نداد. لطفاً دوباره تلاش کنید';
+        showToast('سرور پاسخ نداد', 'error');
       } else {
         msg.className = 'msg show error';
         msg.innerHTML = '❌ ' + (data.message || 'نام کاربری یا رمز عبور اشتباه است');
-        showToast(data.message || 'ورود 
+        showToast(data.message || 'ورود ناموفق', 'error');
+      }
+    }
+
+    // ==================== Register Handler ====================
+    async function handleRegister(e) {
+      e.preventDefault();
+      clearFieldErrors();
+      
+      var n = document.getElementById('regName').value.trim();
+      var u = document.getElementById('regUsername').value.trim();
+      var p = document.getElementById('regPassword').value;
+      var b = document.getElementById('regBio').value.trim();
+      var msg = document.getElementById('regMsg');
+      var submitBtn = document.getElementById('regSubmitBtn');
+      
+      var hasError = false;
+      
+      if (!n) {
+        showFieldError('regName', 'نام و نام خانوادگی الزامی است');
+        hasError = true;
+      } else if (n.length < 3) {
+        showFieldError('regName', 'نام باید حداقل ۳ کاراکتر باشد');
+        hasError = true;
+      }
+      
+      if (!u) {
+        showFieldError('regUsername', 'نام کاربری الزامی است');
+        hasError = true;
+      } else if (u.length < 3) {
+        showFieldError('regUsername', 'نام کاربری باید حداقل ۳ کاراکتر باشد');
+        hasError = true;
+      }
+      
+      if (!p) {
+        showFieldError('regPassword', 'رمز عبور الزامی است');
+        hasError = true;
+      } else if (p.length < 4) {
+        showFieldError('regPassword', 'رمز عبور باید حداقل ۴ کاراکتر باشد');
+        hasError = true;
+      }
+      
+      if (hasError) {
+        showToast('لطفاً خطاهای فرم را برطرف کنید', 'warning');
+        return;
+      }
+      
+      setButtonLoading(submitBtn, 'در حال ایجاد حساب...');
+      msg.className = 'msg show info';
+      msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال ثبت‌نام...';
+      
+      var data = await callAPI({ 
+        action: 'register', 
+        username: u, 
+        password: p, 
+        name: n, 
+        bio: b 
+      });
+      
+      resetButton(submitBtn);
+      
+      if (data.status === 'success') {
+        msg.className = 'msg show success';
+        msg.innerHTML = '✅ ثبت‌نام موفق! می‌توانید وارد شوید';
+        showToast('🎉 ثبت‌نام با موفقیت انجام شد', 'success');
+        
+        showModal(
+          'ثبت‌نام موفق',
+          'حساب شما با موفقیت ایجاد شد. حالا می‌توانید وارد شوید.',
+          'success',
+          [{ text: 'رفتن به صفحه ورود', action: 'switchToLoginTab()', type: 'default' }]
+        );
+      } else if (data.status === 'timeout') {
+        msg.className = 'msg show error';
+        msg.innerHTML = '⏱️ سرور پاسخ نداد. لطفاً دوباره تلاش کنید';
+        showToast('سرور پاسخ نداد', 'error');
+      } else {
+        msg.className = 'msg show error';
+        msg.innerHTML = '❌ ' + (data.message || 'خطا در ثبت‌نام');
+        showToast(data.message || 'خطا در ثبت‌نام', 'error');
+      }
+    }
+
+    window.switchToLoginTab = function() {
+      closeModal();
+      switchAuthTab('login');
+    };
+
+    // ==================== Main Function ====================
+    async function handleProfile() {
+      var eitaaUser = getEitaaUser();
+      var urlParams = new URLSearchParams(window.location.search);
+      var viewedUser = urlParams.get('user');
+
+      // Mode 1: View other user's profile
+      if (viewedUser) {
+        await showOtherProfile(viewedUser);
+        return;
+      }
+
+      // Mode 2: User is in Eitaa
+      if (eitaaUser) {
+        showLoading('در حال بررسی حساب...');
+        var existingUser = await checkUserExists(eitaaUser.username);
+        if (existingUser) {
+          showProfile(existingUser);
+        } else {
+          showQuickRegister(eitaaUser);
+        }
+        return;
+      }
+
+      // Mode 3: Check local login
+      var localUser = JSON.parse(localStorage.getItem('qabas_user') || 'null');
+      if (localUser && localUser.username) {
+        showLoading('در حال بازیابی اطلاعات...');
+        var freshUser = await checkUserExists(localUser.username);
+        if (freshUser) {
+          showProfile(freshUser);
+          return;
+        }
+        localStorage.removeItem('qabas_user');
+      }
+
+      // Mode 4: Show login/register
+      showLoginRegister();
+    }
+
+    // ==================== Start App with Timeout ====================
+    document.addEventListener('DOMContentLoaded', function() {
+      var loadingTimeout = setTimeout(function() {
+        var container = document.getElementById('profileContainer');
+        if (container.querySelector('.loading-spinner')) {
+          showErrorWithRetry('⏱️ بارگذاری صفحه طولانی شد. لطفاً دوباره تلاش کنید.');
+          showToast('خطا در بارگذاری صفحه', 'error');
+        }
+      }, 10000);
+      
+      handleProfile().then(function() {
+        clearTimeout(loadingTimeout);
+      }).catch(function(error) {
+        console.error('Fatal Error:', error);
+        clearTimeout(loadingTimeout);
+        showErrorWithRetry('❌ خطای غیرمنتظره. لطفاً صفحه را دوباره بارگذاری کنید.');
+        showToast('خطای سیستمی', 'error');
+      });
+    });
+  </script>
+</body>
+</html>
