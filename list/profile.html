@@ -40,7 +40,7 @@
     .card {
       background: var(--bg-card); backdrop-filter: blur(16px);
       border: 1px solid var(--glass-border); border-radius: 16px;
-      padding: 25px; margin-bottom: 15px;
+      padding: 25px; margin-bottom: 15px; animation: fadeIn 0.5s ease;
     }
     .card h3 { color: var(--gold); margin-bottom: 15px; text-align: center; font-size: 1.1rem; }
 
@@ -61,15 +61,8 @@
       border-color: var(--red);
       box-shadow: 0 0 0 3px rgba(231,76,60,0.1);
     }
-    .form-group input.success, .form-group textarea.success {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(76,175,132,0.1);
-    }
     .field-error {
-      color: var(--red);
-      font-size: 11px;
-      margin-top: 4px;
-      display: none;
+      color: var(--red); font-size: 11px; margin-top: 4px; display: none;
     }
     .field-error.show { display: block; }
 
@@ -82,14 +75,10 @@
     .btn:hover { box-shadow: 0 6px 20px rgba(201,168,76,0.3); transform: translateY(-1px); }
     .btn:active { transform: translateY(0); }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-    .btn.loading {
-      pointer-events: none;
-      color: transparent;
-    }
+    .btn.loading { pointer-events: none; color: transparent; }
     .btn.loading::after {
       content: '';
-      position: absolute;
-      top: 50%; left: 50%;
+      position: absolute; top: 50%; left: 50%;
       width: 20px; height: 20px;
       margin: -10px 0 0 -10px;
       border: 2px solid rgba(0,0,0,0.2);
@@ -97,9 +86,7 @@
       border-radius: 50%;
       animation: spin 0.6s linear infinite;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .btn-sm {
       padding: 8px 14px; font-size: 12px; border-radius: 8px;
@@ -117,74 +104,30 @@
       animation: fadeIn 0.3s ease;
     }
     .msg.show { display: block; }
-    .msg.success { 
-      background: rgba(76,175,132,0.15); 
-      border: 1px solid var(--green); 
-      color: var(--green);
-    }
-    .msg.error { 
-      background: rgba(255,107,107,0.15); 
-      border: 1px solid var(--red); 
-      color: var(--red);
-    }
-    .msg.warning {
-      background: rgba(243,156,18,0.15);
-      border: 1px solid var(--warning);
-      color: var(--warning);
-    }
-    .msg.info {
-      background: rgba(52,152,219,0.15);
-      border: 1px solid var(--info);
-      color: var(--info);
-    }
+    .msg.success { background: rgba(76,175,132,0.15); border: 1px solid var(--green); color: var(--green); }
+    .msg.error { background: rgba(255,107,107,0.15); border: 1px solid var(--red); color: var(--red); }
+    .msg.warning { background: rgba(243,156,18,0.15); border: 1px solid var(--warning); color: var(--warning); }
+    .msg.info { background: rgba(52,152,219,0.15); border: 1px solid var(--info); color: var(--info); }
 
     .toast-container {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+      position: fixed; top: 20px; left: 50%;
+      transform: translateX(-50%); z-index: 9999;
+      display: flex; flex-direction: column; gap: 8px;
       pointer-events: none;
     }
     .toast {
-      padding: 12px 20px;
-      border-radius: 12px;
-      font-size: 13px;
-      font-weight: 600;
-      font-family: 'Vazirmatn', sans-serif;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      min-width: 250px;
-      max-width: 400px;
+      padding: 12px 20px; border-radius: 12px;
+      font-size: 13px; font-weight: 600; font-family: 'Vazirmatn', sans-serif;
+      display: flex; align-items: center; gap: 8px;
+      min-width: 250px; max-width: 400px;
       animation: slideDown 0.3s ease, fadeOut 0.3s ease 2.7s;
-      pointer-events: auto;
-      backdrop-filter: blur(12px);
+      pointer-events: auto; backdrop-filter: blur(12px);
       box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
-    .toast.success {
-      background: rgba(76,175,132,0.95);
-      border: 1px solid var(--green);
-      color: white;
-    }
-    .toast.error {
-      background: rgba(231,76,60,0.95);
-      border: 1px solid var(--red);
-      color: white;
-    }
-    .toast.warning {
-      background: rgba(243,156,18,0.95);
-      border: 1px solid var(--warning);
-      color: white;
-    }
-    .toast.info {
-      background: rgba(52,152,219,0.95);
-      border: 1px solid var(--info);
-      color: white;
-    }
+    .toast.success { background: rgba(76,175,132,0.95); border: 1px solid var(--green); color: white; }
+    .toast.error { background: rgba(231,76,60,0.95); border: 1px solid var(--red); color: white; }
+    .toast.warning { background: rgba(243,156,18,0.95); border: 1px solid var(--warning); color: white; }
+    .toast.info { background: rgba(52,152,219,0.95); border: 1px solid var(--info); color: white; }
     @keyframes slideDown {
       from { transform: translateY(-100px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
@@ -222,71 +165,37 @@
     .profile-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; justify-content: center; }
 
     .loading-spinner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-      gap: 16px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 40px; gap: 16px;
     }
     .spinner {
-      width: 48px;
-      height: 48px;
+      width: 48px; height: 48px;
       border: 3px solid rgba(201,168,76,0.2);
       border-top-color: var(--gold);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
-    .loading-text {
-      color: var(--text-muted);
-      font-size: 14px;
-      font-weight: 500;
-    }
+    .loading-text { color: var(--text-muted); font-size: 14px; font-weight: 500; }
 
     .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-      animation: fadeIn 0.3s ease;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 999; animation: fadeIn 0.3s ease;
     }
     .modal {
-      background: var(--bg-card);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      padding: 30px;
-      max-width: 350px;
-      width: 90%;
-      text-align: center;
+      background: var(--bg-card); backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border); border-radius: 16px;
+      padding: 30px; max-width: 350px; width: 90%; text-align: center;
     }
-    .modal-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
-    }
+    .modal-icon { font-size: 48px; margin-bottom: 16px; }
     .modal-icon.success { color: var(--green); }
     .modal-icon.error { color: var(--red); }
     .modal-icon.warning { color: var(--warning); }
-    .modal h3 {
-      color: var(--text);
-      margin-bottom: 12px;
-      font-size: 18px;
-    }
-    .modal p {
-      color: var(--text-muted);
-      font-size: 13px;
-      margin-bottom: 20px;
-      line-height: 1.8;
-    }
-    .modal-actions {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-    }
+    .modal h3 { color: var(--text); margin-bottom: 12px; font-size: 18px; }
+    .modal p { color: var(--text-muted); font-size: 13px; margin-bottom: 20px; line-height: 1.8; }
+    .modal-actions { display: flex; gap: 8px; justify-content: center; }
 
     .footer {
       background: var(--bg-header); border-top: 1px solid rgba(201,168,76,0.2);
@@ -300,8 +209,8 @@
     }
   </style>
 </head>
+<body>
 
-  <body>
   <header class="header">
     <a href="../index.html" class="header-back"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
     <div class="header-title">پروفایل</div>
@@ -310,7 +219,6 @@
 
   <div class="container">
     <div id="profileContainer">
-      <!-- لودینگ اولیه -->
       <div class="loading-spinner">
         <div class="spinner"></div>
         <div class="loading-text">در حال بارگذاری...</div>
@@ -318,7 +226,6 @@
     </div>
   </div>
 
-  <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
 
   <footer class="footer">
@@ -327,8 +234,8 @@
 
 <script>
   // ==================== API Configuration ====================
-  var API_URL = 'https://script.google.com/macros/s/AKfycbzT4Z5kTEy_OpMPplQPIjginQ8YbbxU2qjp9gsPCPLuYgTB95gImN4s-fEGn3JrxhfkJw/exec';
-  var API_TIMEOUT = 8000; // 8 ثانیه
+  var API_URL = 'https://script.google.com/macros/s/AKfycbzKTW6rea1kzFw4DYMUWt4GUTMe47tOW5wKxLqQ4W2MsoxVJ4vFuJdPjV56NezkEsjxfw/exec';
+  var API_TIMEOUT = 8000;
 
   // ==================== Toast System ====================
   function showToast(message, type) {
@@ -351,7 +258,6 @@
     var toast = document.createElement('div');
     toast.className = 'toast ' + type;
     toast.innerHTML = '<i class="fa-solid ' + icons[type] + '"></i> ' + message;
-    
     container.appendChild(toast);
     
     setTimeout(function() {
@@ -448,7 +354,7 @@
 
   function showErrorWithRetry(message) {
     document.getElementById('profileContainer').innerHTML = `
-      <div class="card" style="text-align:center;padding:40px;animation: fadeIn 0.5s ease;">
+      <div class="card" style="text-align:center;padding:40px;">
         <i class="fa-solid fa-wifi" style="font-size:48px;color:var(--red);"></i>
         <p style="color:var(--text-muted);margin:16px 0;">${message}</p>
         <button onclick="window.location.reload()" class="btn-sm" style="margin-top:8px;">
@@ -490,9 +396,7 @@
           };
         }
       }
-    } catch(e) {
-      console.log('Not in Eitaa environment');
-    }
+    } catch(e) {}
     return null;
   }
 
@@ -502,47 +406,30 @@
       showToast('در حال ارتباط با سرور...', 'info');
     }
     
-    var timeoutPromise = new Promise(function(_, reject) {
-      setTimeout(function() {
-        reject(new Error('Timeout'));
-      }, API_TIMEOUT);
-    });
+    var controller = new AbortController();
+    var timeoutId = setTimeout(function() { controller.abort(); }, API_TIMEOUT);
     
     try {
-      var fetchPromise = fetch(API_URL, {
+      var res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
+        signal: controller.signal
       });
-      
-      var res = await Promise.race([fetchPromise, timeoutPromise]);
-      
-      if (!res.ok) throw new Error('HTTP Error: ' + res.status);
+      clearTimeout(timeoutId);
       
       var text = await res.text();
-      
-      try {
-        var result = JSON.parse(text);
-        return result;
-      } catch(e) {
-        throw new Error('Invalid JSON response');
-      }
+      return JSON.parse(text);
     } catch(e) {
-      console.error('API Error:', e.message);
+      clearTimeout(timeoutId);
       
-      if (e.message === 'Timeout') {
-        showToast('⏱️ سرور پاسخ نداد. لطفاً دوباره تلاش کنید', 'error');
-        return { 
-          status: 'timeout', 
-          message: 'زمان درخواست به پایان رسید. لطفاً دوباره تلاش کنید.' 
-        };
+      if (e.name === 'AbortError') {
+        showToast('⏱️ سرور پاسخ نداد', 'error');
+        return { status: 'timeout', message: 'زمان درخواست تمام شد' };
       }
       
       showToast('❌ خطا در ارتباط با سرور', 'error');
-      return { 
-        status: 'error', 
-        message: 'خطا در ارتباط با سرور. اینترنت خود را بررسی کنید.' 
-      };
+      return { status: 'error', message: 'خطا در ارتباط' };
     }
   }
 
@@ -551,331 +438,289 @@
     return data.status === 'success' ? data.data : null;
   }
 
-          // ==================== Profile Display ====================
-    function showProfile(user) {
-      var container = document.getElementById('profileContainer');
-      var currentUser = JSON.parse(localStorage.getItem('qabas_user') || 'null');
-      var isOwner = currentUser && currentUser.username === user.username;
-      
-      var avatarHtml = user.avatar 
-        ? '<img src="' + user.avatar + '" alt="' + (user.name || '') + '" onerror="this.parentElement.innerHTML=\'<i class=\\'fa-solid fa-user\\'></i>\'">' 
-        : '<i class="fa-solid fa-user"></i>';
+  // ==================== Profile Display ====================
+  function showProfile(user) {
+    var container = document.getElementById('profileContainer');
+    var currentUser = JSON.parse(localStorage.getItem('qabas_user') || 'null');
+    var isOwner = currentUser && currentUser.username === user.username;
+    
+    var avatarHtml = user.avatar 
+      ? '<img src="' + user.avatar + '" alt="' + (user.name || '') + '" onerror="this.parentElement.innerHTML=\'<i class=\\'fa-solid fa-user\\'></i>\'">' 
+      : '<i class="fa-solid fa-user"></i>';
 
-      container.innerHTML = `
-        <div class="card" style="animation: fadeIn 0.5s ease;">
-          <div class="profile-avatar">${avatarHtml}</div>
-          <div class="profile-name">${user.name || user.username || 'بی‌نام'}</div>
-          <div class="profile-username">@${user.username}</div>
-          ${user.bio ? '<div class="profile-bio">' + user.bio + '</div>' : ''}
-          <div class="profile-meta">
-            <span><i class="fa-regular fa-calendar"></i> ${user.last_seen || 'مدتی پیش'}</span>
-            ${user.interests ? '<span><i class="fa-solid fa-tag"></i> ' + user.interests + '</span>' : ''}
-          </div>
-          <div class="profile-actions">
-            <button onclick="copyProfileLink('${user.username}')" class="btn-sm">
-              <i class="fa-solid fa-link"></i> کپی لینک
-            </button>
-            ${isOwner ? '<button onclick="confirmLogout()" class="btn-sm danger"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>' : ''}
-          </div>
+    container.innerHTML = `
+      <div class="card">
+        <div class="profile-avatar">${avatarHtml}</div>
+        <div class="profile-name">${user.name || user.username || 'بی‌نام'}</div>
+        <div class="profile-username">@${user.username}</div>
+        ${user.bio ? '<div class="profile-bio">' + user.bio + '</div>' : ''}
+        <div class="profile-meta">
+          <span><i class="fa-regular fa-calendar"></i> ${user.last_seen || 'نامشخص'}</span>
+          ${user.interests ? '<span><i class="fa-solid fa-tag"></i> ' + user.interests + '</span>' : ''}
+          ${user.birth_date ? '<span><i class="fa-solid fa-cake-candles"></i> ' + user.birth_date + '</span>' : ''}
+        </div>
+        <div class="profile-actions">
+          <button onclick="copyProfileLink('${user.username}')" class="btn-sm">
+            <i class="fa-solid fa-link"></i> کپی لینک
+          </button>
+          ${isOwner ? '<button onclick="confirmLogout()" class="btn-sm danger"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>' : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  // ==================== Copy Profile Link ====================
+  window.copyProfileLink = function(username) {
+    var link = window.location.origin + window.location.pathname + '?user=' + username;
+    
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(link).then(function() {
+        showToast('✅ لینک کپی شد!', 'success');
+      }).catch(function() {
+        prompt('لینک پروفایل:', link);
+      });
+    } else {
+      prompt('لینک پروفایل:', link);
+    }
+  };
+
+  // ==================== Logout ====================
+  window.confirmLogout = function() {
+    showModal(
+      'خروج از حساب',
+      'آیا مطمئن هستید که می‌خواهید خارج شوید؟',
+      'warning',
+      [
+        { text: 'انصراف', action: 'closeModal()' },
+        { text: 'خروج', action: 'logout()', type: 'danger' }
+      ]
+    );
+  };
+
+  window.logout = function() {
+    localStorage.removeItem('qabas_user');
+    window.location.href = window.location.pathname;
+  };
+
+  // ==================== View Other User ====================
+  async function showOtherProfile(username) {
+    showLoading('در حال دریافت پروفایل...');
+    
+    var user = await checkUserExists(username);
+    
+    if (user) {
+      showProfile(user);
+      showToast('پروفایل @' + username + ' بارگذاری شد', 'success');
+    } else {
+      document.getElementById('profileContainer').innerHTML = `
+        <div class="card" style="text-align:center;padding:40px;">
+          <i class="fa-solid fa-user-slash" style="font-size:48px;color:var(--text-muted);"></i>
+          <p style="color:var(--text-muted);margin:12px 0;">⛔ کاربر @${username} پیدا نشد</p>
+          <a href="${window.location.pathname}" class="btn-sm" style="margin-top:16px;">
+            <i class="fa-solid fa-arrow-right"></i> بازگشت
+          </a>
         </div>
       `;
+      showToast('کاربر یافت نشد', 'error');
     }
+  }
 
-    // ==================== Copy Profile Link ====================
-    window.copyProfileLink = function(username) {
-      var link = window.location.origin + window.location.pathname + '?user=' + username;
-      
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(link).then(function() {
-          showToast('✅ لینک پروفایل با موفقیت کپی شد!', 'success');
-        }).catch(function() {
-          showToast('❌ خطا در کپی لینک', 'error');
-        });
-      } else {
-        var input = document.createElement('textarea');
-        input.value = link;
-        document.body.appendChild(input);
-        input.select();
-        document.execCommand('copy');
-        document.body.removeChild(input);
-        showToast('✅ لینک پروفایل کپی شد!', 'success');
-      }
-    };
-
-    // ==================== Logout ====================
-    window.confirmLogout = function() {
-      showModal(
-        'خروج از حساب',
-        'آیا مطمئن هستید که می‌خواهید از حساب خود خارج شوید؟',
-        'warning',
-        [
-          { text: 'انصراف', action: 'closeModal()', type: 'default' },
-          { text: 'خروج', action: 'logout()', type: 'danger' }
-        ]
-      );
-    };
-
-    window.logout = function() {
-      localStorage.removeItem('qabas_user');
-      window.location.href = window.location.pathname;
-    };
-
-    // ==================== View Other User ====================
-    async function showOtherProfile(username) {
-      showLoading('در حال دریافت پروفایل...');
-      
-      var user = await checkUserExists(username);
-      
-      if (user) {
-        showProfile(user);
-        showToast('پروفایل @' + username + ' با موفقیت بارگذاری شد', 'success');
-      } else {
-        document.getElementById('profileContainer').innerHTML = `
-          <div class="card" style="text-align:center;padding:40px;animation: fadeIn 0.5s ease;">
-            <i class="fa-solid fa-user-slash" style="font-size:48px;color:var(--text-muted);"></i>
-            <p style="color:var(--text-muted);margin:12px 0;">⛔ کاربری با نام @${username} پیدا نشد</p>
-            <a href="${window.location.pathname}" class="btn-sm" style="margin-top:16px;">
-              <i class="fa-solid fa-arrow-right"></i> بازگشت
-            </a>
+  // ==================== Quick Register (Eitaa) ====================
+  function showQuickRegister(eitaaUser) {
+    var container = document.getElementById('profileContainer');
+    container.innerHTML = `
+      <div class="card">
+        <h3><i class="fa-solid fa-user-plus"></i> تکمیل پروفایل</h3>
+        <p style="text-align:center;color:var(--text-muted);font-size:13px;margin-bottom:16px;">
+          سلام <strong style="color:var(--gold);">${eitaaUser.first_name || 'کاربر عزیز'}</strong>! 👋
+        </p>
+        <form id="quickRegisterForm">
+          <div class="form-group">
+            <label>👤 نام و نام خانوادگی *</label>
+            <input type="text" id="qrName" value="${eitaaUser.first_name + ' ' + (eitaaUser.last_name || '')}" required placeholder="نام کامل خود را وارد کنید">
           </div>
-        `;
-        showToast('کاربر @' + username + ' یافت نشد', 'error');
-      }
-    }
-
-    // ==================== Quick Register (Eitaa) ====================
-    function showQuickRegister(eitaaUser) {
-      var container = document.getElementById('profileContainer');
-      container.innerHTML = `
-        <div class="card" style="animation: fadeIn 0.5s ease;">
-          <h3><i class="fa-solid fa-user-plus"></i> تکمیل پروفایل</h3>
-          <p style="text-align:center;color:var(--text-muted);font-size:13px;margin-bottom:16px;">
-            سلام <strong style="color:var(--gold);">${eitaaUser.first_name || 'کاربر عزیز'}</strong>! 👋<br>
-            <small>فقط یک قدم تا ثبت‌نام باقی مونده</small>
-          </p>
-          <form id="quickRegisterForm">
-            <div class="form-group">
-              <label>👤 نام و نام خانوادگی *</label>
-              <input type="text" id="qrName" value="${eitaaUser.first_name + ' ' + (eitaaUser.last_name || '')}" required placeholder="نام کامل خود را وارد کنید">
-            </div>
-            <div class="form-group">
-              <label>📝 بیوگرافی (اختیاری)</label>
-              <textarea id="qrBio" rows="2" placeholder="چند کلمه درباره خودت بنویس..."></textarea>
-            </div>
-            <div class="form-group">
-              <label>🔒 نام کاربری</label>
-              <input type="text" id="qrUsername" value="${eitaaUser.username}" readonly style="background:rgba(255,255,255,0.03);color:var(--text-muted);">
-              <small style="color:var(--text-muted);font-size:11px;">🔒 این نام کاربری از ایتا گرفته شده و قابل تغییر نیست</small>
-            </div>
-            <button type="submit" class="btn" id="qrSubmitBtn">
-              <i class="fa-solid fa-check"></i> ثبت‌نام و ورود به پروفایل
-            </button>
-          </form>
-          <div id="qrMsg" class="msg"></div>
-        </div>
-      `;
-
-      document.getElementById('quickRegisterForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        clearFieldErrors();
-        
-        var name = document.getElementById('qrName').value.trim();
-        var bio = document.getElementById('qrBio').value.trim();
-        var username = document.getElementById('qrUsername').value.trim();
-        var msg = document.getElementById('qrMsg');
-        var submitBtn = document.getElementById('qrSubmitBtn');
-        
-        if (!name) {
-          showFieldError('qrName', 'لطفاً نام خود را وارد کنید');
-          showToast('نام و نام خانوادگی الزامی است', 'warning');
-          return;
-        }
-        
-        if (name.length < 3) {
-          showFieldError('qrName', 'نام باید حداقل ۳ کاراکتر باشد');
-          showToast('نام خیلی کوتاه است', 'warning');
-          return;
-        }
-
-        setButtonLoading(submitBtn, 'در حال ثبت‌نام...');
-        msg.className = 'msg show info';
-        msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال ثبت اطلاعات...';
-
-        var data = await callAPI({
-          action: 'register',
-          username: username,
-          password: 'eitaa_' + eitaaUser.id,
-          name: name,
-          bio: bio,
-          avatar: eitaaUser.avatar || ''
-        });
-        
-        resetButton(submitBtn);
-        
-        if (data.status === 'success') {
-          localStorage.setItem('qabas_user', JSON.stringify(data.data));
-          
-          msg.className = 'msg show success';
-          msg.innerHTML = '✅ ثبت‌نام با موفقیت انجام شد!';
-          showToast('🎉 تبریک! ثبت‌نام با موفقیت انجام شد', 'success');
-          
-          showModal(
-            '🎉 خوش آمدید!',
-            'ثبت‌نام شما با موفقیت انجام شد. به خانواده قَبَس خوش آمدید!',
-            'success',
-            [{ text: 'مشاهده پروفایل', action: 'window.location.reload()', type: 'default' }]
-          );
-        } else if (data.status === 'timeout') {
-          msg.className = 'msg show error';
-          msg.innerHTML = '⏱️ سرور پاسخ نداد. لطفاً دوباره تلاش کنید';
-          showToast('سرور پاسخ نداد. لطفاً دوباره تلاش کنید', 'error');
-        } else {
-          msg.className = 'msg show error';
-          msg.innerHTML = '❌ ' + (data.message || 'خطا در ثبت‌نام');
-          showToast(data.message || 'خطا در ثبت‌نام', 'error');
-        }
-      });
-    }
-
-    // ==================== Login/Register Forms ====================
-    function showLoginRegister() {
-      var container = document.getElementById('profileContainer');
-      container.innerHTML = `
-        <div style="animation: fadeIn 0.5s ease;">
-          <div class="tabs">
-            <button id="tabLogin" class="tab-btn active">
-              <i class="fa-solid fa-right-to-bracket"></i> ورود
-            </button>
-            <button id="tabRegister" class="tab-btn">
-              <i class="fa-solid fa-user-plus"></i> ثبت‌نام
-            </button>
+          <div class="form-group">
+            <label>📝 بیوگرافی (اختیاری)</label>
+            <textarea id="qrBio" rows="2" placeholder="چند کلمه درباره خودت بنویس..."></textarea>
           </div>
-          <div id="loginForm" class="card">
-            <h3><i class="fa-solid fa-key"></i> ورود به حساب</h3>
-            <form id="loginFormElement">
-              <div class="form-group">
-                <label>👤 نام کاربری</label>
-                <input type="text" id="loginUsername" required placeholder="نام کاربری خود را وارد کنید">
-              </div>
-              <div class="form-group">
-                <label>🔑 رمز عبور</label>
-                <input type="password" id="loginPassword" required placeholder="رمز عبور را وارد کنید">
-              </div>
-              <div id="loginMsg" class="msg"></div>
-              <button type="submit" class="btn" id="loginSubmitBtn">
-                <i class="fa-solid fa-right-to-bracket"></i> ورود به حساب
-              </button>
-            </form>
+          <div class="form-group">
+            <label>🔒 نام کاربری</label>
+            <input type="text" id="qrUsername" value="${eitaaUser.username}" readonly style="background:rgba(255,255,255,0.03);color:var(--text-muted);">
+            <small style="color:var(--text-muted);font-size:11px;">🔒 قابل تغییر نیست</small>
           </div>
-          <div id="registerForm" class="card" style="display:none;">
-            <h3><i class="fa-solid fa-user-plus"></i> ایجاد حساب جدید</h3>
-            <form id="registerFormElement">
-              <div class="form-group">
-                <label>👤 نام و نام خانوادگی *</label>
-                <input type="text" id="regName" required placeholder="نام کامل خود را وارد کنید">
-              </div>
-              <div class="form-group">
-                <label>📧 نام کاربری *</label>
-                <input type="text" id="regUsername" required placeholder="یک نام کاربری انتخاب کنید">
-              </div>
-              <div class="form-group">
-                <label>🔑 رمز عبور *</label>
-                <input type="password" id="regPassword" required minlength="4" placeholder="حداقل ۴ کاراکتر">
-              </div>
-              <div class="form-group">
-                <label>📝 بیوگرافی (اختیاری)</label>
-                <textarea id="regBio" rows="2" placeholder="چند کلمه درباره خودت بنویس..."></textarea>
-              </div>
-              <div id="regMsg" class="msg"></div>
-              <button type="submit" class="btn" id="regSubmitBtn">
-                <i class="fa-solid fa-user-plus"></i> ایجاد حساب
-              </button>
-            </form>
-          </div>
-        </div>
-      `;
+          <button type="submit" class="btn" id="qrSubmitBtn">
+            <i class="fa-solid fa-check"></i> ثبت‌نام و ورود
+          </button>
+        </form>
+        <div id="qrMsg" class="msg"></div>
+      </div>
+    `;
 
-      document.getElementById('tabLogin').addEventListener('click', function() {
-        switchAuthTab('login');
-      });
-      
-      document.getElementById('tabRegister').addEventListener('click', function() {
-        switchAuthTab('register');
-      });
-
-      document.getElementById('loginFormElement').addEventListener('submit', handleLogin);
-      document.getElementById('registerFormElement').addEventListener('submit', handleRegister);
-    }
-
-    function switchAuthTab(tab) {
-      var loginBtn = document.getElementById('tabLogin');
-      var registerBtn = document.getElementById('tabRegister');
-      var loginForm = document.getElementById('loginForm');
-      var registerForm = document.getElementById('registerForm');
-      
-      if (tab === 'login') {
-        loginBtn.classList.add('active');
-        registerBtn.classList.remove('active');
-        loginForm.style.display = 'block';
-        registerForm.style.display = 'none';
-      } else {
-        registerBtn.classList.add('active');
-        loginBtn.classList.remove('active');
-        loginForm.style.display = 'none';
-        registerForm.style.display = 'block';
-      }
-    }
-
-    // ==================== Login Handler ====================
-    async function handleLogin(e) {
+    document.getElementById('quickRegisterForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       clearFieldErrors();
       
-      var u = document.getElementById('loginUsername').value.trim();
-      var p = document.getElementById('loginPassword').value;
-      var msg = document.getElementById('loginMsg');
-      var submitBtn = document.getElementById('loginSubmitBtn');
+      var name = document.getElementById('qrName').value.trim();
+      var bio = document.getElementById('qrBio').value.trim();
+      var username = document.getElementById('qrUsername').value.trim();
+      var msg = document.getElementById('qrMsg');
+      var submitBtn = document.getElementById('qrSubmitBtn');
       
-      if (!u) {
-        showFieldError('loginUsername', 'نام کاربری الزامی است');
-        showToast('لطفاً نام کاربری را وارد کنید', 'warning');
+      if (!name) {
+        showFieldError('qrName', 'نام الزامی است');
         return;
       }
-      
-      if (!p) {
-        showFieldError('loginPassword', 'رمز عبور الزامی است');
-        showToast('لطفاً رمز عبور را وارد کنید', 'warning');
+      if (name.length < 3) {
+        showFieldError('qrName', 'نام باید حداقل ۳ کاراکتر باشد');
         return;
       }
-      
-      setButtonLoading(submitBtn, 'در حال ورود...');
+
+      setButtonLoading(submitBtn, 'در حال ثبت‌نام...');
       msg.className = 'msg show info';
-      msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال بررسی اطلاعات...';
-      
-      var data = await callAPI({ action: 'login', username: u, password: p });
+      msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال ثبت اطلاعات...';
+
+      var data = await callAPI({
+        action: 'register',
+        username: username,
+        password: 'eitaa_' + eitaaUser.id,
+        name: name,
+        bio: bio,
+        avatar: eitaaUser.avatar || ''
+      });
       
       resetButton(submitBtn);
       
       if (data.status === 'success') {
         localStorage.setItem('qabas_user', JSON.stringify(data.data));
-        
         msg.className = 'msg show success';
-        msg.innerHTML = '✅ ورود موفق! در حال انتقال...';
-        showToast('✅ خوش آمدید!', 'success');
-        
-        setTimeout(function() {
-          window.location.reload();
-        }, 1000);
-      } else if (data.status === 'timeout') {
-        msg.className = 'msg show error';
-        msg.innerHTML = '⏱️ سرور پاسخ نداد. لطفاً دوباره تلاش کنید';
-        showToast('سرور پاسخ نداد', 'error');
+        msg.innerHTML = '✅ ثبت‌نام موفق!';
+        showToast('🎉 خوش آمدید!', 'success');
+        showModal('🎉 خوش آمدید!', 'ثبت‌نام با موفقیت انجام شد', 'success', [
+          { text: 'مشاهده پروفایل', action: 'window.location.reload()' }
+        ]);
       } else {
         msg.className = 'msg show error';
-        msg.innerHTML = '❌ ' + (data.message || 'نام کاربری یا رمز عبور اشتباه است');
-        showToast(data.message || 'ورود ناموفق', 'error');
+        msg.innerHTML = '❌ ' + (data.message || 'خطا');
+        showToast(data.message || 'خطا در ثبت‌نام', 'error');
       }
+    });
+  }
+
+  // ==================== Login/Register Forms ====================
+  function showLoginRegister() {
+    var container = document.getElementById('profileContainer');
+    container.innerHTML = `
+      <div>
+        <div class="tabs">
+          <button id="tabLogin" class="tab-btn active"><i class="fa-solid fa-right-to-bracket"></i> ورود</button>
+          <button id="tabRegister" class="tab-btn"><i class="fa-solid fa-user-plus"></i> ثبت‌نام</button>
+        </div>
+        <div id="loginForm" class="card">
+          <h3><i class="fa-solid fa-key"></i> ورود به حساب</h3>
+          <form id="loginFormElement">
+            <div class="form-group">
+              <label>👤 نام کاربری</label>
+              <input type="text" id="loginUsername" required placeholder="نام کاربری">
+            </div>
+            <div class="form-group">
+              <label>🔑 رمز عبور</label>
+              <input type="password" id="loginPassword" required placeholder="رمز عبور">
+            </div>
+            <div id="loginMsg" class="msg"></div>
+            <button type="submit" class="btn" id="loginSubmitBtn">
+              <i class="fa-solid fa-right-to-bracket"></i> ورود
+            </button>
+          </form>
+        </div>
+        <div id="registerForm" class="card" style="display:none;">
+          <h3><i class="fa-solid fa-user-plus"></i> ایجاد حساب</h3>
+          <form id="registerFormElement">
+            <div class="form-group">
+              <label>👤 نام و نام خانوادگی *</label>
+              <input type="text" id="regName" required placeholder="نام کامل">
+            </div>
+            <div class="form-group">
+              <label>📧 نام کاربری *</label>
+              <input type="text" id="regUsername" required placeholder="نام کاربری">
+            </div>
+            <div class="form-group">
+              <label>🔑 رمز عبور *</label>
+              <input type="password" id="regPassword" required minlength="3" placeholder="حداقل ۳ کاراکتر">
+            </div>
+            <div class="form-group">
+              <label>📝 بیوگرافی (اختیاری)</label>
+              <textarea id="regBio" rows="2" placeholder="درباره خودت..."></textarea>
+            </div>
+            <div id="regMsg" class="msg"></div>
+            <button type="submit" class="btn" id="regSubmitBtn">
+              <i class="fa-solid fa-user-plus"></i> ایجاد حساب
+            </button>
+          </form>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('tabLogin').addEventListener('click', function() {
+      switchAuthTab('login');
+    });
+    document.getElementById('tabRegister').addEventListener('click', function() {
+      switchAuthTab('register');
+    });
+    document.getElementById('loginFormElement').addEventListener('submit', handleLogin);
+    document.getElementById('registerFormElement').addEventListener('submit', handleRegister);
+  }
+
+  function switchAuthTab(tab) {
+    var loginBtn = document.getElementById('tabLogin');
+    var registerBtn = document.getElementById('tabRegister');
+    var loginForm = document.getElementById('loginForm');
+    var registerForm = document.getElementById('registerForm');
+    
+    if (tab === 'login') {
+      loginBtn.classList.add('active');
+      registerBtn.classList.remove('active');
+      loginForm.style.display = 'block';
+      registerForm.style.display = 'none';
+    } else {
+      registerBtn.classList.add('active');
+      loginBtn.classList.remove('active');
+      loginForm.style.display = 'none';
+      registerForm.style.display = 'block';
     }
+  }
+
+  // ==================== Login Handler ====================
+  async function handleLogin(e) {
+    e.preventDefault();
+    clearFieldErrors();
+    
+    var u = document.getElementById('loginUsername').value.trim();
+    var p = document.getElementById('loginPassword').value;
+    var msg = document.getElementById('loginMsg');
+    var submitBtn = document.getElementById('loginSubmitBtn');
+    
+    if (!u) { showFieldError('loginUsername', 'نام کاربری الزامی است'); return; }
+    if (!p) { showFieldError('loginPassword', 'رمز عبور الزامی است'); return; }
+    
+    setButtonLoading(submitBtn, 'در حال ورود...');
+    msg.className = 'msg show info';
+    msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> بررسی...';
+    
+    var data = await callAPI({ action: 'login', username: u, password: p });
+    resetButton(submitBtn);
+    
+    if (data.status === 'success') {
+      localStorage.setItem('qabas_user', JSON.stringify(data.data));
+      msg.className = 'msg show success';
+      msg.innerHTML = '✅ ورود موفق!';
+      showToast('✅ خوش آمدید!', 'success');
+      setTimeout(function() { window.location.reload(); }, 1000);
+    } else {
+      msg.className = 'msg show error';
+      msg.innerHTML = '❌ ' + (data.message || 'خطا');
+      showToast(data.message || 'ورود ناموفق', 'error');
+    }
+  }
 
     // ==================== Register Handler ====================
     async function handleRegister(e) {
@@ -890,68 +735,32 @@
       var submitBtn = document.getElementById('regSubmitBtn');
       
       var hasError = false;
+      if (!n) { showFieldError('regName', 'نام الزامی است'); hasError = true; }
+      else if (n.length < 3) { showFieldError('regName', 'حداقل ۳ کاراکتر'); hasError = true; }
+      if (!u) { showFieldError('regUsername', 'نام کاربری الزامی است'); hasError = true; }
+      else if (u.length < 3) { showFieldError('regUsername', 'حداقل ۳ کاراکتر'); hasError = true; }
+      if (!p) { showFieldError('regPassword', 'رمز عبور الزامی است'); hasError = true; }
+      else if (p.length < 3) { showFieldError('regPassword', 'حداقل ۳ کاراکتر'); hasError = true; }
       
-      if (!n) {
-        showFieldError('regName', 'نام و نام خانوادگی الزامی است');
-        hasError = true;
-      } else if (n.length < 3) {
-        showFieldError('regName', 'نام باید حداقل ۳ کاراکتر باشد');
-        hasError = true;
-      }
-      
-      if (!u) {
-        showFieldError('regUsername', 'نام کاربری الزامی است');
-        hasError = true;
-      } else if (u.length < 3) {
-        showFieldError('regUsername', 'نام کاربری باید حداقل ۳ کاراکتر باشد');
-        hasError = true;
-      }
-      
-      if (!p) {
-        showFieldError('regPassword', 'رمز عبور الزامی است');
-        hasError = true;
-      } else if (p.length < 4) {
-        showFieldError('regPassword', 'رمز عبور باید حداقل ۴ کاراکتر باشد');
-        hasError = true;
-      }
-      
-      if (hasError) {
-        showToast('لطفاً خطاهای فرم را برطرف کنید', 'warning');
-        return;
-      }
+      if (hasError) { showToast('لطفاً خطاها را برطرف کنید', 'warning'); return; }
       
       setButtonLoading(submitBtn, 'در حال ایجاد حساب...');
       msg.className = 'msg show info';
-      msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال ثبت‌نام...';
+      msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ثبت‌نام...';
       
-      var data = await callAPI({ 
-        action: 'register', 
-        username: u, 
-        password: p, 
-        name: n, 
-        bio: b 
-      });
-      
+      var data = await callAPI({ action: 'register', username: u, password: p, name: n, bio: b });
       resetButton(submitBtn);
       
       if (data.status === 'success') {
         msg.className = 'msg show success';
-        msg.innerHTML = '✅ ثبت‌نام موفق! می‌توانید وارد شوید';
-        showToast('🎉 ثبت‌نام با موفقیت انجام شد', 'success');
-        
-        showModal(
-          'ثبت‌نام موفق',
-          'حساب شما با موفقیت ایجاد شد. حالا می‌توانید وارد شوید.',
-          'success',
-          [{ text: 'رفتن به صفحه ورود', action: 'switchToLoginTab()', type: 'default' }]
-        );
-      } else if (data.status === 'timeout') {
-        msg.className = 'msg show error';
-        msg.innerHTML = '⏱️ سرور پاسخ نداد. لطفاً دوباره تلاش کنید';
-        showToast('سرور پاسخ نداد', 'error');
+        msg.innerHTML = '✅ ثبت‌نام موفق!';
+        showToast('🎉 ثبت‌نام موفق', 'success');
+        showModal('ثبت‌نام موفق', 'حساب شما ایجاد شد. حالا وارد شوید.', 'success', [
+          { text: 'رفتن به ورود', action: 'switchToLoginTab()' }
+        ]);
       } else {
         msg.className = 'msg show error';
-        msg.innerHTML = '❌ ' + (data.message || 'خطا در ثبت‌نام');
+        msg.innerHTML = '❌ ' + (data.message || 'خطا');
         showToast(data.message || 'خطا در ثبت‌نام', 'error');
       }
     }
@@ -967,13 +776,13 @@
       var urlParams = new URLSearchParams(window.location.search);
       var viewedUser = urlParams.get('user');
 
-      // Mode 1: View other user's profile
+      // Mode 1: View other user
       if (viewedUser) {
         await showOtherProfile(viewedUser);
         return;
       }
 
-      // Mode 2: User is in Eitaa
+      // Mode 2: Eitaa user
       if (eitaaUser) {
         showLoading('در حال بررسی حساب...');
         var existingUser = await checkUserExists(eitaaUser.username);
@@ -985,10 +794,10 @@
         return;
       }
 
-      // Mode 3: Check local login
+      // Mode 3: Local user
       var localUser = JSON.parse(localStorage.getItem('qabas_user') || 'null');
       if (localUser && localUser.username) {
-        showLoading('در حال بازیابی اطلاعات...');
+        showLoading('در حال بازیابی...');
         var freshUser = await checkUserExists(localUser.username);
         if (freshUser) {
           showProfile(freshUser);
@@ -997,26 +806,23 @@
         localStorage.removeItem('qabas_user');
       }
 
-      // Mode 4: Show login/register
+      // Mode 4: Login/Register
       showLoginRegister();
     }
 
-    // ==================== Start App with Timeout ====================
+    // ==================== Start App ====================
     document.addEventListener('DOMContentLoaded', function() {
       var loadingTimeout = setTimeout(function() {
-        var container = document.getElementById('profileContainer');
-        if (container.querySelector('.loading-spinner')) {
-          showErrorWithRetry('⏱️ بارگذاری صفحه طولانی شد. لطفاً دوباره تلاش کنید.');
-          showToast('خطا در بارگذاری صفحه', 'error');
-        }
-      }, 10000);
+        showErrorWithRetry('⏱️ بارگذاری طولانی شد');
+        showToast('خطا در بارگذاری', 'error');
+      }, 12000);
       
       handleProfile().then(function() {
         clearTimeout(loadingTimeout);
       }).catch(function(error) {
         console.error('Fatal Error:', error);
         clearTimeout(loadingTimeout);
-        showErrorWithRetry('❌ خطای غیرمنتظره. لطفاً صفحه را دوباره بارگذاری کنید.');
+        showErrorWithRetry('❌ خطای غیرمنتظره');
         showToast('خطای سیستمی', 'error');
       });
     });
