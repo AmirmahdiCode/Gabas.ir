@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>پروفایل | قَبَس</title>
+  <title>حساب کاربری | قَبَس</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -195,7 +195,6 @@
       try {
         var res = await fetch(API, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         });
         var text = await res.text();
@@ -220,6 +219,7 @@
           <div class="profile-meta">
             ${user.last_seen ? '<span><i class="fa-regular fa-clock"></i> ' + user.last_seen + '</span>' : ''}
             ${user.birth_date ? '<span><i class="fa-solid fa-cake-candles"></i> ' + user.birth_date + '</span>' : ''}
+            ${user.interests ? '<span><i class="fa-solid fa-tag"></i> ' + user.interests + '</span>' : ''}
           </div>
           <div class="profile-actions">
             <button class="btn-sm" onclick="copyLink('${user.username}')"><i class="fa-solid fa-link"></i> کپی لینک</button>
@@ -278,6 +278,8 @@
       
       var res = await api('login', { username: u, password: p });
       
+      alert('پاسخ سرور:\n' + JSON.stringify(res, null, 2));
+      
       btn.disabled = false;
       btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> ورود';
       
@@ -324,6 +326,8 @@
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال ثبت‌نام...';
       
       var res = await api('register', { username: u, password: p, name: n, bio: b });
+      
+      alert('پاسخ سرور:\n' + JSON.stringify(res, null, 2));
       
       btn.disabled = false;
       btn.innerHTML = '<i class="fa-solid fa-check"></i> ثبت‌نام';
