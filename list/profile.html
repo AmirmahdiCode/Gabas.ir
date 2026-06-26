@@ -2,829 +2,409 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>پروفایل | قَبَس</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>صفحه پروفایل | قَبَس</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;800&display=swap');
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --bg-header: #0a1a12; --bg-card: rgba(22, 38, 30, 0.7);
-      --glass-border: rgba(201, 168, 76, 0.15); --gold: #c9a84c;
-      --gold-light: #e2c87a; --text: #e8e6e0; --text-muted: #a4a098;
-      --red: #e74c3c; --green: #4caf84; --warning: #f39c12;
-      --info: #3498db;
-    }
     body {
-      font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+      font-family: Tahoma, sans-serif;
       background: radial-gradient(ellipse at top, #1d3528 0%, #0a1410 60%);
-      color: var(--text); min-height: 100vh;
-      direction: rtl; line-height: 1.7;
-      display: flex; flex-direction: column;
+      color: #e8e6e0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     .header {
-      background: var(--bg-header); border-bottom: 1px solid rgba(201,168,76,0.2);
-      padding: 14px 20px; display: flex; align-items: center;
-      justify-content: space-between; position: sticky; top: 0; z-index: 100;
+      background: #0a1a12;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .header-back { color: var(--gold); font-size: 14px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 4px; }
-    .header-title {
-      font-family: 'Vazirmatn', sans-serif; font-size: 1.4rem; font-weight: 800;
-      background: linear-gradient(180deg, #f5dea3 0%, #c9a84c 50%, #8a6914 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .container { max-width: 500px; margin: 0 auto; padding: 20px 16px; flex: 1; width: 100%; }
-    
+    .header a { color: #c9a84c; text-decoration: none; font-size: 14px; }
+    .header-title { font-size: 1.4rem; font-weight: bold; color: #c9a84c; }
+    .container { max-width: 500px; margin: 0 auto; padding: 20px; flex: 1; width: 100%; }
     .card {
-      background: var(--bg-card); backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border); border-radius: 16px;
-      padding: 25px; margin-bottom: 15px; animation: fadeIn 0.5s ease;
+      background: rgba(22, 38, 30, 0.7);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 15px;
     }
-    .card h3 { color: var(--gold); margin-bottom: 15px; text-align: center; font-size: 1.1rem; }
-
+    .card h3 { color: #c9a84c; margin-bottom: 15px; text-align: center; }
     .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
+    .form-group label { display: block; font-size: 12px; color: #a4a098; margin-bottom: 4px; }
     .form-group input, .form-group textarea {
-      width: 100%; padding: 10px 14px; border: 1px solid var(--glass-border);
-      border-radius: 10px; font-size: 13px; background: rgba(255,255,255,0.04);
-      color: var(--text); outline: none; font-family: inherit;
-      transition: border-color 0.3s, box-shadow 0.3s;
+      width: 100%;
+      padding: 10px;
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      color: #e8e6e0;
+      font-family: Tahoma;
     }
-    .form-group textarea { resize: vertical; min-height: 60px; }
-    .form-group input:focus, .form-group textarea:focus { 
-      border-color: var(--gold); 
-      box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
-    }
-    .form-group input.error, .form-group textarea.error {
-      border-color: var(--red);
-      box-shadow: 0 0 0 3px rgba(231,76,60,0.1);
-    }
-    .field-error {
-      color: var(--red); font-size: 11px; margin-top: 4px; display: none;
-    }
-    .field-error.show { display: block; }
-
+    .form-group textarea { min-height: 60px; }
     .btn {
-      width: 100%; padding: 11px; border: none; border-radius: 10px;
-      font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit;
-      background: var(--gold); color: #0a1410; transition: all 0.3s;
-      position: relative; overflow: hidden;
+      width: 100%;
+      padding: 11px;
+      border: none;
+      border-radius: 10px;
+      background: #c9a84c;
+      color: #0a1410;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 5px;
+      font-size: 14px;
     }
-    .btn:hover { box-shadow: 0 6px 20px rgba(201,168,76,0.3); transform: translateY(-1px); }
-    .btn:active { transform: translateY(0); }
-    .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-    .btn.loading { pointer-events: none; color: transparent; }
-    .btn.loading::after {
-      content: '';
-      position: absolute; top: 50%; left: 50%;
-      width: 20px; height: 20px;
-      margin: -10px 0 0 -10px;
-      border: 2px solid rgba(0,0,0,0.2);
-      border-top-color: #0a1410;
-      border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
+    .btn:disabled { opacity: 0.5; }
     .btn-sm {
-      padding: 8px 14px; font-size: 12px; border-radius: 8px;
-      border: 1px solid var(--gold); background: transparent; color: var(--gold);
-      cursor: pointer; font-family: inherit; font-weight: 600; transition: all 0.3s;
-      display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid #c9a84c;
+      background: transparent;
+      color: #c9a84c;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 12px;
     }
-    .btn-sm:hover { background: rgba(201,168,76,0.1); }
-    .btn-sm.danger { border-color: var(--red); color: var(--red); }
-    .btn-sm.danger:hover { background: rgba(231,76,60,0.1); }
-
-    .msg { 
-      text-align: center; margin-top: 8px; font-size: 12px; 
-      display: none; padding: 10px 14px; border-radius: 10px;
-      animation: fadeIn 0.3s ease;
+    .msg {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 13px;
+      padding: 10px;
+      border-radius: 10px;
+      display: none;
     }
     .msg.show { display: block; }
-    .msg.success { background: rgba(76,175,132,0.15); border: 1px solid var(--green); color: var(--green); }
-    .msg.error { background: rgba(255,107,107,0.15); border: 1px solid var(--red); color: var(--red); }
-    .msg.warning { background: rgba(243,156,18,0.15); border: 1px solid var(--warning); color: var(--warning); }
-    .msg.info { background: rgba(52,152,219,0.15); border: 1px solid var(--info); color: var(--info); }
-
-    .toast-container {
-      position: fixed; top: 20px; left: 50%;
-      transform: translateX(-50%); z-index: 9999;
-      display: flex; flex-direction: column; gap: 8px;
-      pointer-events: none;
-    }
-    .toast {
-      padding: 12px 20px; border-radius: 12px;
-      font-size: 13px; font-weight: 600; font-family: 'Vazirmatn', sans-serif;
-      display: flex; align-items: center; gap: 8px;
-      min-width: 250px; max-width: 400px;
-      animation: slideDown 0.3s ease, fadeOut 0.3s ease 2.7s;
-      pointer-events: auto; backdrop-filter: blur(12px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    }
-    .toast.success { background: rgba(76,175,132,0.95); border: 1px solid var(--green); color: white; }
-    .toast.error { background: rgba(231,76,60,0.95); border: 1px solid var(--red); color: white; }
-    .toast.warning { background: rgba(243,156,18,0.95); border: 1px solid var(--warning); color: white; }
-    .toast.info { background: rgba(52,152,219,0.95); border: 1px solid var(--info); color: white; }
-    @keyframes slideDown {
-      from { transform: translateY(-100px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
+    .msg.success { background: rgba(76,175,132,0.15); color: #4caf84; }
+    .msg.error { background: rgba(231,76,60,0.15); color: #e74c3c; }
+    .msg.info { background: rgba(52,152,219,0.15); color: #3498db; }
     .tabs { display: flex; gap: 6px; margin-bottom: 16px; }
     .tab-btn {
-      flex: 1; padding: 10px; text-align: center; font-size: 13px; font-weight: 600;
-      cursor: pointer; border: 1px solid var(--glass-border); border-radius: 10px;
-      background: var(--bg-card); color: var(--text-muted); font-family: inherit; 
-      transition: all 0.3s;
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      border-radius: 10px;
+      background: rgba(22, 38, 30, 0.7);
+      border: 1px solid rgba(201,168,76,0.15);
+      color: #a4a098;
+      cursor: pointer;
+      font-size: 13px;
     }
-    .tab-btn.active { background: var(--gold); color: #0a1410; border-color: var(--gold); }
-    .tab-btn:hover:not(.active) { background: rgba(201,168,76,0.1); }
-
+    .tab-btn.active { background: #c9a84c; color: #0a1410; }
     .profile-avatar {
-      width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 12px;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(201,168,76,0.12); border: 3px solid var(--gold);
-      font-size: 40px; color: var(--gold); overflow: hidden;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(201,168,76,0.12);
+      border: 3px solid #c9a84c;
+      font-size: 32px;
+      color: #c9a84c;
+      overflow: hidden;
     }
     .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .profile-name { font-size: 20px; font-weight: 800; color: var(--gold-light); text-align: center; }
-    .profile-username { font-size: 13px; color: var(--text-muted); text-align: center; margin-bottom: 6px; }
-    .profile-bio { font-size: 13px; color: var(--text); padding: 12px; background: rgba(255,255,255,0.03); border-radius: 8px; margin: 8px 0; text-align: center; line-height: 1.8; }
-    .profile-meta { display: flex; justify-content: center; gap: 20px; margin-top: 12px; flex-wrap: wrap; font-size: 12px; color: var(--text-muted); }
-    .profile-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; justify-content: center; }
-
-    .loading-spinner {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 40px; gap: 16px;
-    }
+    .profile-name { font-size: 20px; font-weight: bold; color: #e2c87a; text-align: center; }
+    .profile-username { font-size: 13px; color: #a4a098; text-align: center; margin-bottom: 8px; }
+    .profile-bio { font-size: 13px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; margin: 8px 0; text-align: center; line-height: 1.8; }
+    .profile-meta { display: flex; justify-content: center; gap: 20px; margin-top: 12px; font-size: 12px; color: #a4a098; }
+    .profile-actions { display: flex; gap: 8px; margin-top: 14px; justify-content: center; }
+    .loading { text-align: center; padding: 40px; }
     .spinner {
       width: 48px; height: 48px;
       border: 3px solid rgba(201,168,76,0.2);
-      border-top-color: var(--gold);
+      border-top-color: #c9a84c;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
     }
-    .loading-text { color: var(--text-muted); font-size: 14px; font-weight: 500; }
-
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 999; animation: fadeIn 0.3s ease;
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-box {
+      text-align: center;
+      padding: 30px;
     }
-    .modal {
-      background: var(--bg-card); backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border); border-radius: 16px;
-      padding: 30px; max-width: 350px; width: 90%; text-align: center;
+    .error-box .icon {
+      font-size: 48px;
+      margin-bottom: 12px;
     }
-    .modal-icon { font-size: 48px; margin-bottom: 16px; }
-    .modal-icon.success { color: var(--green); }
-    .modal-icon.error { color: var(--red); }
-    .modal-icon.warning { color: var(--warning); }
-    .modal h3 { color: var(--text); margin-bottom: 12px; font-size: 18px; }
-    .modal p { color: var(--text-muted); font-size: 13px; margin-bottom: 20px; line-height: 1.8; }
-    .modal-actions { display: flex; gap: 8px; justify-content: center; }
-
     .footer {
-      background: var(--bg-header); border-top: 1px solid rgba(201,168,76,0.2);
-      text-align: center; padding: 12px; margin-top: auto;
-    }
-    .footer-text { font-size: 10px; color: var(--text-muted); }
-
-    @media (max-width: 400px) { 
-      .container { padding: 12px 8px; } 
-      .toast { min-width: 200px; max-width: 300px; }
+      background: #0a1a12;
+      text-align: center;
+      padding: 12px;
+      font-size: 10px;
+      color: #a4a098;
+      margin-top: auto;
     }
   </style>
 </head>
 <body>
-
   <header class="header">
-    <a href="../index.html" class="header-back"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
+    <a href="../index.html">◀ بازگشت</a>
     <div class="header-title">پروفایل</div>
-    <div style="width:60px;"></div>
+    <div></div>
   </header>
 
-  <div class="container">
-    <div id="profileContainer">
-      <div class="loading-spinner">
-        <div class="spinner"></div>
-        <div class="loading-text">در حال بارگذاری...</div>
-      </div>
+  <div class="container" id="app">
+    <div class="loading">
+      <div class="spinner"></div>
+      <p style="color:#a4a098;">در حال بارگذاری...</p>
     </div>
   </div>
 
-  <div class="toast-container" id="toastContainer"></div>
-
   <footer class="footer">
-    <p class="footer-text"><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p>
+    <p>🔥 قَبَس — شعله‌ای از نور شهدا</p>
   </footer>
 
-<script>
-  // ==================== API Configuration ====================
-  var API_URL = 'https://script.google.com/macros/s/AKfycby3PO1ILwnjF54FK5BSepk6Gfdq6cXbL7kgFXAQtvIF6hHGuHZgovMvCRMyV2RpR-6cfg/exec';
-  var API_TIMEOUT = 8000;
+  <script>
+    var API = 'https://script.google.com/macros/s/AKfycby3PO1ILwnjF54FK5BSepk6Gfdq6cXbL7kgFXAQtvIF6hHGuHZgovMvCRMyV2RpR-6cfg/exec';
+    var app = document.getElementById('app');
 
-  // ==================== Toast System ====================
-  function showToast(message, type) {
-    type = type || 'info';
-    var icons = {
-      success: 'fa-circle-check',
-      error: 'fa-circle-xmark',
-      warning: 'fa-triangle-exclamation',
-      info: 'fa-circle-info'
-    };
-    
-    var container = document.getElementById('toastContainer');
-    if (!container) {
-      container = document.createElement('div');
-      container.className = 'toast-container';
-      container.id = 'toastContainer';
-      document.body.appendChild(container);
+    // ========== توابع کمکی ==========
+    function showLoading(msg) {
+      app.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <p style="color:#a4a098;">${msg || 'در حال بارگذاری...'}</p>
+        </div>`;
     }
-    
-    var toast = document.createElement('div');
-    toast.className = 'toast ' + type;
-    toast.innerHTML = '<i class="fa-solid ' + icons[type] + '"></i> ' + message;
-    container.appendChild(toast);
-    
-    setTimeout(function() {
-      if (toast.parentNode) toast.remove();
-    }, 4000);
-  }
 
-  // ==================== Modal System ====================
-  function showModal(title, message, icon, buttons) {
-    var overlay = document.createElement('div');
-    overlay.className = 'modal-overlay';
-    
-    var icons = {
-      success: '<i class="fa-solid fa-circle-check"></i>',
-      error: '<i class="fa-solid fa-circle-xmark"></i>',
-      warning: '<i class="fa-solid fa-triangle-exclamation"></i>',
-      info: '<i class="fa-solid fa-circle-info"></i>'
-    };
-    
-    var iconHtml = icons[icon] || icons.info;
-    
-    var buttonsHtml = '<button class="btn-sm" onclick="closeModal()">باشه</button>';
-    if (buttons && buttons.length) {
-      buttonsHtml = '<div class="modal-actions">';
-      buttons.forEach(function(btn) {
-        var btnClass = btn.type === 'danger' ? 'btn-sm danger' : 'btn-sm';
-        buttonsHtml += '<button class="' + btnClass + '" onclick="' + btn.action + '">' + btn.text + '</button>';
-      });
-      buttonsHtml += '</div>';
+    function showError(msg) {
+      app.innerHTML = `
+        <div class="card error-box">
+          <div class="icon">⚠️</div>
+          <p style="color:#e74c3c;margin-bottom:12px;">${msg}</p>
+          <button class="btn-sm" onclick="location.reload()">🔄 تلاش مجدد</button>
+          <button class="btn-sm" onclick="showLoginRegister()" style="margin-right:8px;">🔐 رفتن به ورود</button>
+        </div>`;
     }
-    
-    overlay.innerHTML = `
-      <div class="modal">
-        <div class="modal-icon ${icon}">${iconHtml}</div>
-        <h3>${title}</h3>
-        <p>${message}</p>
-        ${buttonsHtml}
-      </div>
-    `;
-    
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) closeModal();
-    });
-    
-    document.body.appendChild(overlay);
-  }
 
-  window.closeModal = function() {
-    var modal = document.querySelector('.modal-overlay');
-    if (modal) modal.remove();
-  };
-
-  // ==================== Form Validation ====================
-  function showFieldError(fieldId, message) {
-    var field = document.getElementById(fieldId);
-    if (!field) return;
-    
-    field.classList.add('error');
-    
-    var errorDiv = field.parentElement.querySelector('.field-error');
-    if (!errorDiv) {
-      errorDiv = document.createElement('div');
-      errorDiv.className = 'field-error';
-      field.parentElement.appendChild(errorDiv);
-    }
-    errorDiv.textContent = message;
-    errorDiv.classList.add('show');
-    
-    field.addEventListener('input', function() {
-      field.classList.remove('error');
-      errorDiv.classList.remove('show');
-    }, { once: true });
-  }
-
-  function clearFieldErrors() {
-    document.querySelectorAll('.field-error').forEach(function(el) {
-      el.classList.remove('show');
-    });
-    document.querySelectorAll('.error').forEach(function(el) {
-      el.classList.remove('error');
-    });
-  }
-
-  // ==================== Loading Helpers ====================
-  function showLoading(message) {
-    message = message || 'در حال بارگذاری...';
-    document.getElementById('profileContainer').innerHTML = `
-      <div class="loading-spinner">
-        <div class="spinner"></div>
-        <div class="loading-text">${message}</div>
-      </div>
-    `;
-  }
-
-  function showErrorWithRetry(message) {
-    document.getElementById('profileContainer').innerHTML = `
-      <div class="card" style="text-align:center;padding:40px;">
-        <i class="fa-solid fa-wifi" style="font-size:48px;color:var(--red);"></i>
-        <p style="color:var(--text-muted);margin:16px 0;">${message}</p>
-        <button onclick="window.location.reload()" class="btn-sm" style="margin-top:8px;">
-          <i class="fa-solid fa-rotate"></i> تلاش مجدد
-        </button>
-      </div>
-    `;
-  }
-
-  function setButtonLoading(button, text) {
-    button.classList.add('loading');
-    button.disabled = true;
-    if (text) {
-      button.dataset.originalText = button.innerHTML;
-      button.innerHTML = text;
-    }
-  }
-
-  function resetButton(button) {
-    button.classList.remove('loading');
-    button.disabled = false;
-    if (button.dataset.originalText) {
-      button.innerHTML = button.dataset.originalText;
-    }
-  }
-
-  // ==================== Eitaa Integration ====================
-  function getEitaaUser() {
-    try {
-      if (window.Eitaa && window.Eitaa.WebApp && window.Eitaa.WebApp.initDataUnsafe) {
-        var user = window.Eitaa.WebApp.initDataUnsafe.user;
-        if (user && user.id) {
-          return {
-            id: user.id,
-            username: 'et_' + user.id,
-            first_name: user.first_name || '',
-            last_name: user.last_name || '',
-            avatar: user.photo_url || ''
-          };
+    // ========== API Call ==========
+    async function api(action, data) {
+      data.action = action;
+      try {
+        var res = await fetch(API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        var text = await res.text();
+        try {
+          return JSON.parse(text);
+        } catch(e) {
+          throw new Error('پاسخ نامعتبر از سرور');
         }
+      } catch(e) {
+        return { status: 'error', message: 'خطا در ارتباط با سرور: ' + e.message };
       }
-    } catch(e) {}
-    return null;
-  }
-
-  // ==================== API Helper with Timeout ====================
-  async function callAPI(data, showLoadingToast) {
-    if (showLoadingToast !== false) {
-      showToast('در حال ارتباط با سرور...', 'info');
     }
-    
-    var controller = new AbortController();
-    var timeoutId = setTimeout(function() { controller.abort(); }, API_TIMEOUT);
-    
-    try {
-      var res = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
+
+    // ========== نمایش پروفایل ==========
+    function showProfile(user) {
+      var local = JSON.parse(localStorage.getItem('user') || 'null');
+      var isOwner = local && local.username === user.username;
       
-      var text = await res.text();
-      return JSON.parse(text);
-    } catch(e) {
-      clearTimeout(timeoutId);
-      
-      if (e.name === 'AbortError') {
-        showToast('⏱️ سرور پاسخ نداد', 'error');
-        return { status: 'timeout', message: 'زمان درخواست تمام شد' };
-      }
-      
-      showToast('❌ خطا در ارتباط با سرور', 'error');
-      return { status: 'error', message: 'خطا در ارتباط' };
-    }
-  }
-
-  async function checkUserExists(username) {
-    var data = await callAPI({ action: 'get_user', username: username }, false);
-    return data.status === 'success' ? data.data : null;
-  }
-
-  // ==================== Profile Display ====================
-  function showProfile(user) {
-    var container = document.getElementById('profileContainer');
-    var currentUser = JSON.parse(localStorage.getItem('qabas_user') || 'null');
-    var isOwner = currentUser && currentUser.username === user.username;
-    
-    var avatarHtml = user.avatar 
-      ? '<img src="' + user.avatar + '" alt="' + (user.name || '') + '" onerror="this.parentElement.innerHTML=\'<i class=\\'fa-solid fa-user\\'></i>\'">' 
-      : '<i class="fa-solid fa-user"></i>';
-
-    container.innerHTML = `
-      <div class="card">
-        <div class="profile-avatar">${avatarHtml}</div>
-        <div class="profile-name">${user.name || user.username || 'بی‌نام'}</div>
-        <div class="profile-username">@${user.username}</div>
-        ${user.bio ? '<div class="profile-bio">' + user.bio + '</div>' : ''}
-        <div class="profile-meta">
-          <span><i class="fa-regular fa-calendar"></i> ${user.last_seen || 'نامشخص'}</span>
-          ${user.interests ? '<span><i class="fa-solid fa-tag"></i> ' + user.interests + '</span>' : ''}
-          ${user.birth_date ? '<span><i class="fa-solid fa-cake-candles"></i> ' + user.birth_date + '</span>' : ''}
-        </div>
-        <div class="profile-actions">
-          <button onclick="copyProfileLink('${user.username}')" class="btn-sm">
-            <i class="fa-solid fa-link"></i> کپی لینک
-          </button>
-          ${isOwner ? '<button onclick="confirmLogout()" class="btn-sm danger"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>' : ''}
-        </div>
-      </div>
-    `;
-  }
-
-  // ==================== Copy Profile Link ====================
-  window.copyProfileLink = function(username) {
-    var link = window.location.origin + window.location.pathname + '?user=' + username;
-    
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(link).then(function() {
-        showToast('✅ لینک کپی شد!', 'success');
-      }).catch(function() {
-        prompt('لینک پروفایل:', link);
-      });
-    } else {
-      prompt('لینک پروفایل:', link);
-    }
-  };
-
-  // ==================== Logout ====================
-  window.confirmLogout = function() {
-    showModal(
-      'خروج از حساب',
-      'آیا مطمئن هستید که می‌خواهید خارج شوید؟',
-      'warning',
-      [
-        { text: 'انصراف', action: 'closeModal()' },
-        { text: 'خروج', action: 'logout()', type: 'danger' }
-      ]
-    );
-  };
-
-  window.logout = function() {
-    localStorage.removeItem('qabas_user');
-    window.location.href = window.location.pathname;
-  };
-
-  // ==================== View Other User ====================
-  async function showOtherProfile(username) {
-    showLoading('در حال دریافت پروفایل...');
-    
-    var user = await checkUserExists(username);
-    
-    if (user) {
-      showProfile(user);
-      showToast('پروفایل @' + username + ' بارگذاری شد', 'success');
-    } else {
-      document.getElementById('profileContainer').innerHTML = `
-        <div class="card" style="text-align:center;padding:40px;">
-          <i class="fa-solid fa-user-slash" style="font-size:48px;color:var(--text-muted);"></i>
-          <p style="color:var(--text-muted);margin:12px 0;">⛔ کاربر @${username} پیدا نشد</p>
-          <a href="${window.location.pathname}" class="btn-sm" style="margin-top:16px;">
-            <i class="fa-solid fa-arrow-right"></i> بازگشت
-          </a>
-        </div>
-      `;
-      showToast('کاربر یافت نشد', 'error');
-    }
-  }
-
-  // ==================== Quick Register (Eitaa) ====================
-  function showQuickRegister(eitaaUser) {
-    var container = document.getElementById('profileContainer');
-    container.innerHTML = `
-      <div class="card">
-        <h3><i class="fa-solid fa-user-plus"></i> تکمیل پروفایل</h3>
-        <p style="text-align:center;color:var(--text-muted);font-size:13px;margin-bottom:16px;">
-          سلام <strong style="color:var(--gold);">${eitaaUser.first_name || 'کاربر عزیز'}</strong>! 👋
-        </p>
-        <form id="quickRegisterForm">
-          <div class="form-group">
-            <label>👤 نام و نام خانوادگی *</label>
-            <input type="text" id="qrName" value="${eitaaUser.first_name + ' ' + (eitaaUser.last_name || '')}" required placeholder="نام کامل خود را وارد کنید">
+      app.innerHTML = `
+        <div class="card">
+          <div class="profile-avatar">
+            ${user.avatar ? '<img src="' + user.avatar + '" onerror="this.innerHTML=\'🙂\'">' : '🙂'}
           </div>
-          <div class="form-group">
-            <label>📝 بیوگرافی (اختیاری)</label>
-            <textarea id="qrBio" rows="2" placeholder="چند کلمه درباره خودت بنویس..."></textarea>
+          <div class="profile-name">${user.name || 'بی‌نام'}</div>
+          <div class="profile-username">@${user.username}</div>
+          ${user.bio ? '<div class="profile-bio">' + user.bio + '</div>' : ''}
+          <div class="profile-meta">
+            ${user.last_seen ? '<span>🕒 ' + user.last_seen + '</span>' : ''}
+            ${user.birth_date ? '<span>🎂 ' + user.birth_date + '</span>' : ''}
           </div>
-          <div class="form-group">
-            <label>🔒 نام کاربری</label>
-            <input type="text" id="qrUsername" value="${eitaaUser.username}" readonly style="background:rgba(255,255,255,0.03);color:var(--text-muted);">
-            <small style="color:var(--text-muted);font-size:11px;">🔒 قابل تغییر نیست</small>
+          <div class="profile-actions">
+            <button class="btn-sm" onclick="copyLink('${user.username}')">📋 کپی لینک</button>
+            ${isOwner ? '<button class="btn-sm" style="color:#e74c3c;border-color:#e74c3c;" onclick="logout()">🚪 خروج</button>' : ''}
           </div>
-          <button type="submit" class="btn" id="qrSubmitBtn">
-            <i class="fa-solid fa-check"></i> ثبت‌نام و ورود
-          </button>
-        </form>
-        <div id="qrMsg" class="msg"></div>
-      </div>
-    `;
+        </div>`;
+    }
 
-    document.getElementById('quickRegisterForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      clearFieldErrors();
-      
-      var name = document.getElementById('qrName').value.trim();
-      var bio = document.getElementById('qrBio').value.trim();
-      var username = document.getElementById('qrUsername').value.trim();
-      var msg = document.getElementById('qrMsg');
-      var submitBtn = document.getElementById('qrSubmitBtn');
-      
-      if (!name) {
-        showFieldError('qrName', 'نام الزامی است');
-        return;
-      }
-      if (name.length < 3) {
-        showFieldError('qrName', 'نام باید حداقل ۳ کاراکتر باشد');
-        return;
-      }
-
-      setButtonLoading(submitBtn, 'در حال ثبت‌نام...');
-      msg.className = 'msg show info';
-      msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال ثبت اطلاعات...';
-
-      var data = await callAPI({
-        action: 'register',
-        username: username,
-        password: 'eitaa_' + eitaaUser.id,
-        name: name,
-        bio: bio,
-        avatar: eitaaUser.avatar || ''
-      });
-      
-      resetButton(submitBtn);
-      
-      if (data.status === 'success') {
-        localStorage.setItem('qabas_user', JSON.stringify(data.data));
-        msg.className = 'msg show success';
-        msg.innerHTML = '✅ ثبت‌نام موفق!';
-        showToast('🎉 خوش آمدید!', 'success');
-        showModal('🎉 خوش آمدید!', 'ثبت‌نام با موفقیت انجام شد', 'success', [
-          { text: 'مشاهده پروفایل', action: 'window.location.reload()' }
-        ]);
-      } else {
-        msg.className = 'msg show error';
-        msg.innerHTML = '❌ ' + (data.message || 'خطا');
-        showToast(data.message || 'خطا در ثبت‌نام', 'error');
-      }
-    });
-  }
-
-  // ==================== Login/Register Forms ====================
-  function showLoginRegister() {
-    var container = document.getElementById('profileContainer');
-    container.innerHTML = `
-      <div>
+    // ========== فرم‌های ورود و ثبت‌نام ==========
+    function showLoginRegister() {
+      app.innerHTML = `
         <div class="tabs">
-          <button id="tabLogin" class="tab-btn active"><i class="fa-solid fa-right-to-bracket"></i> ورود</button>
-          <button id="tabRegister" class="tab-btn"><i class="fa-solid fa-user-plus"></i> ثبت‌نام</button>
+          <button id="tabLogin" class="tab-btn active" onclick="switchTab('login')">🔑 ورود</button>
+          <button id="tabRegister" class="tab-btn" onclick="switchTab('register')">✨ ثبت‌نام</button>
         </div>
         <div id="loginForm" class="card">
-          <h3><i class="fa-solid fa-key"></i> ورود به حساب</h3>
-          <form id="loginFormElement">
-            <div class="form-group">
-              <label>👤 نام کاربری</label>
-              <input type="text" id="loginUsername" required placeholder="نام کاربری">
-            </div>
-            <div class="form-group">
-              <label>🔑 رمز عبور</label>
-              <input type="password" id="loginPassword" required placeholder="رمز عبور">
-            </div>
-            <div id="loginMsg" class="msg"></div>
-            <button type="submit" class="btn" id="loginSubmitBtn">
-              <i class="fa-solid fa-right-to-bracket"></i> ورود
-            </button>
-          </form>
+          <h3>ورود به حساب</h3>
+          <div class="form-group"><label>👤 نام کاربری</label><input id="loginUser" placeholder="نام کاربری"></div>
+          <div class="form-group"><label>🔒 رمز عبور</label><input type="password" id="loginPass" placeholder="رمز عبور"></div>
+          <div id="loginMsg" class="msg"></div>
+          <button class="btn" id="loginBtn" onclick="doLogin()">ورود</button>
         </div>
         <div id="registerForm" class="card" style="display:none;">
-          <h3><i class="fa-solid fa-user-plus"></i> ایجاد حساب</h3>
-          <form id="registerFormElement">
-            <div class="form-group">
-              <label>👤 نام و نام خانوادگی *</label>
-              <input type="text" id="regName" required placeholder="نام کامل">
-            </div>
-            <div class="form-group">
-              <label>📧 نام کاربری *</label>
-              <input type="text" id="regUsername" required placeholder="نام کاربری">
-            </div>
-            <div class="form-group">
-              <label>🔑 رمز عبور *</label>
-              <input type="password" id="regPassword" required minlength="3" placeholder="حداقل ۳ کاراکتر">
-            </div>
-            <div class="form-group">
-              <label>📝 بیوگرافی (اختیاری)</label>
-              <textarea id="regBio" rows="2" placeholder="درباره خودت..."></textarea>
-            </div>
-            <div id="regMsg" class="msg"></div>
-            <button type="submit" class="btn" id="regSubmitBtn">
-              <i class="fa-solid fa-user-plus"></i> ایجاد حساب
-            </button>
-          </form>
-        </div>
-      </div>
-    `;
-
-    document.getElementById('tabLogin').addEventListener('click', function() {
-      switchAuthTab('login');
-    });
-    document.getElementById('tabRegister').addEventListener('click', function() {
-      switchAuthTab('register');
-    });
-    document.getElementById('loginFormElement').addEventListener('submit', handleLogin);
-    document.getElementById('registerFormElement').addEventListener('submit', handleRegister);
-  }
-
-  function switchAuthTab(tab) {
-    var loginBtn = document.getElementById('tabLogin');
-    var registerBtn = document.getElementById('tabRegister');
-    var loginForm = document.getElementById('loginForm');
-    var registerForm = document.getElementById('registerForm');
-    
-    if (tab === 'login') {
-      loginBtn.classList.add('active');
-      registerBtn.classList.remove('active');
-      loginForm.style.display = 'block';
-      registerForm.style.display = 'none';
-    } else {
-      registerBtn.classList.add('active');
-      loginBtn.classList.remove('active');
-      loginForm.style.display = 'none';
-      registerForm.style.display = 'block';
-    }
-  }
-
-  // ==================== Login Handler ====================
-  async function handleLogin(e) {
-    e.preventDefault();
-    clearFieldErrors();
-    
-    var u = document.getElementById('loginUsername').value.trim();
-    var p = document.getElementById('loginPassword').value;
-    var msg = document.getElementById('loginMsg');
-    var submitBtn = document.getElementById('loginSubmitBtn');
-    
-    if (!u) { showFieldError('loginUsername', 'نام کاربری الزامی است'); return; }
-    if (!p) { showFieldError('loginPassword', 'رمز عبور الزامی است'); return; }
-    
-    setButtonLoading(submitBtn, 'در حال ورود...');
-    msg.className = 'msg show info';
-    msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> بررسی...';
-    
-    var data = await callAPI({ action: 'login', username: u, password: p });
-    resetButton(submitBtn);
-    
-    if (data.status === 'success') {
-      localStorage.setItem('qabas_user', JSON.stringify(data.data));
-      msg.className = 'msg show success';
-      msg.innerHTML = '✅ ورود موفق!';
-      showToast('✅ خوش آمدید!', 'success');
-      setTimeout(function() { window.location.reload(); }, 1000);
-    } else {
-      msg.className = 'msg show error';
-      msg.innerHTML = '❌ ' + (data.message || 'خطا');
-      showToast(data.message || 'ورود ناموفق', 'error');
-    }
-  }
-
-    // ==================== Register Handler ====================
-    async function handleRegister(e) {
-      e.preventDefault();
-      clearFieldErrors();
-      
-      var n = document.getElementById('regName').value.trim();
-      var u = document.getElementById('regUsername').value.trim();
-      var p = document.getElementById('regPassword').value;
-      var b = document.getElementById('regBio').value.trim();
-      var msg = document.getElementById('regMsg');
-      var submitBtn = document.getElementById('regSubmitBtn');
-      
-      var hasError = false;
-      if (!n) { showFieldError('regName', 'نام الزامی است'); hasError = true; }
-      else if (n.length < 3) { showFieldError('regName', 'حداقل ۳ کاراکتر'); hasError = true; }
-      if (!u) { showFieldError('regUsername', 'نام کاربری الزامی است'); hasError = true; }
-      else if (u.length < 3) { showFieldError('regUsername', 'حداقل ۳ کاراکتر'); hasError = true; }
-      if (!p) { showFieldError('regPassword', 'رمز عبور الزامی است'); hasError = true; }
-      else if (p.length < 3) { showFieldError('regPassword', 'حداقل ۳ کاراکتر'); hasError = true; }
-      
-      if (hasError) { showToast('لطفاً خطاها را برطرف کنید', 'warning'); return; }
-      
-      setButtonLoading(submitBtn, 'در حال ایجاد حساب...');
-      msg.className = 'msg show info';
-      msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ثبت‌نام...';
-      
-      var data = await callAPI({ action: 'register', username: u, password: p, name: n, bio: b });
-      resetButton(submitBtn);
-      
-      if (data.status === 'success') {
-        msg.className = 'msg show success';
-        msg.innerHTML = '✅ ثبت‌نام موفق!';
-        showToast('🎉 ثبت‌نام موفق', 'success');
-        showModal('ثبت‌نام موفق', 'حساب شما ایجاد شد. حالا وارد شوید.', 'success', [
-          { text: 'رفتن به ورود', action: 'switchToLoginTab()' }
-        ]);
-      } else {
-        msg.className = 'msg show error';
-        msg.innerHTML = '❌ ' + (data.message || 'خطا');
-        showToast(data.message || 'خطا در ثبت‌نام', 'error');
-      }
+          <h3>ایجاد حساب جدید</h3>
+          <div class="form-group"><label>👤 نام *</label><input id="regName" placeholder="نام کامل"></div>
+          <div class="form-group"><label>📧 نام کاربری *</label><input id="regUser" placeholder="نام کاربری"></div>
+          <div class="form-group"><label>🔒 رمز عبور *</label><input type="password" id="regPass" placeholder="حداقل ۳ کاراکتر"></div>
+          <div class="form-group"><label>📝 بیوگرافی</label><textarea id="regBio" placeholder="درباره خودت..."></textarea></div>
+          <div id="regMsg" class="msg"></div>
+          <button class="btn" id="regBtn" onclick="doRegister()">ثبت‌نام</button>
+        </div>`;
     }
 
-    window.switchToLoginTab = function() {
-      closeModal();
-      switchAuthTab('login');
+    // ========== سوییچ تب ==========
+    window.switchTab = function(tab) {
+      document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+      document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
+      document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+      document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
     };
 
-    // ==================== Main Function ====================
-    async function handleProfile() {
-      var eitaaUser = getEitaaUser();
-      var urlParams = new URLSearchParams(window.location.search);
-      var viewedUser = urlParams.get('user');
-
-      // Mode 1: View other user
-      if (viewedUser) {
-        await showOtherProfile(viewedUser);
+    // ========== ورود ==========
+    window.doLogin = async function() {
+      var u = document.getElementById('loginUser').value.trim();
+      var p = document.getElementById('loginPass').value;
+      var msg = document.getElementById('loginMsg');
+      var btn = document.getElementById('loginBtn');
+      
+      msg.className = 'msg';
+      
+      if (!u || !p) {
+        msg.className = 'msg error show';
+        msg.innerHTML = '❌ لطفاً همه فیلدها را پر کنید';
         return;
       }
+      
+      btn.disabled = true;
+      btn.textContent = '⏳ در حال ورود...';
+      
+      var res = await api('login', { username: u, password: p });
+      
+      btn.disabled = false;
+      btn.textContent = 'ورود';
+      
+      if (res.status === 'success') {
+        localStorage.setItem('user', JSON.stringify(res.data));
+        msg.className = 'msg success show';
+        msg.innerHTML = '✅ ورود موفق!';
+        setTimeout(function() { showProfile(res.data); }, 500);
+      } else {
+        msg.className = 'msg error show';
+        msg.innerHTML = '❌ ' + (res.message || 'خطا در ورود');
+      }
+    };
 
-      // Mode 2: Eitaa user
-      if (eitaaUser) {
-        showLoading('در حال بررسی حساب...');
-        var existingUser = await checkUserExists(eitaaUser.username);
-        if (existingUser) {
-          showProfile(existingUser);
-        } else {
-          showQuickRegister(eitaaUser);
-        }
+    // ========== ثبت‌نام ==========
+    window.doRegister = async function() {
+      var n = document.getElementById('regName').value.trim();
+      var u = document.getElementById('regUser').value.trim();
+      var p = document.getElementById('regPass').value;
+      var b = document.getElementById('regBio').value.trim();
+      var msg = document.getElementById('regMsg');
+      var btn = document.getElementById('regBtn');
+      
+      msg.className = 'msg';
+      
+      if (!n || !u || !p) {
+        msg.className = 'msg error show';
+        msg.innerHTML = '❌ فیلدهای ستاره‌دار را پر کنید';
         return;
       }
+      
+      if (u.length < 3) {
+        msg.className = 'msg error show';
+        msg.innerHTML = '❌ نام کاربری حداقل ۳ کاراکتر';
+        return;
+      }
+      
+      if (p.length < 3) {
+        msg.className = 'msg error show';
+        msg.innerHTML = '❌ رمز عبور حداقل ۳ کاراکتر';
+        return;
+      }
+      
+      btn.disabled = true;
+      btn.textContent = '⏳ در حال ثبت‌نام...';
+      
+      var res = await api('register', { username: u, password: p, name: n, bio: b });
+      
+      btn.disabled = false;
+      btn.textContent = 'ثبت‌نام';
+      
+      if (res.status === 'success') {
+        msg.className = 'msg success show';
+        msg.innerHTML = '✅ ثبت‌نام موفق! به صفحه ورود بروید';
+        setTimeout(function() { switchTab('login'); }, 2000);
+      } else {
+        msg.className = 'msg error show';
+        msg.innerHTML = '❌ ' + (res.message || 'خطا در ثبت‌نام');
+      }
+    };
 
-      // Mode 3: Local user
-      var localUser = JSON.parse(localStorage.getItem('qabas_user') || 'null');
-      if (localUser && localUser.username) {
-        showLoading('در حال بازیابی...');
-        var freshUser = await checkUserExists(localUser.username);
-        if (freshUser) {
-          showProfile(freshUser);
+    // ========== کپی لینک ==========
+    window.copyLink = function(username) {
+      var link = location.origin + location.pathname + '?user=' + username;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(link).then(function() {
+          alert('✅ لینک کپی شد!');
+        });
+      } else {
+        prompt('📋 لینک پروفایل:', link);
+      }
+    };
+
+    // ========== خروج ==========
+    window.logout = function() {
+      localStorage.removeItem('user');
+      location.reload();
+    };
+
+    // ========== شروع ==========
+    async function init() {
+      try {
+        var params = new URLSearchParams(location.search);
+        var viewUser = params.get('user');
+        
+        // حالت ۱: دیدن پروفایل دیگران
+        if (viewUser) {
+          showLoading('در حال دریافت پروفایل...');
+          var res = await api('get_user', { username: viewUser });
+          if (res.status === 'success' && res.data) {
+            showProfile(res.data);
+          } else {
+            showError('کاربر @' + viewUser + ' پیدا نشد');
+          }
           return;
         }
-        localStorage.removeItem('qabas_user');
+        
+        // حالت ۲: کاربر لاگین شده
+        var local = JSON.parse(localStorage.getItem('user') || 'null');
+        if (local && local.username) {
+          showLoading('در حال بازیابی حساب...');
+          var res = await api('get_user', { username: local.username });
+          if (res.status === 'success' && res.data) {
+            showProfile(res.data);
+            return;
+          }
+          // اگه کاربر حذف شده
+          localStorage.removeItem('user');
+        }
+        
+        // حالت ۳: نمایش فرم ورود
+        showLoginRegister();
+        
+      } catch(e) {
+        showError('خطا در بارگذاری: ' + e.message);
       }
-
-      // Mode 4: Login/Register
-      showLoginRegister();
     }
 
-    // ==================== Start App ====================
-    document.addEventListener('DOMContentLoaded', function() {
-      var loadingTimeout = setTimeout(function() {
-        showErrorWithRetry('⏱️ بارگذاری طولانی شد');
-        showToast('خطا در بارگذاری', 'error');
-      }, 12000);
-      
-      handleProfile().then(function() {
-        clearTimeout(loadingTimeout);
-      }).catch(function(error) {
-        console.error('Fatal Error:', error);
-        clearTimeout(loadingTimeout);
-        showErrorWithRetry('❌ خطای غیرمنتظره');
-        showToast('خطای سیستمی', 'error');
-      });
+    // ========== timeout کلی ==========
+    var timeout = setTimeout(function() {
+      if (app.querySelector('.loading')) {
+        showError('⏱️ بارگذاری طولانی شد');
+      }
+    }, 10000);
+
+    init().then(function() {
+      clearTimeout(timeout);
     });
   </script>
 </body>
