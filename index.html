@@ -64,7 +64,7 @@
     }
     .header-login-btn:hover { background: rgba(201,168,76,0.1); }
 
-    /* ===== دکمه بستن هماهنگ با تم (چپ) ===== */
+    /* ===== دکمه بستن هماهنگ با تم (راست) ===== */
     .header-close-btn {
       background: rgba(201,168,76,0.06);
       border: 1px solid rgba(201,168,76,0.15);
@@ -197,24 +197,24 @@
 
   <header class="header">
     <div class="header-inner">
-      <!-- ===== چپ: دکمه بستن ===== -->
+      <!-- ===== چپ: حساب کاربری ===== -->
       <div class="header-left">
+        <a href="list/profile.html" class="header-login-btn" id="profileBtn">
+          <i class="fa-solid fa-user"></i> <span id="profileBtnText">ورود به حساب کاربری</span>
+        </a>
+      </div>
+
+      <!-- ===== وسط: عنوان (مطلقاً وسط) ===== -->
+      <div class="header-title">قَبَس</div>
+
+      <!-- ===== راست: دکمه بستن ===== -->
+      <div class="header-right">
         <div id="eitaaCloseBtn" style="display:none;">
           <button class="header-close-btn" onclick="window.Eitaa?.WebApp.close()">
             <i class="fa-solid fa-xmark"></i>
             <span>بستن</span>
           </button>
         </div>
-      </div>
-
-      <!-- ===== وسط: عنوان (مطلقاً وسط) ===== -->
-      <div class="header-title">قَبَس</div>
-
-      <!-- ===== راست: ورود/پروفایل ===== -->
-      <div class="header-right">
-        <a href="list/profile.html" class="header-login-btn" id="profileBtn">
-          <i class="fa-solid fa-user"></i> <span id="profileBtnText">ورود به حساب کاربری</span>
-        </a>
       </div>
     </div>
   </header>
