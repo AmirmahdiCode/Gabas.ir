@@ -147,11 +147,39 @@
 
   <script>
     var API_URL = 'https://script.google.com/macros/s/AKfycbx6Eh-tM-FWt8wNx798RWGaM7BZ7JFfycwpi4mFPfoNti_rpY6DIyF_7OwPygbWxX05-g/exec';
+    var STORAGE_KEY = 'qabas_user';
     var currentUser = null;
 
+    // ========== تابع کمکی برای خوندن کاربر از localStorage ==========
+    function getStoredUser() {
+      try {
+        var data = localStorage.getItem(STORAGE_KEY);
+        return data ? JSON.parse(data) : null;
+      } catch(e) {
+        return null;
+      }
+    }
+
+    // ========== نمایش آواتار ==========
+    function getAvatarHtml(avatar) {
+      if (!avatar) return '<i class="fa-solid fa-user"></i>';
+      if (avatar.startsWith('fa-')) {
+        return '<i class="fa-solid ' + avatar + '"></i>';
+      }
+      if (avatar.startsWith('http')) {
+        return '<img src="' + avatar + '" alt="" onerror="this.parentElement.innerHTML=\'<i class=\\'fa-solid fa-user\\'></i>\'">';
+      }
+      return '<i class="fa-solid fa-user"></i>';
+    }
+
+    // ========== شروع ==========
     window.addEventListener('DOMContentLoaded', function() {
-      var saved = localStorage.getItem('qabas_user');
-      if (saved) { try { currentUser = JSON.parse(saved); showChat(); } catch(e) {} }
+      currentUser = getStoredUser();
+      
+      if (currentUser && currentUser.username) {
+        showChat();
+      }
+      // اگه کاربر لاگین نکرده، صفحه ورود بمونه
     });
 
     function showChat() {
@@ -163,31 +191,28 @@
       setInterval(loadMessages, 5000);
     }
 
-    function getAvatarHtml(avatar) {
-      if (!avatar) return '<i class="fa-solid fa-user"></i>';
-      if (avatar.startsWith('fa-') || avatar.startsWith('fas ') || avatar.startsWith('fa-solid ')) {
-        return '<i class="fa-solid ' + avatar.replace('fas ', '').replace('fa-solid ', '') + '"></i>';
-      }
-      if (avatar.startsWith('http')) {
-        return '<img src="' + avatar + '" alt="" onerror="this.parentElement.innerHTML=\'<i class=\\'fa-solid fa-user\\'></i>\'">';
-      }
-      return '<i class="fa-solid fa-user"></i>';
-    }
-
     async function loadMessages() {
+      if (!currentUser) return;
       try {
-        var res = await fetch(API_URL, { method:'POST', body: JSON.stringify({ action:'getMessages', user_id: currentUser.user_id, friend_id: 'public' }) });
+        var res = await fetch(API_URL, { 
+          method: 'POST', 
+          body: JSON.stringify({ 
+            action: 'getMessages', 
+            username: currentUser.username,
+            friend_id: 'public' 
+          }) 
+        });
         var d = await res.json();
-        if (d.status === 'success' && d.data.messages) {
+        if (d.status === 'success' && d.data && d.data.messages) {
           var container = document.getElementById('chatMessages');
           container.innerHTML = d.data.messages.map(function(m) {
             return '<div class="msg">' +
-              '<a href="members.html" class="msg-avatar" onclick="localStorage.setItem(\'qabas_member\',\'' + (m.sender_id || '') + '\')">' +
+              '<a href="profile.html?user=' + (m.sender_username || '') + '" class="msg-avatar">' +
                 getAvatarHtml(m.avatar) +
               '</a>' +
               '<div class="msg-content">' +
                 '<div class="msg-header">' +
-                  '<span class="msg-name" onclick="localStorage.setItem(\'qabas_member\',\'' + (m.sender_id || '') + '\');window.location.href=\'members.html\'">' + (m.sender_name || 'ناشناس') + '</span>' +
+                  '<span class="msg-name" onclick="window.location.href=\'profile.html?user=' + (m.sender_username || '') + '\'">' + (m.sender_name || 'ناشناس') + '</span>' +
                   '<span class="msg-time">' + (m.timestamp || '') + '</span>' +
                 '</div>' +
                 '<div class="msg-text">' + (m.message || '') + '</div>' +
@@ -195,38 +220,61 @@
           }).join('');
           container.scrollTop = container.scrollHeight;
         }
-      } catch(e) {}
+      } catch(e) {
+        console.error('Error loading messages:', e);
+      }
     }
 
     async function sendMessage() {
+      if (!currentUser) return;
+      
       var input = document.getElementById('chatInput');
       var msg = input.value.trim();
-      if (!msg || !currentUser) return;
+      if (!msg) return;
 
       var btn = document.getElementById('sendBtn');
       var rejectDiv = document.getElementById('aiReject');
       rejectDiv.style.display = 'none';
-      btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+      btn.disabled = true; 
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
       try {
-        var checkRes = await fetch(API_URL, { method:'POST', body: JSON.stringify({ action:'checkMessage', message: msg }) });
+        var checkRes = await fetch(API_URL, { 
+          method: 'POST', 
+          body: JSON.stringify({ action: 'checkMessage', message: msg }) 
+        });
         var checkData = await checkRes.json();
 
-        if (checkData.status === 'success' && checkData.data.status === 'approved') {
-          await fetch(API_URL, { method:'POST', body: JSON.stringify({ action:'sendMessage', sender_id: currentUser.user_id, receiver_id: 'public', message: msg }) });
+        if (checkData.status === 'success' && checkData.data && checkData.data.status === 'approved') {
+          await fetch(API_URL, { 
+            method: 'POST', 
+            body: JSON.stringify({ 
+              action: 'sendMessage', 
+              username: currentUser.username,
+              sender_name: currentUser.name || currentUser.username,
+              avatar: currentUser.avatar || '',
+              receiver_id: 'public', 
+              message: msg 
+            }) 
+          });
           input.value = '';
           loadMessages();
         } else {
-          rejectDiv.innerHTML = '<i class="fa-solid fa-robot"></i> ' + (checkData.data?.reason || 'پیام تأیید نشد');
+          rejectDiv.innerHTML = '<i class="fa-solid fa-robot"></i> ' + ((checkData.data && checkData.data.reason) || 'پیام تأیید نشد');
           rejectDiv.style.display = 'block';
         }
       } catch(e) {
-        rejectDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> خطا در بررسی پیام';
+        rejectDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> خطا در ارتباط';
         rejectDiv.style.display = 'block';
       } finally {
-        btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
+        btn.disabled = false; 
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
       }
     }
+
+    // ========== Global ==========
+    window.sendMessage = sendMessage;
+    window.loadMessages = loadMessages;
   </script>
 </body>
 </html>
