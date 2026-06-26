@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
+  <!-- ===== گام ۱: SDK ایتا ===== -->
   <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>قَبَس | شعله‌ای از نور شهدا</title>
@@ -14,7 +16,7 @@
       --bg-header: #0a1a12; --bg-card: rgba(22, 38, 30, 0.7);
       --glass-border: rgba(201, 168, 76, 0.15); --gold: #c9a84c;
       --gold-light: #e2c87a; --text: #e8e6e0; --text-muted: #a4a098;
-      --red: #e74c3c;
+      --red: #e74c3c; --green: #4caf84;
     }
     body {
       font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
@@ -37,6 +39,9 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; letter-spacing: 2px;
     }
+    .header-left {
+      display: flex; align-items: center; gap: 10px;
+    }
     .header-login-btn {
       display: flex; align-items: center; gap: 6px;
       color: var(--gold); font-size: 13px; font-weight: 600;
@@ -45,6 +50,27 @@
       transition: all 0.3s ease; white-space: nowrap;
     }
     .header-login-btn:hover { background: rgba(201,168,76,0.1); }
+    .header-close-btn {
+      background: none; border: none; color: var(--gold);
+      font-size: 22px; cursor: pointer; padding: 4px 8px;
+      transition: all 0.3s ease;
+    }
+    .header-close-btn:hover { transform: scale(1.1); }
+
+    /* ===== پیام راهنما برای مرورگر معمولی ===== */
+    .browser-notice {
+      background: var(--bg-card); backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border); border-radius: 16px;
+      padding: 20px; margin-bottom: 16px; text-align: center;
+    }
+    .browser-notice h3 { color: var(--gold); margin-bottom: 8px; }
+    .browser-notice p { color: var(--text-muted); font-size: 13px; }
+    .browser-notice .btn {
+      display: inline-block; margin-top: 12px; padding: 10px 24px;
+      background: var(--gold); color: #0a1410; border-radius: 10px;
+      text-decoration: none; font-weight: 700; font-size: 14px;
+    }
+    .browser-notice .btn:hover { box-shadow: 0 6px 20px rgba(201,168,76,0.3); }
 
     .container { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
 
@@ -137,16 +163,25 @@
   <header class="header">
     <div class="header-inner">
       <div class="header-title">قَبَس</div>
-      <a href="list/profile.html" class="header-login-btn">
-        <i class="fa-solid fa-user"></i> ورود به حساب کاربری
-      </a>
-      <button onclick="window.Eitaa?.WebApp.close()" style="background:none;border:none;color:var(--gold);font-size:20px;cursor:pointer;padding:4px 8px;">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+      <div class="header-left">
+        <a href="list/profile.html" class="header-login-btn" id="profileBtn">
+          <i class="fa-solid fa-user"></i> <span id="profileBtnText">ورود به حساب کاربری</span>
+        </a>
+        <button class="header-close-btn" onclick="window.Eitaa?.WebApp.close()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
     </div>
   </header>
 
   <div class="container">
+
+    <!-- ===== پیام برای مرورگر معمولی ===== -->
+    <div class="browser-notice" id="browserNotice" style="display:none;">
+      <h3><i class="fa-solid fa-globe"></i> در مرورگر معمولی هستید!</h3>
+      <p>برای استفاده از تمام امکانات قبس، لطفاً از طریق پیام‌رسان <strong>ایتا</strong> وارد شوید.</p>
+      <a href="list/profile.html" class="btn"><i class="fa-solid fa-user-plus"></i> رفتن به صفحه ثبت‌نام</a>
+    </div>
 
     <div class="radio-card" id="radioCard">
       <div class="radio-body">
@@ -234,12 +269,15 @@
   <audio id="heroAudio" preload="none"></audio>
 
   <script>
+
+        // ==================== API و متغیرها ====================
     var API_URL = 'https://script.google.com/macros/s/AKfycbzuhWUIJ_d0bfIctIwcsQ61ELOpYUDKLT1KU5zNci1OT4ie1g_3pd3sRZlVJJzCAXllnA/exec';
     var audio = document.getElementById('heroAudio');
     var playlist = [];
     var track = null;
     var playing = false;
 
+    // ==================== توابع رادیو ====================
     async function fetchMadahiList() {
       try { var r = await fetch(API_URL + '?type=madahi'); var d = await r.json(); if (d.length > 0) { playlist = d; loadRandomTrack(); } else { document.getElementById('radioTitle').innerText = 'لیست خالی'; document.getElementById('radioArtist').innerText = '—'; } } catch(e) { document.getElementById('radioTitle').innerText = 'خطا در دریافت'; document.getElementById('radioArtist').innerText = '—'; }
     }
@@ -274,11 +312,13 @@
 
     fetchMadahiList();
 
+    // ==================== پیام شهدا ====================
     async function fetchShohadaMessage() {
       try { var r = await fetch(API_URL + '?type=shahid'); var d = await r.json(); if (d.length > 0) { var m = d[Math.floor(Math.random() * d.length)]; document.getElementById('shahadaText').innerText = m.text; document.getElementById('shahadaAuthor').innerText = '— ' + m.author; if (m.image) document.getElementById('shahadaImg').src = m.image; } else { document.getElementById('shahadaText').innerText = 'اطلاعاتی یافت نشد'; document.getElementById('shahadaAuthor').innerText = '—'; } } catch(e) { document.getElementById('shahadaText').innerText = 'خطا در دریافت'; document.getElementById('shahadaAuthor').innerText = '—'; }
     }
     fetchShohadaMessage();
 
+    // ==================== تبلیغات ====================
     async function loadAds() {
       var defaultSupportImg = 'https://cdn.imgurl.ir/uploads/m87412_4b5310ee-fa5a-4d2e-a58c-a9337ddb4f92.png';
       var defaultSupportLink = 'https://eitaa.com/Amirmahdi_code';
@@ -306,6 +346,46 @@
     }
 
     loadAds();
+
+    // ==================== گام ۳: دریافت اطلاعات کاربر ایتا ====================
+    function handleEitaaUser() {
+      var profileBtnText = document.getElementById('profileBtnText');
+      var browserNotice = document.getElementById('browserNotice');
+
+      if (window.Eitaa) {
+        console.log('✅ برنامک در ایتا اجرا می‌شود');
+
+        var eitaaUser = window.Eitaa.WebApp.initDataUnsafe?.user;
+        
+        if (eitaaUser) {
+          console.log('👤 اطلاعات کاربر ایتا:', eitaaUser);
+          
+          localStorage.setItem('eitaa_user', JSON.stringify({
+            id: eitaaUser.id,
+            username: eitaaUser.username || '',
+            first_name: eitaaUser.first_name || '',
+            last_name: eitaaUser.last_name || '',
+            avatar: eitaaUser.photo_url || ''
+          }));
+
+          var name = eitaaUser.first_name || eitaaUser.username || 'کاربر';
+          profileBtnText.textContent = 'خوش آمدی ' + name + '!';
+          browserNotice.style.display = 'none';
+          
+        } else {
+          console.log('ℹ️ کاربر ایتا شناسایی نشد');
+          profileBtnText.textContent = 'ورود به حساب کاربری';
+          browserNotice.style.display = 'block';
+        }
+
+      } else {
+        console.log('ℹ️ در مرورگر معمولی اجرا می‌شود (SDK ایتا فعال نیست)');
+        profileBtnText.textContent = 'ورود به حساب کاربری';
+        browserNotice.style.display = 'block';
+      }
+    }
+
+    handleEitaaUser();
   </script>
 </body>
 </html>
