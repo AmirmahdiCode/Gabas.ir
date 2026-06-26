@@ -39,7 +39,7 @@
     .container { max-width: 700px; margin: 0 auto; padding: 20px 16px; flex: 1; width: 100%; }
 
     .tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
-    .tab-btn { padding: 10px 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.2); border-radius: 25px; color: var(--text); cursor: pointer; font-size: 0.85rem; font-family: inherit; transition: all 0.3s; }
+    .tab-btn { padding: 10px 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.2); border-radius: 25px; color: var(--text); cursor: pointer; font-size: 0.85rem; font-family: inherit; transition: all 0.3s; display: flex; align-items: center; gap: 6px; }
     .tab-btn:hover { border-color: var(--gold); background: rgba(201,168,76,0.08); }
     .tab-btn.active { background: var(--gold); color: #0a1410; border-color: var(--gold); font-weight: bold; }
     .tab-content { display: none; }
@@ -50,13 +50,14 @@
       border: 1px solid var(--glass-border); border-radius: 16px;
       padding: 25px; margin-bottom: 15px;
     }
-    .card h3 { color: var(--gold); margin-bottom: 15px; text-align: center; font-size: 1.1rem; }
+    .card h3 { color: var(--gold); margin-bottom: 15px; text-align: center; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .card p { color: var(--text-muted); }
 
     .btn {
       padding: 12px 25px; background: linear-gradient(135deg, var(--gold), #a6842a);
       color: #0a1410; border: none; border-radius: 12px; font-size: 1rem;
       font-weight: bold; cursor: pointer; font-family: inherit; transition: all 0.3s;
+      display: inline-flex; align-items: center; gap: 8px;
     }
     .btn:hover { box-shadow: 0 8px 25px rgba(201,168,76,0.4); transform: translateY(-2px); }
     .btn-sm { padding: 8px 16px; font-size: 0.85rem; }
@@ -72,7 +73,7 @@
     .option-card {
       background: rgba(255,255,255,0.03); border: 2px solid rgba(201,168,76,0.2);
       border-radius: 12px; padding: 15px; cursor: pointer; text-align: center;
-      transition: all 0.3s; color: var(--text);
+      transition: all 0.3s; color: var(--text); display: flex; flex-direction: column; align-items: center; gap: 6px;
     }
     .option-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.05); }
     .option-card.correct { border-color: var(--green); background: rgba(76,175,132,0.2); pointer-events: none; }
@@ -120,26 +121,25 @@
   <div class="container">
 
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('tab1')">🕊️ رفیق شهید</button>
-      <button class="tab-btn" onclick="switchTab('tab2')">✍️ جمله ساز</button>
-      <button class="tab-btn" onclick="switchTab('tab3')">🖼️ حدس شهید</button>
-      <button class="tab-btn" onclick="switchTab('tab4')">📸 حدس تصویر</button>
+      <button class="tab-btn active" onclick="switchTab('tab1')"><i class="fa-solid fa-user-friends"></i> رفیق شهید</button>
+      <button class="tab-btn" onclick="switchTab('tab2')"><i class="fa-solid fa-pen-fancy"></i> جمله ساز</button>
+      <button class="tab-btn" onclick="switchTab('tab3')"><i class="fa-solid fa-image"></i> حدس شهید</button>
+      <button class="tab-btn" onclick="switchTab('tab4')"><i class="fa-solid fa-camera"></i> حدس تصویر</button>
     </div>
 
-    <!-- ==================== چالش ۱: رفیق شهید ==================== -->
     <div class="tab-content active" id="tab1">
       <div class="card">
-        <h3>🕊️ رفیق شهیدت رو پیدا کن!</h3>
+        <h3><i class="fa-solid fa-user-friends"></i> رفیق شهیدت رو پیدا کن!</h3>
         <p style="text-align:center;margin-bottom:20px;">به سوالات جواب بده تا رفیق شهیدت رو پیدا کنی</p>
 
         <div id="q1">
-          <p style="color:var(--gold);margin-bottom:10px;">۱. دوست داری ماه تولدتون یکی باشه؟</p>
-          <button class="btn btn-sm" onclick="answerQ1(true)" style="margin:5px;">✅ آره</button>
-          <button class="btn btn-sm btn-outline" onclick="answerQ1(false)" style="margin:5px;">❌ نه</button>
+          <p style="color:var(--gold);margin-bottom:10px;"><i class="fa-solid fa-question-circle"></i> ۱. دوست داری ماه تولدتون یکی باشه؟</p>
+          <button class="btn btn-sm" onclick="answerQ1(true)" style="margin:5px;"><i class="fa-solid fa-check"></i> آره</button>
+          <button class="btn btn-sm btn-outline" onclick="answerQ1(false)" style="margin:5px;"><i class="fa-solid fa-times"></i> نه</button>
         </div>
 
         <div id="q1b" style="display:none;">
-          <p style="color:var(--gold);margin-bottom:10px;">پس ماه تولدت چیه؟</p>
+          <p style="color:var(--gold);margin-bottom:10px;"><i class="fa-solid fa-calendar-alt"></i> پس ماه تولدت چیه؟</p>
           <select id="birthMonthSelect">
             <option value="">-- ماه تولدت رو انتخاب کن --</option>
             <option value="1">فروردین</option><option value="2">اردیبهشت</option><option value="3">خرداد</option>
@@ -147,11 +147,11 @@
             <option value="7">مهر</option><option value="8">آبان</option><option value="9">آذر</option>
             <option value="10">دی</option><option value="11">بهمن</option><option value="12">اسفند</option>
           </select>
-          <button class="btn btn-sm" onclick="answerQ1b()" style="margin-top:10px;">بعدی</button>
+          <button class="btn btn-sm" onclick="answerQ1b()" style="margin-top:10px;"><i class="fa-solid fa-arrow-left"></i> بعدی</button>
         </div>
 
         <div id="q2" style="display:none;">
-          <p style="color:var(--gold);margin-bottom:10px;">۲. دوست داری ماه شهادتش کی باشه؟</p>
+          <p style="color:var(--gold);margin-bottom:10px;"><i class="fa-solid fa-question-circle"></i> ۲. دوست داری ماه شهادتش کی باشه؟</p>
           <select id="martyrMonth">
             <option value="">-- انتخاب کن --</option>
             <option value="1">فروردین</option><option value="2">اردیبهشت</option><option value="3">خرداد</option>
@@ -159,7 +159,7 @@
             <option value="7">مهر</option><option value="8">آبان</option><option value="9">آذر</option>
             <option value="10">دی</option><option value="11">بهمن</option><option value="12">اسفند</option>
           </select><br>
-          <button class="btn btn-sm" onclick="findFriend()" style="margin-top:10px;">🔍 پیدا کن!</button>
+          <button class="btn btn-sm" onclick="findFriend()" style="margin-top:10px;"><i class="fa-solid fa-search"></i> پیدا کن!</button>
         </div>
 
         <div class="result-box" id="friendResult"></div>
@@ -167,34 +167,31 @@
       </div>
     </div>
 
-    <!-- ==================== چالش ۲: جمله شهدایی ==================== -->
     <div class="tab-content" id="tab2">
       <div class="card">
-        <h3>✍️ جمله شهدایی خودت رو بساز!</h3>
+        <h3><i class="fa-solid fa-pen-fancy"></i> جمله شهدایی خودت رو بساز!</h3>
         <p style="text-align:center;margin-bottom:20px;">یه جمله تصادفی و قشنگ برات می‌سازیم</p>
-        <button class="btn" onclick="buildSentence()" style="display:block;margin:0 auto;">🚀 بسازش!</button>
+        <button class="btn" onclick="buildSentence()" style="display:block;margin:0 auto;"><i class="fa-solid fa-wand-magic-sparkles"></i> بسازش!</button>
         <div class="result-box" id="sentenceResult"></div>
         <div class="share-buttons" id="sentenceShare"></div>
       </div>
     </div>
 
-    <!-- ==================== چالش ۳: حدس شهید از تصویر ==================== -->
     <div class="tab-content" id="tab3">
       <div class="card">
-        <h3>🖼️ حدس شهید از تصویر</h3>
+        <h3><i class="fa-solid fa-image"></i> حدس شهید از تصویر</h3>
         <p style="text-align:center;margin-bottom:15px;">این تصویر مال کدوم شهیده؟</p>
         <div id="guessGame1" style="text-align:center;">
-          <p style="color:var(--text-muted);">⏳ در حال بارگذاری...</p>
+          <p style="color:var(--text-muted);"><i class="fa-solid fa-spinner fa-spin"></i> در حال بارگذاری...</p>
         </div>
       </div>
     </div>
 
-    <!-- ==================== چالش ۴: حدس تصویر از اسم ==================== -->
     <div class="tab-content" id="tab4">
       <div class="card">
-        <h3>📸 حدس تصویر از اسم شهید</h3>
+        <h3><i class="fa-solid fa-camera"></i> حدس تصویر از اسم شهید</h3>
         <div id="guessGame2" style="text-align:center;">
-          <p style="color:var(--text-muted);">⏳ در حال بارگذاری...</p>
+          <p style="color:var(--text-muted);"><i class="fa-solid fa-spinner fa-spin"></i> در حال بارگذاری...</p>
         </div>
       </div>
     </div>
@@ -205,15 +202,11 @@
     <p class="footer-text"><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p>
   </footer>
 
-  <script>
-    // ==================== API ====================
-    var API_BASE = "https://script.google.com/macros/s/AKfycbzuhWUIJ_d0bfIctIwcsQ61ELOpYUDKLT1KU5zNci1OT4ie1g_3pd3sRZlVJJzCAXllnA/exec";
-    var SHOHADA_LIST_API = API_BASE + "?type=shohada_list";
-
+    <script>
+    var API_BASE = 'https://script.google.com/macros/s/AKfycbzuhWUIJ_d0bfIctIwcsQ61ELOpYUDKLT1KU5zNci1OT4ie1g_3pd3sRZlVJJzCAXllnA/exec';
+    var SHOHADA_LIST_API = API_BASE + '?type=shohada_list';
     var shohadaList = [];
-    var monthNames = ['', 'فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
 
-    // ==================== دریافت لیست شهدا ====================
     async function loadShohadaFromAPI() {
       try {
         var response = await fetch(SHOHADA_LIST_API);
@@ -224,17 +217,17 @@
       }
     }
 
-    // ==================== تب‌ها ====================
     function switchTab(tab) {
-      document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-      document.querySelectorAll('.tab-content').forEach(function(c){ c.classList.remove('active'); });
+      var btns = document.querySelectorAll('.tab-btn');
+      for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+      var contents = document.querySelectorAll('.tab-content');
+      for (var i = 0; i < contents.length; i++) contents[i].classList.remove('active');
       event.target.classList.add('active');
       document.getElementById(tab).classList.add('active');
       if (tab === 'tab3') initGuessGame1();
       if (tab === 'tab4') initGuessGame2();
     }
 
-    // ==================== اشتراک‌گذاری ====================
     function buildShareButtons(containerId, text) {
       var container = document.getElementById(containerId);
       var encoded = encodeURIComponent(text);
@@ -247,7 +240,6 @@
         '<div class="share-item"><a class="share-btn whatsapp" href="https://wa.me/?text=' + encoded + '" target="_blank"><i class="fab fa-whatsapp"></i></a><span class="share-label">واتساپ</span></div>';
     }
 
-    // ==================== چالش ۱: رفیق شهید ====================
     var wantsSameBirth = false;
     var userBirthMonth = 0;
 
@@ -292,55 +284,43 @@
     function findFriend() {
       var martyrMonth = parseInt(document.getElementById('martyrMonth').value);
       if (!martyrMonth) { alert('ماه شهادت رو انتخاب کن!'); return; }
-
       if (shohadaList.length === 0) {
-        document.getElementById('friendResult').innerHTML = '<p>😔 اطلاعات شهدا در دسترس نیست</p>';
+        document.getElementById('friendResult').innerHTML = '<p><i class="fa-solid fa-exclamation-triangle"></i> اطلاعات شهدا در دسترس نیست</p>';
         document.getElementById('friendResult').classList.add('show');
         return;
       }
-
       var candidates = shohadaList.slice();
-
       if (wantsSameBirth && userBirthMonth > 0) {
         var birthMatches = candidates.filter(function(s){ return getMonthFromDate(s.birth) === userBirthMonth; });
         if (birthMatches.length > 0) candidates = birthMatches;
       }
-
       var martyrMatches = candidates.filter(function(s){ return getMonthFromDate(s.martyrdom) === martyrMonth; });
       if (martyrMatches.length > 0) candidates = martyrMatches;
-
       var friend = candidates[Math.floor(Math.random() * candidates.length)];
-
       document.getElementById('friendResult').innerHTML = 
-        '<p style="font-size:30px;">🕊️</p>' +
+        '<p style="font-size:30px;"><i class="fa-solid fa-dove"></i></p>' +
         '<p style="color:var(--gold);font-size:1.2rem;font-weight:bold;">' + friend.name + '</p>' +
-        '<p style="color:var(--text-muted);">🎂 تولد: ' + (friend.birth || 'نامشخص') + '</p>' +
-        '<p style="color:var(--text-muted);">🕊️ شهادت: ' + (friend.martyrdom || 'نامشخص') + '</p>' +
-        '<p style="color:var(--gold);margin-top:5px;">🕊️ رفیق شهید تو!</p>' +
-        '<button class="btn btn-sm btn-outline" onclick="resetFriendChallenge()" style="margin-top:15px;">🔄 دوباره امتحان کن</button>';
+        '<p style="color:var(--text-muted);"><i class="fa-solid fa-cake-candles"></i> تولد: ' + (friend.birth || 'نامشخص') + '</p>' +
+        '<p style="color:var(--text-muted);"><i class="fa-solid fa-feather"></i> شهادت: ' + (friend.martyrdom || 'نامشخص') + '</p>' +
+        '<p style="color:var(--gold);margin-top:5px;"><i class="fa-solid fa-user-friends"></i> رفیق شهید تو!</p>' +
+        '<button class="btn btn-sm btn-outline" onclick="resetFriendChallenge()" style="margin-top:15px;"><i class="fa-solid fa-rotate"></i> دوباره امتحان کن</button>';
       document.getElementById('friendResult').classList.add('show');
-
-      buildShareButtons('friendShare', '🕊️ رفیق شهید من: ' + friend.name + '\n🎂 ' + (friend.birth || '') + '\n🕊️ ' + (friend.martyrdom || '') + '\n\n🎯 چالش رفیق شهید | قَبَس');
+      buildShareButtons('friendShare', 'رفیق شهید من: ' + friend.name + '\nتولد: ' + (friend.birth || '') + '\nشهادت: ' + (friend.martyrdom || '') + '\n\nچالش رفیق شهید | قبس');
     }
 
-    // ==================== چالش ۲: جمله‌ساز ====================
     function buildSentence() {
       var part1 = ['قول میدم که', 'عهد میبندم که', 'سعی میکنم که', 'تلاش میکنم که', 'نیت میکنم که', 'تصمیم دارم که'];
       var part2 = ['از امروز', 'از فردا', 'از اول ماه', 'از شنبه', 'از سال آینده', 'از همین لحظه', 'از طلوع آفتاب'];
       var part3 = ['روزه ام را کامل بگیرم', 'نمازم را اول وقت بخوانم', 'هر روز قرآن بخوانم', 'به دیگران احترام بگذارم', 'کمتر عصبانی بشم', 'به پدر و مادرم نیکی کنم', 'راه شهدا رو ادامه بدم', 'هر روز صدقه بدم'];
-
       var p1 = part1[Math.floor(Math.random() * part1.length)];
       var p2 = part2[Math.floor(Math.random() * part2.length)];
       var p3 = part3[Math.floor(Math.random() * part3.length)];
       var sentence = p1 + ' ' + p2 + ' ' + p3;
-
-      document.getElementById('sentenceResult').innerHTML = '<p style="font-size:1.3rem;color:var(--gold);line-height:2;">✨ ' + sentence + '</p>';
+      document.getElementById('sentenceResult').innerHTML = '<p style="font-size:1.3rem;color:var(--gold);line-height:2;"><i class="fa-solid fa-star"></i> ' + sentence + '</p>';
       document.getElementById('sentenceResult').classList.add('show');
-
-      buildShareButtons('sentenceShare', '✍️ جمله شهدایی من:\n\n✨ ' + sentence + '\n\n🎯 چالش جمله‌ساز | قَبَس');
+      buildShareButtons('sentenceShare', 'جمله شهدایی من:\n\n' + sentence + '\n\nچالش جمله‌ساز | قبس');
     }
 
-    // ==================== چالش ۳: حدس شهید از تصویر ====================
     function getRandomShohada(count) {
       if (shohadaList.length < count) return shohadaList.slice();
       var shuffled = shohadaList.slice().sort(function(){ return 0.5 - Math.random(); });
@@ -355,19 +335,15 @@
     function initGuessGame1() {
       var container = document.getElementById('guessGame1');
       var candidates = getRandomShohada(4);
-      if (candidates.length < 2) { container.innerHTML = '<p style="color:var(--text-muted);">شهدای کافی ثبت نشده</p>'; return; }
-
+      if (candidates.length < 2) { container.innerHTML = '<p style="color:var(--text-muted);"><i class="fa-solid fa-exclamation-circle"></i> شهدای کافی ثبت نشده</p>'; return; }
       var withImages = candidates.filter(function(s){ return s.images && s.images.length > 0; });
-      if (withImages.length === 0) { container.innerHTML = '<p style="color:var(--text-muted);">شهدای دارای عکس کافی نیستند</p>'; return; }
-
+      if (withImages.length === 0) { container.innerHTML = '<p style="color:var(--text-muted);"><i class="fa-solid fa-exclamation-circle"></i> شهدای دارای عکس کافی نیستند</p>'; return; }
       var correct = withImages[Math.floor(Math.random() * withImages.length)];
       var imageUrl = getRandomImage(correct.images);
-
       var html = '<img src="' + imageUrl + '" class="challenge-img" style="margin:0 auto 20px;" onerror="this.src=\'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%231a1a2e%22 width=%22200%22 height=%22200%22/><text fill=%22%23c9a84c%22 x=%22100%22 y=%22100%22 text-anchor=%22middle%22 font-size=%2250%22>🕊️</text></svg>\'">';
       html += '<div class="options-grid">';
-
       for (var i = 0; i < candidates.length; i++) {
-        html += '<button class="option-card" onclick="checkGuess1(\'' + candidates[i].name + '\', \'' + correct.name + '\', this)">🕊️ ' + candidates[i].name + '</button>';
+        html += '<button class="option-card" onclick="checkGuess1(\'' + candidates[i].name + '\', \'' + correct.name + '\', this)"><i class="fa-solid fa-user"></i> ' + candidates[i].name + '</button>';
       }
       html += '</div>';
       container.innerHTML = html;
@@ -375,29 +351,25 @@
 
     function checkGuess1(guessed, correct, btn) {
       var buttons = document.querySelectorAll('#guessGame1 .option-card');
-      buttons.forEach(function(b){ b.disabled = true; });
+      for (var i = 0; i < buttons.length; i++) buttons[i].disabled = true;
       if (guessed === correct) {
         btn.classList.add('correct');
       } else {
         btn.classList.add('wrong');
-        buttons.forEach(function(b){
-          if (b.textContent.indexOf(correct) !== -1) { b.classList.add('correct'); }
-        });
+        for (var i = 0; i < buttons.length; i++) {
+          if (buttons[i].textContent.indexOf(correct) !== -1) { buttons[i].classList.add('correct'); }
+        }
       }
       setTimeout(function(){ initGuessGame1(); }, 2500);
     }
 
-    // ==================== چالش ۴: حدس تصویر از اسم ====================
     function initGuessGame2() {
       var container = document.getElementById('guessGame2');
       var candidates = getRandomShohada(4);
-      if (candidates.length < 2) { container.innerHTML = '<p style="color:var(--text-muted);">شهدای کافی ثبت نشده</p>'; return; }
-
+      if (candidates.length < 2) { container.innerHTML = '<p style="color:var(--text-muted);"><i class="fa-solid fa-exclamation-circle"></i> شهدای کافی ثبت نشده</p>'; return; }
       var correct = candidates[Math.floor(Math.random() * candidates.length)];
-
-      var html = '<p style="color:var(--text-muted);margin-bottom:15px;">کدوم تصویر مال <b style="color:var(--gold);">🕊️ ' + correct.name + '</b> هست؟</p>';
+      var html = '<p style="color:var(--text-muted);margin-bottom:15px;">کدوم تصویر مال <b style="color:var(--gold);"><i class="fa-solid fa-user"></i> ' + correct.name + '</b> هست؟</p>';
       html += '<div class="options-grid">';
-
       for (var i = 0; i < candidates.length; i++) {
         var imgUrl = getRandomImage(candidates[i].images) || '';
         html += '<div class="option-card" onclick="checkGuess2(\'' + correct.name + '\', \'' + candidates[i].name + '\', this)">';
@@ -411,20 +383,19 @@
 
     function checkGuess2(correctName, guessedName, card) {
       var cards = document.querySelectorAll('#guessGame2 .option-card');
-      cards.forEach(function(c){ c.style.pointerEvents = 'none'; });
+      for (var i = 0; i < cards.length; i++) cards[i].style.pointerEvents = 'none';
       if (guessedName === correctName) {
         card.classList.add('correct');
       } else {
         card.classList.add('wrong');
-        cards.forEach(function(c){
-          var img = c.querySelector('img');
-          if (img && img.alt && img.alt.indexOf(correctName) !== -1) { c.classList.add('correct'); }
-        });
+        for (var i = 0; i < cards.length; i++) {
+          var img = cards[i].querySelector('img');
+          if (img && img.alt && img.alt.indexOf(correctName) !== -1) { cards[i].classList.add('correct'); }
+        }
       }
       setTimeout(function(){ initGuessGame2(); }, 2500);
     }
 
-    // ==================== شروع ====================
     loadShohadaFromAPI();
   </script>
 </body>
