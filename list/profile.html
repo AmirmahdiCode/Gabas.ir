@@ -2,405 +2,453 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>حساب کاربری | قَبَس</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>پروفایل | قَبَس</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-header: #0a1a12; --bg-card: rgba(22, 38, 30, 0.7);
+      --glass-border: rgba(201, 168, 76, 0.15); --gold: #c9a84c;
+      --gold-light: #e2c87a; --text: #e8e6e0; --text-muted: #a4a098;
+      --red: #e74c3c; --green: #4caf84; --warning: #f39c12; --info: #3498db;
+    }
     body {
       font-family: Tahoma, sans-serif;
       background: radial-gradient(ellipse at top, #1d3528 0%, #0a1410 60%);
-      color: #e8e6e0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      color: var(--text); min-height: 100vh; direction: rtl;
+      display: flex; flex-direction: column;
     }
     .header {
-      background: #0a1a12;
-      border-bottom: 1px solid rgba(201,168,76,0.2);
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      background: var(--bg-header); border-bottom: 1px solid rgba(201,168,76,0.2);
+      padding: 14px 20px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 100;
     }
-    .header a { color: #c9a84c; text-decoration: none; font-size: 14px; }
-    .header-title { font-size: 1.4rem; font-weight: bold; color: #c9a84c; }
-    .container { max-width: 500px; margin: 0 auto; padding: 20px; flex: 1; width: 100%; }
+    .header a { color: var(--gold); text-decoration: none; font-size: 14px; }
+    .header-title {
+      font-size: 1.4rem; font-weight: bold;
+      background: linear-gradient(180deg, #f5dea3, #c9a84c, #8a6914);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .container { max-width: 500px; margin: 0 auto; padding: 20px 16px; flex: 1; width: 100%; }
+
     .card {
-      background: rgba(22, 38, 30, 0.7);
-      border: 1px solid rgba(201,168,76,0.15);
-      border-radius: 16px;
-      padding: 25px;
-      margin-bottom: 15px;
+      background: var(--bg-card); backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border); border-radius: 20px;
+      padding: 25px; margin-bottom: 15px;
     }
-    .card h3 { color: #c9a84c; margin-bottom: 15px; text-align: center; }
-    .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 12px; color: #a4a098; margin-bottom: 4px; }
+    .card h3 {
+      color: var(--gold); margin-bottom: 15px; text-align: center;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
     .form-group input, .form-group textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid rgba(201,168,76,0.15);
-      border-radius: 10px;
-      background: rgba(255,255,255,0.04);
-      color: #e8e6e0;
-      font-family: Tahoma;
+      width: 100%; padding: 10px 14px; border: 1px solid var(--glass-border);
+      border-radius: 10px; font-size: 13px; background: rgba(255,255,255,0.04);
+      color: var(--text); outline: none; font-family: Tahoma;
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
-    .form-group textarea { min-height: 60px; }
+    .form-group textarea { resize: vertical; min-height: 70px; }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.1); }
+
     .btn {
-      width: 100%;
-      padding: 11px;
-      border: none;
-      border-radius: 10px;
-      background: #c9a84c;
-      color: #0a1410;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 5px;
-      font-size: 14px;
+      width: 100%; padding: 12px; border: none; border-radius: 12px;
+      font-size: 14px; font-weight: 700; cursor: pointer; font-family: Tahoma;
+      background: var(--gold); color: #0a1410; transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
     }
-    .btn:disabled { opacity: 0.5; }
+    .btn:hover { box-shadow: 0 6px 20px rgba(201,168,76,0.3); transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-outline {
+      background: transparent; border: 1px solid var(--gold); color: var(--gold);
+    }
+    .btn-outline:hover { background: rgba(201,168,76,0.1); }
     .btn-sm {
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid #c9a84c;
-      background: transparent;
-      color: #c9a84c;
-      cursor: pointer;
-      text-decoration: none;
-      font-size: 12px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600;
+      border: 1px solid var(--gold); background: transparent; color: var(--gold);
+      cursor: pointer; font-family: Tahoma; transition: all 0.3s;
+      display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
     }
-    .btn-sm.danger {
-      border-color: #e74c3c;
-      color: #e74c3c;
-    }
+    .btn-sm:hover { background: rgba(201,168,76,0.1); }
+    .btn-sm.danger { border-color: var(--red); color: var(--red); }
+    .btn-sm.danger:hover { background: rgba(231,76,60,0.1); }
+
     .msg {
-      text-align: center;
-      margin-top: 8px;
-      font-size: 13px;
-      padding: 10px;
-      border-radius: 10px;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      text-align: center; margin-top: 10px; font-size: 13px; padding: 10px 14px;
+      border-radius: 10px; display: none; align-items: center; justify-content: center; gap: 8px;
     }
     .msg.show { display: flex; }
-    .msg.success { background: rgba(76,175,132,0.15); color: #4caf84; }
-    .msg.error { background: rgba(231,76,60,0.15); color: #e74c3c; }
-    .msg.info { background: rgba(52,152,219,0.15); color: #3498db; }
+    .msg.success { background: rgba(76,175,132,0.15); color: var(--green); }
+    .msg.error { background: rgba(255,107,107,0.15); color: var(--red); }
+    .msg.info { background: rgba(52,152,219,0.15); color: var(--info); }
+
     .tabs { display: flex; gap: 6px; margin-bottom: 16px; }
     .tab-btn {
-      flex: 1;
-      padding: 10px;
-      text-align: center;
-      border-radius: 10px;
-      background: rgba(22, 38, 30, 0.7);
-      border: 1px solid rgba(201,168,76,0.15);
-      color: #a4a098;
-      cursor: pointer;
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
+      flex: 1; padding: 12px; text-align: center; border-radius: 12px; font-size: 13px;
+      background: var(--bg-card); border: 1px solid var(--glass-border);
+      color: var(--text-muted); cursor: pointer; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      transition: all 0.3s;
     }
-    .tab-btn.active { background: #c9a84c; color: #0a1410; }
+    .tab-btn.active { background: var(--gold); color: #0a1410; border-color: var(--gold); }
+
     .profile-avatar {
-      width: 80px; height: 80px;
-      border-radius: 50%;
-      margin: 0 auto 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(201,168,76,0.12);
-      border: 3px solid #c9a84c;
-      font-size: 32px;
-      color: #c9a84c;
-      overflow: hidden;
+      width: 100px; height: 100px; border-radius: 50%;
+      margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;
+      background: rgba(201,168,76,0.12); border: 3px solid var(--gold);
+      font-size: 42px; color: var(--gold); overflow: hidden; position: relative;
     }
     .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .profile-name { font-size: 20px; font-weight: bold; color: #e2c87a; text-align: center; }
-    .profile-username { font-size: 13px; color: #a4a098; text-align: center; margin-bottom: 8px; }
-    .profile-bio { font-size: 13px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; margin: 8px 0; text-align: center; line-height: 1.8; }
-    .profile-meta { display: flex; justify-content: center; gap: 20px; margin-top: 12px; font-size: 12px; color: #a4a098; flex-wrap: wrap; }
-    .profile-meta span { display: flex; align-items: center; gap: 4px; }
-    .profile-actions { display: flex; gap: 8px; margin-top: 14px; justify-content: center; flex-wrap: wrap; }
+    .avatar-edit-btn {
+      position: absolute; bottom: -5px; right: -5px;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--gold); color: #0a1410; border: 2px solid #0a1410;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; cursor: pointer; transition: all 0.3s;
+    }
+    .avatar-edit-btn:hover { transform: scale(1.1); }
+
+    .profile-name { font-size: 22px; font-weight: 800; color: var(--gold-light); text-align: center; margin-bottom: 4px; }
+    .profile-username { font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 12px; }
+
+    .info-row {
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+      background: rgba(255,255,255,0.02); border-radius: 10px; margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .info-row i { color: var(--gold); width: 20px; text-align: center; font-size: 14px; }
+    .info-row .label { color: var(--text-muted); min-width: 80px; font-size: 11px; }
+    .info-row .value { color: var(--text); flex: 1; }
+
+    .profile-actions { display: flex; gap: 8px; margin-top: 20px; justify-content: center; flex-wrap: wrap; }
+
+    .avatar-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 15px 0;
+    }
+    .avatar-option {
+      width: 50px; height: 50px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.04); border: 2px solid transparent;
+      font-size: 22px; color: var(--text-muted); cursor: pointer;
+      transition: all 0.3s; margin: 0 auto;
+    }
+    .avatar-option:hover { border-color: var(--gold); color: var(--gold); }
+    .avatar-option.selected { border-color: var(--gold); background: rgba(201,168,76,0.2); color: var(--gold); }
+
     .loading { text-align: center; padding: 40px; }
     .spinner {
-      width: 48px; height: 48px;
-      border: 3px solid rgba(201,168,76,0.2);
-      border-top-color: #c9a84c;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 16px;
+      width: 48px; height: 48px; border: 3px solid rgba(201,168,76,0.2);
+      border-top-color: var(--gold); border-radius: 50%;
+      animation: spin 0.8s linear infinite; margin: 0 auto 16px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .error-box { text-align: center; padding: 30px; }
-    .error-box .icon { font-size: 48px; margin-bottom: 12px; }
+
     .footer {
-      background: #0a1a12;
-      text-align: center;
-      padding: 12px;
-      font-size: 10px;
-      color: #a4a098;
-      margin-top: auto;
+      background: var(--bg-header); border-top: 1px solid rgba(201,168,76,0.2);
+      text-align: center; padding: 12px; font-size: 10px; color: var(--text-muted); margin-top: auto;
+    }
+
+    @media (max-width: 400px) {
+      .avatar-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
     }
   </style>
 </head>
 <body>
-  <header class="header">
-    <a href="../index.html"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
-    <div class="header-title">پروفایل</div>
-    <div></div>
-  </header>
 
-  <div class="container" id="app">
-    <div class="loading">
-      <div class="spinner"></div>
-      <p style="color:#a4a098;">در حال بارگذاری...</p>
-    </div>
+<header class="header">
+  <a href="../index.html"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
+  <div class="header-title">پروفایل</div>
+  <div></div>
+</header>
+
+<div class="container" id="app">
+  <div class="loading">
+    <div class="spinner"></div>
+    <p style="color:var(--text-muted);">در حال بارگذاری...</p>
   </div>
+</div>
 
-  <footer class="footer">
-    <p><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p>
-  </footer>
+<footer class="footer">
+  <p><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p>
+</footer>
 
-  <script>
-    var API = 'https://script.google.com/macros/s/AKfycbyeRmia5_0vLim3AOYK6h3S-YH4DMeBGiwKe2B6Pty9SLgTGJPV_LwSm5wwoAszTSZbzw/exec';
-    var app = document.getElementById('app');
+<script>
+var API = 'https://script.google.com/macros/s/AKfycbxUIo8Ig-Ff7vnSXOOe00jT6p--ObusMg-KbR33yt9UchCBHHst5_kVNmo4_uthhgeLOw/exec';
+var app = document.getElementById('app');
 
-    function showLoading(msg) {
-      app.innerHTML = `
-        <div class="loading">
-          <div class="spinner"></div>
-          <p style="color:#a4a098;">${msg || 'در حال بارگذاری...'}</p>
-        </div>`;
-    }
+var avatarIcons = [
+  'fa-user', 'fa-crown', 'fa-star', 'fa-heart', 'fa-fire',
+  'fa-moon', 'fa-sun', 'fa-bolt', 'fa-skull', 'fa-ghost',
+  'fa-dragon', 'fa-cat', 'fa-dog', 'fa-fish', 'fa-crow',
+  'fa-otter', 'fa-spider', 'fa-hippo', 'fa-dove', 'fa-feather'
+];
 
-    function showError(msg) {
-      app.innerHTML = `
-        <div class="card error-box">
-          <div class="icon"><i class="fa-solid fa-triangle-exclamation" style="color:#f39c12;"></i></div>
-          <p style="color:#e74c3c;margin-bottom:12px;">${msg}</p>
-          <button class="btn-sm" onclick="location.reload()"><i class="fa-solid fa-rotate"></i> تلاش مجدد</button>
-          <button class="btn-sm" onclick="showLoginRegister()" style="margin-right:8px;"><i class="fa-solid fa-right-to-bracket"></i> رفتن به ورود</button>
-        </div>`;
-    }
+// ========== TOOLS ==========
+function showLoading(msg) {
+  app.innerHTML = '<div class="loading"><div class="spinner"></div><p style="color:var(--text-muted);">' + (msg || 'در حال بارگذاری...') + '</p></div>';
+}
 
-    async function api(action, data) {
-      data.action = action;
-      try {
-        var res = await fetch(API, {
-          method: 'POST',
-          body: JSON.stringify(data)
-        });
-        var text = await res.text();
-        return JSON.parse(text);
-      } catch(e) {
-        return { status: 'error', message: 'خطا در ارتباط با سرور' };
-      }
-    }
+async function api(action, data) {
+  data.action = action;
+  try {
+    var res = await fetch(API, { method: 'POST', body: JSON.stringify(data) });
+    var text = await res.text();
+    return JSON.parse(text);
+  } catch(e) {
+    return { status: 'error', message: 'خطا در ارتباط با سرور' };
+  }
+}
 
-    function showProfile(user) {
-      var local = JSON.parse(localStorage.getItem('user') || 'null');
-      var isOwner = local && local.username === user.username;
-      
-      app.innerHTML = `
-        <div class="card">
-          <div class="profile-avatar">
-            ${user.avatar ? '<img src="' + user.avatar + '" alt="' + (user.name || '') + '">' : '<i class="fa-solid fa-user"></i>'}
-          </div>
-          <div class="profile-name">${user.name || 'بی‌نام'}</div>
-          <div class="profile-username">@${user.username}</div>
-          ${user.bio ? '<div class="profile-bio">' + user.bio + '</div>' : ''}
-          <div class="profile-meta">
-            ${user.last_seen ? '<span><i class="fa-regular fa-clock"></i> ' + user.last_seen + '</span>' : ''}
-            ${user.birth_date ? '<span><i class="fa-solid fa-cake-candles"></i> ' + user.birth_date + '</span>' : ''}
-            ${user.interests ? '<span><i class="fa-solid fa-tag"></i> ' + user.interests + '</span>' : ''}
-          </div>
-          <div class="profile-actions">
-            <button class="btn-sm" onclick="copyLink('${user.username}')"><i class="fa-solid fa-link"></i> کپی لینک</button>
-            ${isOwner ? '<button class="btn-sm danger" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>' : ''}
-          </div>
-        </div>`;
-    }
+// ========== PROFILE VIEW ==========
+function showProfile(user) {
+  var local = JSON.parse(localStorage.getItem('user') || 'null');
+  var isOwner = local && local.username === user.username;
 
-    function showLoginRegister() {
-      app.innerHTML = `
-        <div class="tabs">
-          <button id="tabLogin" class="tab-btn active" onclick="switchTab('login')"><i class="fa-solid fa-right-to-bracket"></i> ورود</button>
-          <button id="tabRegister" class="tab-btn" onclick="switchTab('register')"><i class="fa-solid fa-user-plus"></i> ثبت‌نام</button>
-        </div>
-        <div id="loginForm" class="card">
-          <h3><i class="fa-solid fa-key"></i> ورود به حساب</h3>
-          <div class="form-group"><label><i class="fa-solid fa-user"></i> نام کاربری</label><input id="loginUser" placeholder="نام کاربری"></div>
-          <div class="form-group"><label><i class="fa-solid fa-lock"></i> رمز عبور</label><input type="password" id="loginPass" placeholder="رمز عبور"></div>
-          <div id="loginMsg" class="msg"></div>
-          <button class="btn" id="loginBtn" onclick="doLogin()"><i class="fa-solid fa-right-to-bracket"></i> ورود</button>
-        </div>
-        <div id="registerForm" class="card" style="display:none;">
-          <h3><i class="fa-solid fa-user-plus"></i> ایجاد حساب جدید</h3>
-          <div class="form-group"><label><i class="fa-solid fa-user"></i> نام *</label><input id="regName" placeholder="نام کامل"></div>
-          <div class="form-group"><label><i class="fa-solid fa-at"></i> نام کاربری *</label><input id="regUser" placeholder="نام کاربری"></div>
-          <div class="form-group"><label><i class="fa-solid fa-lock"></i> رمز عبور *</label><input type="password" id="regPass" placeholder="حداقل ۳ کاراکتر"></div>
-          <div class="form-group"><label><i class="fa-solid fa-pen"></i> بیوگرافی</label><textarea id="regBio" placeholder="درباره خودت..."></textarea></div>
-          <div id="regMsg" class="msg"></div>
-          <button class="btn" id="regBtn" onclick="doRegister()"><i class="fa-solid fa-check"></i> ثبت‌نام</button>
-        </div>`;
-    }
+  var avatarHtml = user.avatar && user.avatar.startsWith('fa-')
+    ? '<i class="fa-solid ' + user.avatar + '"></i>'
+    : (user.avatar ? '<img src="' + user.avatar + '" alt="">' : '<i class="fa-solid fa-user"></i>');
 
-    window.switchTab = function(tab) {
-      document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
-      document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
-      document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
-      document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
-    };
+  var html = '<div class="card">';
 
-    window.doLogin = async function() {
-      var u = document.getElementById('loginUser').value.trim();
-      var p = document.getElementById('loginPass').value;
-      var msg = document.getElementById('loginMsg');
-      var btn = document.getElementById('loginBtn');
-      
-      msg.className = 'msg';
-      
-      if (!u || !p) {
-        msg.className = 'msg error show';
-        msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> لطفاً همه فیلدها را پر کنید';
-        return;
-      }
-      
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال ورود...';
-      
-      var res = await api('login', { username: u, password: p });
-      
-      alert('پاسخ سرور:\n' + JSON.stringify(res, null, 2));
-      
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> ورود';
-      
-      if (res.status === 'success') {
-        localStorage.setItem('user', JSON.stringify(res.data));
-        msg.className = 'msg success show';
-        msg.innerHTML = '<i class="fa-solid fa-circle-check"></i> ورود موفق!';
-        setTimeout(function() { showProfile(res.data); }, 500);
-      } else {
-        msg.className = 'msg error show';
-        msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ' + (res.message || 'خطا در ورود');
-      }
-    };
+  html += '<div class="profile-avatar">' + avatarHtml;
+  if (isOwner) {
+    html += '<div class="avatar-edit-btn" onclick="showEditProfile()"><i class="fa-solid fa-pen"></i></div>';
+  }
+  html += '</div>';
 
-    window.doRegister = async function() {
-      var n = document.getElementById('regName').value.trim();
-      var u = document.getElementById('regUser').value.trim();
-      var p = document.getElementById('regPass').value;
-      var b = document.getElementById('regBio').value.trim();
-      var msg = document.getElementById('regMsg');
-      var btn = document.getElementById('regBtn');
-      
-      msg.className = 'msg';
-      
-      if (!n || !u || !p) {
-        msg.className = 'msg error show';
-        msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> فیلدهای ستاره‌دار را پر کنید';
-        return;
-      }
-      
-      if (u.length < 3) {
-        msg.className = 'msg error show';
-        msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> نام کاربری حداقل ۳ کاراکتر';
-        return;
-      }
-      
-      if (p.length < 3) {
-        msg.className = 'msg error show';
-        msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> رمز عبور حداقل ۳ کاراکتر';
-        return;
-      }
-      
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال ثبت‌نام...';
-      
-      var res = await api('register', { username: u, password: p, name: n, bio: b });
-      
-      alert('پاسخ سرور:\n' + JSON.stringify(res, null, 2));
-      
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fa-solid fa-check"></i> ثبت‌نام';
-      
-      if (res.status === 'success') {
-        msg.className = 'msg success show';
-        msg.innerHTML = '<i class="fa-solid fa-circle-check"></i> ثبت‌نام موفق! به صفحه ورود بروید';
-        setTimeout(function() { switchTab('login'); }, 2000);
-      } else {
-        msg.className = 'msg error show';
-        msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ' + (res.message || 'خطا در ثبت‌نام');
-      }
-    };
+  html += '<div class="profile-name">' + (user.name || 'بی‌نام') + '</div>';
+  html += '<div class="profile-username">@' + user.username + '</div>';
 
-    window.copyLink = function(username) {
-      var link = location.origin + location.pathname + '?user=' + username;
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(link).then(function() {
-          alert('لینک پروفایل کپی شد');
-        });
-      } else {
-        prompt('لینک پروفایل:', link);
-      }
-    };
+  if (user.bio) {
+    html += '<div class="info-row"><i class="fa-solid fa-quote-right"></i><span class="value">' + user.bio + '</span></div>';
+  }
 
-    window.logout = function() {
-      localStorage.removeItem('user');
-      location.reload();
-    };
+  if (user.birth_date) {
+    html += '<div class="info-row"><i class="fa-solid fa-cake-candles"></i><span class="label">تولد:</span><span class="value">' + user.birth_date + '</span></div>';
+  }
 
-    async function init() {
-      try {
-        var params = new URLSearchParams(location.search);
-        var viewUser = params.get('user');
-        
-        if (viewUser) {
-          showLoading('در حال دریافت پروفایل...');
-          var res = await api('get_user', { username: viewUser });
-          if (res.status === 'success' && res.data) {
-            showProfile(res.data);
-          } else {
-            showError('کاربر @' + viewUser + ' پیدا نشد');
-          }
-          return;
-        }
-        
-        var local = JSON.parse(localStorage.getItem('user') || 'null');
-        if (local && local.username) {
-          showLoading('در حال بازیابی حساب...');
-          var res = await api('get_user', { username: local.username });
-          if (res.status === 'success' && res.data) {
-            showProfile(res.data);
-            return;
-          }
-          localStorage.removeItem('user');
-        }
-        
-        showLoginRegister();
-        
-      } catch(e) {
-        showError('خطا در بارگذاری');
-      }
-    }
+  if (user.interests) {
+    html += '<div class="info-row"><i class="fa-solid fa-heart"></i><span class="label">علاقه‌مندی‌ها:</span><span class="value">' + user.interests + '</span></div>';
+  }
 
-    var timeout = setTimeout(function() {
-      if (app.querySelector('.loading')) {
-        showError('بارگذاری طولانی شد');
-      }
-    }, 10000);
+  var statusText = user.online_status === 'online' ? 'آنلاین' : 'آفلاین';
+  var statusColor = user.online_status === 'online' ? 'var(--green)' : 'var(--text-muted)';
+  html += '<div class="info-row"><i class="fa-solid fa-circle" style="color:' + statusColor + ';font-size:10px;"></i><span class="label">وضعیت:</span><span class="value" style="color:' + statusColor + '">' + statusText + '</span></div>';
 
-    init().then(function() {
-      clearTimeout(timeout);
-    });
-  </script>
+  if (user.last_seen) {
+    html += '<div class="info-row"><i class="fa-regular fa-clock"></i><span class="label">آخرین بازدید:</span><span class="value">' + user.last_seen + '</span></div>';
+  }
+
+  html += '<div class="profile-actions">';
+  html += '<button class="btn-sm" onclick="copyLink(\'' + user.username + '\')"><i class="fa-solid fa-link"></i> کپی لینک</button>';
+  if (isOwner) {
+    html += '<button class="btn-sm" onclick="showEditProfile()"><i class="fa-solid fa-pen-to-square"></i> ویرایش</button>';
+    html += '<button class="btn-sm danger" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>';
+  }
+  html += '</div></div>';
+
+  app.innerHTML = html;
+}
+
+// ========== EDIT PROFILE ==========
+window.showEditProfile = function() {
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+
+  var html = '<div class="card"><h3><i class="fa-solid fa-pen-to-square"></i> ویرایش پروفایل</h3>';
+
+  html += '<p style="text-align:center;color:var(--text-muted);font-size:12px;margin-bottom:8px;">یک آیکون انتخاب کنید:</p>';
+  html += '<div class="avatar-grid">';
+  avatarIcons.forEach(function(icon) {
+    var selected = user.avatar === icon ? ' selected' : '';
+    html += '<div class="avatar-option' + selected + '" onclick="selectAvatar(\'' + icon + '\')" id="av_' + icon + '"><i class="fa-solid ' + icon + '"></i></div>';
+  });
+  html += '</div>';
+  html += '<input type="hidden" id="editAvatar" value="' + (user.avatar || 'fa-user') + '">';
+
+  html += '<div class="form-group"><label><i class="fa-solid fa-user"></i> نام</label><input id="editName" value="' + (user.name || '') + '" placeholder="نام کامل"></div>';
+  html += '<div class="form-group"><label><i class="fa-solid fa-quote-right"></i> بیوگرافی</label><textarea id="editBio" placeholder="درباره خودت...">' + (user.bio || '') + '</textarea></div>';
+  html += '<div class="form-group"><label><i class="fa-solid fa-heart"></i> علاقه‌مندی‌ها</label><input id="editInterests" value="' + (user.interests || '') + '" placeholder="مثلاً: کتاب، موسیقی، ورزش"></div>';
+  html += '<div class="form-group"><label><i class="fa-solid fa-cake-candles"></i> تاریخ تولد</label><input id="editBirthdate" value="' + (user.birth_date || '') + '" placeholder="مثلاً: ۱۳۷۵/۰۶/۱۵"></div>';
+
+  html += '<div id="editMsg" class="msg"></div>';
+  html += '<button class="btn" onclick="saveProfile()"><i class="fa-solid fa-check"></i> ذخیره تغییرات</button>';
+  html += '<button class="btn btn-outline" style="margin-top:8px;" onclick="cancelEdit()"><i class="fa-solid fa-xmark"></i> لغو</button>';
+  html += '</div>';
+
+  app.innerHTML = html;
+};
+
+window.selectAvatar = function(icon) {
+  document.querySelectorAll('.avatar-option').forEach(function(el) { el.classList.remove('selected'); });
+  document.getElementById('av_' + icon).classList.add('selected');
+  document.getElementById('editAvatar').value = icon;
+};
+
+window.cancelEdit = function() {
+  var user = JSON.parse(localStorage.getItem('user') || 'null');
+  if (user && user.username) { showProfile(user); }
+  else { showLoginRegister(); }
+};
+
+window.saveProfile = async function() {
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  var name = document.getElementById('editName').value.trim();
+  var bio = document.getElementById('editBio').value.trim();
+  var interests = document.getElementById('editInterests').value.trim();
+  var birth_date = document.getElementById('editBirthdate').value.trim();
+  var avatar = document.getElementById('editAvatar').value;
+  var msg = document.getElementById('editMsg');
+
+  if (!name) {
+    msg.className = 'msg error show';
+    msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> نام الزامی است';
+    return;
+  }
+
+  msg.className = 'msg info show';
+  msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال ذخیره...';
+
+  var res = await api('update_profile', {
+    username: user.username,
+    name: name,
+    bio: bio,
+    interests: interests,
+    birth_date: birth_date,
+    avatar: avatar
+  });
+
+  if (res.status === 'success') {
+    user.name = name;
+    user.bio = bio;
+    user.interests = interests;
+    user.birth_date = birth_date;
+    user.avatar = avatar;
+    localStorage.setItem('user', JSON.stringify(user));
+
+    msg.className = 'msg success show';
+    msg.innerHTML = '<i class="fa-solid fa-circle-check"></i> تغییرات ذخیره شد';
+    setTimeout(function() { showProfile(user); }, 1000);
+  } else {
+    msg.className = 'msg error show';
+    msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ' + (res.message || 'خطا');
+  }
+};
+
+// ========== LOGIN/REGISTER ==========
+function showLoginRegister() {
+  app.innerHTML = `
+    <div class="tabs">
+      <button id="tabLogin" class="tab-btn active" onclick="switchTab('login')"><i class="fa-solid fa-right-to-bracket"></i> ورود</button>
+      <button id="tabRegister" class="tab-btn" onclick="switchTab('register')"><i class="fa-solid fa-user-plus"></i> ثبت‌نام</button>
+    </div>
+    <div id="loginForm" class="card">
+      <h3><i class="fa-solid fa-key"></i> ورود به حساب</h3>
+      <div class="form-group"><label><i class="fa-solid fa-user"></i> نام کاربری</label><input id="loginUser" placeholder="نام کاربری"></div>
+      <div class="form-group"><label><i class="fa-solid fa-lock"></i> رمز عبور</label><input type="password" id="loginPass" placeholder="رمز عبور"></div>
+      <div id="loginMsg" class="msg"></div>
+      <button class="btn" id="loginBtn" onclick="doLogin()"><i class="fa-solid fa-right-to-bracket"></i> ورود</button>
+    </div>
+    <div id="registerForm" class="card" style="display:none;">
+      <h3><i class="fa-solid fa-user-plus"></i> ایجاد حساب</h3>
+      <div class="form-group"><label><i class="fa-solid fa-user"></i> نام *</label><input id="regName" placeholder="نام کامل"></div>
+      <div class="form-group"><label><i class="fa-solid fa-at"></i> نام کاربری *</label><input id="regUser" placeholder="نام کاربری"></div>
+      <div class="form-group"><label><i class="fa-solid fa-lock"></i> رمز عبور *</label><input type="password" id="regPass" placeholder="حداقل ۳ کاراکتر"></div>
+      <div class="form-group"><label><i class="fa-solid fa-pen"></i> بیوگرافی</label><textarea id="regBio" placeholder="درباره خودت..."></textarea></div>
+      <div id="regMsg" class="msg"></div>
+      <button class="btn" id="regBtn" onclick="doRegister()"><i class="fa-solid fa-check"></i> ثبت‌نام</button>
+    </div>`;
+}
+
+window.switchTab = function(tab) {
+  document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+  document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
+  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+};
+
+window.doLogin = async function() {
+  var u = document.getElementById('loginUser').value.trim();
+  var p = document.getElementById('loginPass').value;
+  var msg = document.getElementById('loginMsg');
+  var btn = document.getElementById('loginBtn');
+  msg.className = 'msg';
+  if (!u || !p) { msg.className = 'msg error show'; msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> فیلدها را پر کنید'; return; }
+  btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ورود...';
+  var res = await api('login', { username: u, password: p });
+  btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> ورود';
+  if (res.status === 'success') {
+    localStorage.setItem('user', JSON.stringify(res.data));
+    showProfile(res.data);
+  } else {
+    msg.className = 'msg error show';
+    msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ' + (res.message || 'خطا');
+  }
+};
+
+window.doRegister = async function() {
+  var n = document.getElementById('regName').value.trim();
+  var u = document.getElementById('regUser').value.trim();
+  var p = document.getElementById('regPass').value;
+  var b = document.getElementById('regBio').value.trim();
+  var msg = document.getElementById('regMsg');
+  var btn = document.getElementById('regBtn');
+  msg.className = 'msg';
+  if (!n || !u || !p) { msg.className = 'msg error show'; msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> فیلدهای ستاره‌دار را پر کنید'; return; }
+  btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ثبت‌نام...';
+  var res = await api('register', { username: u, password: p, name: n, bio: b });
+  btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> ثبت‌نام';
+  if (res.status === 'success') {
+    msg.className = 'msg success show';
+    msg.innerHTML = '<i class="fa-solid fa-circle-check"></i> ثبت‌نام موفق! وارد شوید';
+    setTimeout(function() { switchTab('login'); }, 1500);
+  } else {
+    msg.className = 'msg error show';
+    msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ' + (res.message || 'خطا');
+  }
+};
+
+window.copyLink = function(username) {
+  var link = location.origin + location.pathname + '?user=' + username;
+  if (navigator.clipboard) { navigator.clipboard.writeText(link).then(function() { alert('لینک کپی شد'); }); }
+  else { prompt('لینک:', link); }
+};
+
+window.logout = function() {
+  localStorage.removeItem('user');
+  location.reload();
+};
+
+// ========== INIT ==========
+async function init() {
+  var params = new URLSearchParams(location.search);
+  var viewUser = params.get('user');
+
+  if (viewUser) {
+    showLoading('دریافت پروفایل...');
+    var res = await api('get_user', { username: viewUser });
+    if (res.status === 'success' && res.data) { showProfile(res.data); }
+    else { app.innerHTML = '<div class="card" style="text-align:center;"><p style="color:var(--text-muted);">کاربر پیدا نشد</p><a href="' + location.pathname + '" class="btn-sm" style="margin-top:12px;">بازگشت</a></div>'; }
+    return;
+  }
+
+  var local = JSON.parse(localStorage.getItem('user') || 'null');
+  if (local && local.username) {
+    showLoading('بازیابی حساب...');
+    var res = await api('get_user', { username: local.username });
+    if (res.status === 'success' && res.data) { showProfile(res.data); return; }
+    localStorage.removeItem('user');
+  }
+
+  showLoginRegister();
+}
+
+var timeout = setTimeout(function() {
+  if (app.querySelector('.loading')) { app.innerHTML = '<div class="card" style="text-align:center;"><p style="color:var(--red);">بارگذاری طولانی شد</p><button class="btn-sm" onclick="location.reload()">تلاش مجدد</button></div>'; }
+}, 10000);
+
+init().then(function() { clearTimeout(timeout); });
+</script>
 </body>
 </html>
