@@ -32,15 +32,15 @@
       max-width: 1100px; margin: 0 auto;
       display: flex; justify-content: space-between; align-items: center;
     }
+    .header-center {
+      display: flex; align-items: center; gap: 14px;
+    }
     .header-title {
       font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
       font-size: 2rem; font-weight: 800;
       background: linear-gradient(180deg, #f5dea3 0%, #c9a84c 50%, #8a6914 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; letter-spacing: 2px;
-    }
-    .header-left {
-      display: flex; align-items: center; gap: 10px;
     }
     .header-login-btn {
       display: flex; align-items: center; gap: 6px;
@@ -51,33 +51,29 @@
     }
     .header-login-btn:hover { background: rgba(201,168,76,0.1); }
 
-    /* ===== دکمه بستن شیشه‌ای در هدر (فقط در ایتا) ===== */
-    #eitaaCloseBtn {
-      display: none;
-    }
-    #eitaaCloseBtn button {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      color: rgba(255, 255, 255, 0.7);
-      padding: 8px 14px;
-      font-size: 13px;
+    /* ===== دکمه بستن هماهنگ با تم ===== */
+    .header-close-btn {
+      background: transparent;
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 8px;
+      color: var(--text-muted);
+      padding: 6px 12px;
+      font-size: 12px;
       font-weight: 500;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       font-family: 'Vazirmatn', sans-serif;
       transition: all 0.3s ease;
     }
-    #eitaaCloseBtn button:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: #ffffff;
+    .header-close-btn:hover {
+      background: rgba(201,168,76,0.08);
+      border-color: var(--gold);
+      color: var(--gold-light);
     }
-    #eitaaCloseBtn button i {
-      font-size: 18px;
+    .header-close-btn i {
+      font-size: 15px;
     }
 
     /* ===== پیام راهنما برای مرورگر معمولی ===== */
@@ -177,6 +173,9 @@
       .shahada-card { flex-direction: column; text-align: center; }
       .header-title { font-size: 1.6rem; }
       .product-image { height: 130px; }
+      .header-center { gap: 8px; }
+      .header-close-btn span { display: none; }
+      .header-close-btn { padding: 6px 10px; }
     }
     @media (max-width: 400px) { .products-grid { gap: 8px; } .product-image { height: 110px; } }
   </style>
@@ -185,19 +184,23 @@
 
   <header class="header">
     <div class="header-inner">
-      <div class="header-title">قَبَس</div>
-      <div class="header-left">
-        <!-- ===== دکمه بستن شیشه‌ای در هدر (فقط در ایتا) ===== -->
-        <div id="eitaaCloseBtn">
-          <button onclick="window.Eitaa?.WebApp.close()">
-            <i class="fa-solid fa-xmark"></i>
-            <span>بستن</span>
-          </button>
-        </div>
-        <a href="list/profile.html" class="header-login-btn" id="profileBtn">
-          <i class="fa-solid fa-user"></i> <span id="profileBtnText">ورود به حساب کاربری</span>
-        </a>
+      <!-- ===== چپ: دکمه بستن ===== -->
+      <div id="eitaaCloseBtn">
+        <button class="header-close-btn" onclick="window.Eitaa?.WebApp.close()">
+          <i class="fa-solid fa-xmark"></i>
+          <span>بستن</span>
+        </button>
       </div>
+
+      <!-- ===== وسط: عنوان ===== -->
+      <div class="header-center">
+        <div class="header-title">قَبَس</div>
+      </div>
+
+      <!-- ===== راست: ورود/پروفایل ===== -->
+      <a href="list/profile.html" class="header-login-btn" id="profileBtn">
+        <i class="fa-solid fa-user"></i> <span id="profileBtnText">ورود به حساب کاربری</span>
+      </a>
     </div>
   </header>
 
@@ -376,13 +379,27 @@
 
     // ==================== گام ۳: دریافت اطلاعات کاربر ایتا ====================
     function handleEitaaUser() {
+      var profileBtn = document.getElementById('profileBtn');
       var profileBtnText = document.getElementById('profileBtnText');
       var browserNotice = document.getElementById('browserNotice');
       var closeBtn = document.getElementById('eitaaCloseBtn');
 
-      if (window.Eitaa) {
+      // بررسی اطلاعات ذخیره شده کاربر
+      var savedUser = localStorage.getItem('qabas_user');
+      var savedEitaa = localStorage.getItem('eitaa_user');
+
+      // اگر کاربر قبلاً لاگین کرده
+      if (savedUser) {
+        try {
+          var userData = JSON.parse(savedUser);
+          profileBtnText.textContent = userData.name || userData.username || 'پروفایل';
+          profileBtn.href = 'list/profile.html';
+          browserNotice.style.display = 'none';
+        } catch(e) {}
+      }
+      // اگر در ایتا هستیم
+      else if (window.Eitaa) {
         console.log('✅ برنامک در ایتا اجرا می‌شود');
-        // نمایش دکمه بستن فقط در ایتا
         closeBtn.style.display = 'block';
 
         var eitaaUser = window.Eitaa.WebApp.initDataUnsafe?.user;
@@ -400,23 +417,28 @@
 
           var name = eitaaUser.first_name || eitaaUser.username || 'کاربر';
           profileBtnText.textContent = 'خوش آمدی ' + name + '!';
+          profileBtn.href = 'list/profile.html';
           browserNotice.style.display = 'none';
           
         } else {
           console.log('ℹ️ کاربر ایتا شناسایی نشد');
           profileBtnText.textContent = 'ورود به حساب کاربری';
+          profileBtn.href = 'list/profile.html';
           browserNotice.style.display = 'block';
         }
 
-      } else {
-        console.log('ℹ️ در مرورگر معمولی اجرا می‌شود (SDK ایتا فعال نیست)');
+      } 
+      // در مرورگر معمولی و لاگین نیست
+      else {
+        console.log('ℹ️ در مرورگر معمولی اجرا می‌شود');
         profileBtnText.textContent = 'ورود به حساب کاربری';
+        profileBtn.href = 'list/profile.html';
         browserNotice.style.display = 'block';
-        // مخفی کردن دکمه بستن در مرورگر معمولی
         closeBtn.style.display = 'none';
       }
     }
 
+    // ==================== بارگذاری اولیه ====================
     handleEitaaUser();
   </script>
 </body>
