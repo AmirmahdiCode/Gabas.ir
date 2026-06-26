@@ -63,6 +63,40 @@
     }
     .browser-notice .btn:hover { box-shadow: 0 6px 20px rgba(201,168,76,0.3); }
 
+    /* ===== دکمه بستن شناور شیشه‌ای (فقط در ایتا) ===== */
+    #eitaaCloseBtn {
+      display: none;
+      position: fixed;
+      top: 75px;
+      left: 16px;
+      z-index: 9999;
+    }
+    #eitaaCloseBtn button {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Vazirmatn', sans-serif;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    #eitaaCloseBtn button:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+    #eitaaCloseBtn button i {
+      font-size: 18px;
+    }
+
     .container { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
 
     .radio-card {
@@ -162,27 +196,10 @@
 
   <div class="container">
 
-    <!-- ===== دکمه بستن شناور (فقط در ایتا نمایش داده میشه) ===== -->
-    <div id="eitaaCloseBtn" style="display:none; position:fixed; top:75px; left:16px; z-index:9999;">
-      <button onclick="window.Eitaa?.WebApp.close()" style="
-        background: rgba(22, 38, 30, 0.55);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(201, 168, 76, 0.2);
-        border-radius: 12px;
-        color: var(--gold);
-        padding: 8px 14px;
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-family: 'Vazirmatn', sans-serif;
-        transition: all 0.3s ease;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-      " onmouseover="this.style.background='rgba(201,168,76,0.15)'" onmouseout="this.style.background='rgba(22,38,30,0.55)'">
-        <i class="fa-solid fa-xmark" style="font-size:18px;"></i>
+    <!-- ===== دکمه بستن شناور شیشه‌ای (فقط در ایتا) ===== -->
+    <div id="eitaaCloseBtn">
+      <button onclick="window.Eitaa?.WebApp.close()">
+        <i class="fa-solid fa-xmark"></i>
         <span>بستن</span>
       </button>
     </div>
@@ -366,6 +383,7 @@
 
       if (window.Eitaa) {
         console.log('✅ برنامک در ایتا اجرا می‌شود');
+        // نمایش دکمه بستن فقط در ایتا
         closeBtn.style.display = 'block';
 
         var eitaaUser = window.Eitaa.WebApp.initDataUnsafe?.user;
@@ -395,6 +413,7 @@
         console.log('ℹ️ در مرورگر معمولی اجرا می‌شود (SDK ایتا فعال نیست)');
         profileBtnText.textContent = 'ورود به حساب کاربری';
         browserNotice.style.display = 'block';
+        // مخفی کردن دکمه بستن در مرورگر معمولی
         closeBtn.style.display = 'none';
       }
     }
