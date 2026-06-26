@@ -163,6 +163,17 @@
       setInterval(loadMessages, 5000);
     }
 
+    function getAvatarHtml(avatar) {
+      if (!avatar) return '<i class="fa-solid fa-user"></i>';
+      if (avatar.startsWith('fa-') || avatar.startsWith('fas ') || avatar.startsWith('fa-solid ')) {
+        return '<i class="fa-solid ' + avatar.replace('fas ', '').replace('fa-solid ', '') + '"></i>';
+      }
+      if (avatar.startsWith('http')) {
+        return '<img src="' + avatar + '" alt="" onerror="this.parentElement.innerHTML=\'<i class=\\'fa-solid fa-user\\'></i>\'">';
+      }
+      return '<i class="fa-solid fa-user"></i>';
+    }
+
     async function loadMessages() {
       try {
         var res = await fetch(API_URL, { method:'POST', body: JSON.stringify({ action:'getMessages', user_id: currentUser.user_id, friend_id: 'public' }) });
@@ -171,12 +182,12 @@
           var container = document.getElementById('chatMessages');
           container.innerHTML = d.data.messages.map(function(m) {
             return '<div class="msg">' +
-              '<a href="members.html" class="msg-avatar" onclick="localStorage.setItem(\'qabas_member\',\'' + m.sender_id + '\')">' +
-                (m.avatar ? '<img src="' + m.avatar + '" alt="">' : '<i class="fa-solid fa-user"></i>') +
+              '<a href="members.html" class="msg-avatar" onclick="localStorage.setItem(\'qabas_member\',\'' + (m.sender_id || '') + '\')">' +
+                getAvatarHtml(m.avatar) +
               '</a>' +
               '<div class="msg-content">' +
                 '<div class="msg-header">' +
-                  '<span class="msg-name" onclick="localStorage.setItem(\'qabas_member\',\'' + m.sender_id + '\');window.location.href=\'members.html\'">' + (m.sender_name || 'ناشناس') + '</span>' +
+                  '<span class="msg-name" onclick="localStorage.setItem(\'qabas_member\',\'' + (m.sender_id || '') + '\');window.location.href=\'members.html\'">' + (m.sender_name || 'ناشناس') + '</span>' +
                   '<span class="msg-time">' + (m.timestamp || '') + '</span>' +
                 '</div>' +
                 '<div class="msg-text">' + (m.message || '') + '</div>' +
