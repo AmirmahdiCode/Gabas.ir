@@ -30,10 +30,10 @@
     }
     .header-inner {
       max-width: 1100px; margin: 0 auto;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .header-center {
-      display: flex; align-items: center; gap: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
     }
     .header-title {
       font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
@@ -41,6 +41,19 @@
       background: linear-gradient(180deg, #f5dea3 0%, #c9a84c 50%, #8a6914 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; letter-spacing: 2px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .header-login-btn {
       display: flex; align-items: center; gap: 6px;
@@ -51,29 +64,29 @@
     }
     .header-login-btn:hover { background: rgba(201,168,76,0.1); }
 
-    /* ===== دکمه بستن هماهنگ با تم ===== */
+    /* ===== دکمه بستن هماهنگ با تم (چپ) ===== */
     .header-close-btn {
-      background: transparent;
-      border: 1px solid rgba(201,168,76,0.2);
-      border-radius: 8px;
-      color: var(--text-muted);
-      padding: 6px 12px;
-      font-size: 12px;
+      background: rgba(201,168,76,0.06);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 10px;
+      color: var(--gold-light);
+      padding: 8px 16px;
+      font-size: 13px;
       font-weight: 500;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       font-family: 'Vazirmatn', sans-serif;
       transition: all 0.3s ease;
     }
     .header-close-btn:hover {
-      background: rgba(201,168,76,0.08);
+      background: rgba(201,168,76,0.15);
       border-color: var(--gold);
-      color: var(--gold-light);
+      color: var(--gold);
     }
     .header-close-btn i {
-      font-size: 15px;
+      font-size: 16px;
     }
 
     /* ===== پیام راهنما برای مرورگر معمولی ===== */
@@ -173,9 +186,9 @@
       .shahada-card { flex-direction: column; text-align: center; }
       .header-title { font-size: 1.6rem; }
       .product-image { height: 130px; }
-      .header-center { gap: 8px; }
       .header-close-btn span { display: none; }
-      .header-close-btn { padding: 6px 10px; }
+      .header-close-btn { padding: 6px 12px; }
+      .header-login-btn { font-size: 11px; padding: 6px 10px; }
     }
     @media (max-width: 400px) { .products-grid { gap: 8px; } .product-image { height: 110px; } }
   </style>
@@ -185,22 +198,24 @@
   <header class="header">
     <div class="header-inner">
       <!-- ===== چپ: دکمه بستن ===== -->
-      <div id="eitaaCloseBtn">
-        <button class="header-close-btn" onclick="window.Eitaa?.WebApp.close()">
-          <i class="fa-solid fa-xmark"></i>
-          <span>بستن</span>
-        </button>
+      <div class="header-left">
+        <div id="eitaaCloseBtn" style="display:none;">
+          <button class="header-close-btn" onclick="window.Eitaa?.WebApp.close()">
+            <i class="fa-solid fa-xmark"></i>
+            <span>بستن</span>
+          </button>
+        </div>
       </div>
 
-      <!-- ===== وسط: عنوان ===== -->
-      <div class="header-center">
-        <div class="header-title">قَبَس</div>
-      </div>
+      <!-- ===== وسط: عنوان (مطلقاً وسط) ===== -->
+      <div class="header-title">قَبَس</div>
 
       <!-- ===== راست: ورود/پروفایل ===== -->
-      <a href="list/profile.html" class="header-login-btn" id="profileBtn">
-        <i class="fa-solid fa-user"></i> <span id="profileBtnText">ورود به حساب کاربری</span>
-      </a>
+      <div class="header-right">
+        <a href="list/profile.html" class="header-login-btn" id="profileBtn">
+          <i class="fa-solid fa-user"></i> <span id="profileBtnText">ورود به حساب کاربری</span>
+        </a>
+      </div>
     </div>
   </header>
 
@@ -384,21 +399,24 @@
       var browserNotice = document.getElementById('browserNotice');
       var closeBtn = document.getElementById('eitaaCloseBtn');
 
-      // بررسی اطلاعات ذخیره شده کاربر
+      // بررسی اطلاعات ذخیره شده کاربر (ثبت‌نام در سایت)
       var savedUser = localStorage.getItem('qabas_user');
-      var savedEitaa = localStorage.getItem('eitaa_user');
 
-      // اگر کاربر قبلاً لاگین کرده
+      // اگر کاربر قبلاً در سایت ثبت‌نام کرده یا لاگین کرده
       if (savedUser) {
         try {
           var userData = JSON.parse(savedUser);
-          profileBtnText.textContent = userData.name || userData.username || 'پروفایل';
+          var displayName = userData.name || userData.username || 'پروفایل';
+          profileBtnText.textContent = displayName;
           profileBtn.href = 'list/profile.html';
           browserNotice.style.display = 'none';
+          closeBtn.style.display = 'none';
+          return;
         } catch(e) {}
       }
+
       // اگر در ایتا هستیم
-      else if (window.Eitaa) {
+      if (window.Eitaa) {
         console.log('✅ برنامک در ایتا اجرا می‌شود');
         closeBtn.style.display = 'block';
 
