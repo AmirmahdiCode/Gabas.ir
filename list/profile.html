@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>صفحه پروفایل | قَبَس</title>
+  <title>پروفایل | قَبَس</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -67,6 +68,13 @@
       cursor: pointer;
       text-decoration: none;
       font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-sm.danger {
+      border-color: #e74c3c;
+      color: #e74c3c;
     }
     .msg {
       text-align: center;
@@ -75,8 +83,11 @@
       padding: 10px;
       border-radius: 10px;
       display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-    .msg.show { display: block; }
+    .msg.show { display: flex; }
     .msg.success { background: rgba(76,175,132,0.15); color: #4caf84; }
     .msg.error { background: rgba(231,76,60,0.15); color: #e74c3c; }
     .msg.info { background: rgba(52,152,219,0.15); color: #3498db; }
@@ -91,6 +102,10 @@
       color: #a4a098;
       cursor: pointer;
       font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
     .tab-btn.active { background: #c9a84c; color: #0a1410; }
     .profile-avatar {
@@ -110,8 +125,9 @@
     .profile-name { font-size: 20px; font-weight: bold; color: #e2c87a; text-align: center; }
     .profile-username { font-size: 13px; color: #a4a098; text-align: center; margin-bottom: 8px; }
     .profile-bio { font-size: 13px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; margin: 8px 0; text-align: center; line-height: 1.8; }
-    .profile-meta { display: flex; justify-content: center; gap: 20px; margin-top: 12px; font-size: 12px; color: #a4a098; }
-    .profile-actions { display: flex; gap: 8px; margin-top: 14px; justify-content: center; }
+    .profile-meta { display: flex; justify-content: center; gap: 20px; margin-top: 12px; font-size: 12px; color: #a4a098; flex-wrap: wrap; }
+    .profile-meta span { display: flex; align-items: center; gap: 4px; }
+    .profile-actions { display: flex; gap: 8px; margin-top: 14px; justify-content: center; flex-wrap: wrap; }
     .loading { text-align: center; padding: 40px; }
     .spinner {
       width: 48px; height: 48px;
@@ -122,14 +138,8 @@
       margin: 0 auto 16px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .error-box {
-      text-align: center;
-      padding: 30px;
-    }
-    .error-box .icon {
-      font-size: 48px;
-      margin-bottom: 12px;
-    }
+    .error-box { text-align: center; padding: 30px; }
+    .error-box .icon { font-size: 48px; margin-bottom: 12px; }
     .footer {
       background: #0a1a12;
       text-align: center;
@@ -142,7 +152,7 @@
 </head>
 <body>
   <header class="header">
-    <a href="../index.html">◀ بازگشت</a>
+    <a href="../index.html"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
     <div class="header-title">پروفایل</div>
     <div></div>
   </header>
@@ -155,14 +165,13 @@
   </div>
 
   <footer class="footer">
-    <p>🔥 قَبَس — شعله‌ای از نور شهدا</p>
+    <p><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p>
   </footer>
 
   <script>
     var API = 'https://script.google.com/macros/s/AKfycby3PO1ILwnjF54FK5BSepk6Gfdq6cXbL7kgFXAQtvIF6hHGuHZgovMvCRMyV2RpR-6cfg/exec';
     var app = document.getElementById('app');
 
-    // ========== توابع کمکی ==========
     function showLoading(msg) {
       app.innerHTML = `
         <div class="loading">
@@ -174,14 +183,13 @@
     function showError(msg) {
       app.innerHTML = `
         <div class="card error-box">
-          <div class="icon">⚠️</div>
+          <div class="icon"><i class="fa-solid fa-triangle-exclamation" style="color:#f39c12;"></i></div>
           <p style="color:#e74c3c;margin-bottom:12px;">${msg}</p>
-          <button class="btn-sm" onclick="location.reload()">🔄 تلاش مجدد</button>
-          <button class="btn-sm" onclick="showLoginRegister()" style="margin-right:8px;">🔐 رفتن به ورود</button>
+          <button class="btn-sm" onclick="location.reload()"><i class="fa-solid fa-rotate"></i> تلاش مجدد</button>
+          <button class="btn-sm" onclick="showLoginRegister()" style="margin-right:8px;"><i class="fa-solid fa-right-to-bracket"></i> رفتن به ورود</button>
         </div>`;
     }
 
-    // ========== API Call ==========
     async function api(action, data) {
       data.action = action;
       try {
@@ -191,17 +199,12 @@
           body: JSON.stringify(data)
         });
         var text = await res.text();
-        try {
-          return JSON.parse(text);
-        } catch(e) {
-          throw new Error('پاسخ نامعتبر از سرور');
-        }
+        return JSON.parse(text);
       } catch(e) {
-        return { status: 'error', message: 'خطا در ارتباط با سرور: ' + e.message };
+        return { status: 'error', message: 'خطا در ارتباط با سرور' };
       }
     }
 
-    // ========== نمایش پروفایل ==========
     function showProfile(user) {
       var local = JSON.parse(localStorage.getItem('user') || 'null');
       var isOwner = local && local.username === user.username;
@@ -209,48 +212,46 @@
       app.innerHTML = `
         <div class="card">
           <div class="profile-avatar">
-            ${user.avatar ? '<img src="' + user.avatar + '" onerror="this.innerHTML=\'🙂\'">' : '🙂'}
+            ${user.avatar ? '<img src="' + user.avatar + '" alt="' + (user.name || '') + '">' : '<i class="fa-solid fa-user"></i>'}
           </div>
           <div class="profile-name">${user.name || 'بی‌نام'}</div>
           <div class="profile-username">@${user.username}</div>
           ${user.bio ? '<div class="profile-bio">' + user.bio + '</div>' : ''}
           <div class="profile-meta">
-            ${user.last_seen ? '<span>🕒 ' + user.last_seen + '</span>' : ''}
-            ${user.birth_date ? '<span>🎂 ' + user.birth_date + '</span>' : ''}
+            ${user.last_seen ? '<span><i class="fa-regular fa-clock"></i> ' + user.last_seen + '</span>' : ''}
+            ${user.birth_date ? '<span><i class="fa-solid fa-cake-candles"></i> ' + user.birth_date + '</span>' : ''}
           </div>
           <div class="profile-actions">
-            <button class="btn-sm" onclick="copyLink('${user.username}')">📋 کپی لینک</button>
-            ${isOwner ? '<button class="btn-sm" style="color:#e74c3c;border-color:#e74c3c;" onclick="logout()">🚪 خروج</button>' : ''}
+            <button class="btn-sm" onclick="copyLink('${user.username}')"><i class="fa-solid fa-link"></i> کپی لینک</button>
+            ${isOwner ? '<button class="btn-sm danger" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>' : ''}
           </div>
         </div>`;
     }
 
-    // ========== فرم‌های ورود و ثبت‌نام ==========
     function showLoginRegister() {
       app.innerHTML = `
         <div class="tabs">
-          <button id="tabLogin" class="tab-btn active" onclick="switchTab('login')">🔑 ورود</button>
-          <button id="tabRegister" class="tab-btn" onclick="switchTab('register')">✨ ثبت‌نام</button>
+          <button id="tabLogin" class="tab-btn active" onclick="switchTab('login')"><i class="fa-solid fa-right-to-bracket"></i> ورود</button>
+          <button id="tabRegister" class="tab-btn" onclick="switchTab('register')"><i class="fa-solid fa-user-plus"></i> ثبت‌نام</button>
         </div>
         <div id="loginForm" class="card">
-          <h3>ورود به حساب</h3>
-          <div class="form-group"><label>👤 نام کاربری</label><input id="loginUser" placeholder="نام کاربری"></div>
-          <div class="form-group"><label>🔒 رمز عبور</label><input type="password" id="loginPass" placeholder="رمز عبور"></div>
+          <h3><i class="fa-solid fa-key"></i> ورود به حساب</h3>
+          <div class="form-group"><label><i class="fa-solid fa-user"></i> نام کاربری</label><input id="loginUser" placeholder="نام کاربری"></div>
+          <div class="form-group"><label><i class="fa-solid fa-lock"></i> رمز عبور</label><input type="password" id="loginPass" placeholder="رمز عبور"></div>
           <div id="loginMsg" class="msg"></div>
-          <button class="btn" id="loginBtn" onclick="doLogin()">ورود</button>
+          <button class="btn" id="loginBtn" onclick="doLogin()"><i class="fa-solid fa-right-to-bracket"></i> ورود</button>
         </div>
         <div id="registerForm" class="card" style="display:none;">
-          <h3>ایجاد حساب جدید</h3>
-          <div class="form-group"><label>👤 نام *</label><input id="regName" placeholder="نام کامل"></div>
-          <div class="form-group"><label>📧 نام کاربری *</label><input id="regUser" placeholder="نام کاربری"></div>
-          <div class="form-group"><label>🔒 رمز عبور *</label><input type="password" id="regPass" placeholder="حداقل ۳ کاراکتر"></div>
-          <div class="form-group"><label>📝 بیوگرافی</label><textarea id="regBio" placeholder="درباره خودت..."></textarea></div>
+          <h3><i class="fa-solid fa-user-plus"></i> ایجاد حساب جدید</h3>
+          <div class="form-group"><label><i class="fa-solid fa-user"></i> نام *</label><input id="regName" placeholder="نام کامل"></div>
+          <div class="form-group"><label><i class="fa-solid fa-at"></i> نام کاربری *</label><input id="regUser" placeholder="نام کاربری"></div>
+          <div class="form-group"><label><i class="fa-solid fa-lock"></i> رمز عبور *</label><input type="password" id="regPass" placeholder="حداقل ۳ کاراکتر"></div>
+          <div class="form-group"><label><i class="fa-solid fa-pen"></i> بیوگرافی</label><textarea id="regBio" placeholder="درباره خودت..."></textarea></div>
           <div id="regMsg" class="msg"></div>
-          <button class="btn" id="regBtn" onclick="doRegister()">ثبت‌نام</button>
+          <button class="btn" id="regBtn" onclick="doRegister()"><i class="fa-solid fa-check"></i> ثبت‌نام</button>
         </div>`;
     }
 
-    // ========== سوییچ تب ==========
     window.switchTab = function(tab) {
       document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
       document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
@@ -258,7 +259,6 @@
       document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
     };
 
-    // ========== ورود ==========
     window.doLogin = async function() {
       var u = document.getElementById('loginUser').value.trim();
       var p = document.getElementById('loginPass').value;
@@ -269,30 +269,29 @@
       
       if (!u || !p) {
         msg.className = 'msg error show';
-        msg.innerHTML = '❌ لطفاً همه فیلدها را پر کنید';
+        msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> لطفاً همه فیلدها را پر کنید';
         return;
       }
       
       btn.disabled = true;
-      btn.textContent = '⏳ در حال ورود...';
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال ورود...';
       
       var res = await api('login', { username: u, password: p });
       
       btn.disabled = false;
-      btn.textContent = 'ورود';
+      btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> ورود';
       
       if (res.status === 'success') {
         localStorage.setItem('user', JSON.stringify(res.data));
         msg.className = 'msg success show';
-        msg.innerHTML = '✅ ورود موفق!';
+        msg.innerHTML = '<i class="fa-solid fa-circle-check"></i> ورود موفق!';
         setTimeout(function() { showProfile(res.data); }, 500);
       } else {
         msg.className = 'msg error show';
-        msg.innerHTML = '❌ ' + (res.message || 'خطا در ورود');
+        msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ' + (res.message || 'خطا در ورود');
       }
     };
 
-    // ========== ثبت‌نام ==========
     window.doRegister = async function() {
       var n = document.getElementById('regName').value.trim();
       var u = document.getElementById('regUser').value.trim();
@@ -305,65 +304,61 @@
       
       if (!n || !u || !p) {
         msg.className = 'msg error show';
-        msg.innerHTML = '❌ فیلدهای ستاره‌دار را پر کنید';
+        msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> فیلدهای ستاره‌دار را پر کنید';
         return;
       }
       
       if (u.length < 3) {
         msg.className = 'msg error show';
-        msg.innerHTML = '❌ نام کاربری حداقل ۳ کاراکتر';
+        msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> نام کاربری حداقل ۳ کاراکتر';
         return;
       }
       
       if (p.length < 3) {
         msg.className = 'msg error show';
-        msg.innerHTML = '❌ رمز عبور حداقل ۳ کاراکتر';
+        msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> رمز عبور حداقل ۳ کاراکتر';
         return;
       }
       
       btn.disabled = true;
-      btn.textContent = '⏳ در حال ثبت‌نام...';
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال ثبت‌نام...';
       
       var res = await api('register', { username: u, password: p, name: n, bio: b });
       
       btn.disabled = false;
-      btn.textContent = 'ثبت‌نام';
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> ثبت‌نام';
       
       if (res.status === 'success') {
         msg.className = 'msg success show';
-        msg.innerHTML = '✅ ثبت‌نام موفق! به صفحه ورود بروید';
+        msg.innerHTML = '<i class="fa-solid fa-circle-check"></i> ثبت‌نام موفق! به صفحه ورود بروید';
         setTimeout(function() { switchTab('login'); }, 2000);
       } else {
         msg.className = 'msg error show';
-        msg.innerHTML = '❌ ' + (res.message || 'خطا در ثبت‌نام');
+        msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ' + (res.message || 'خطا در ثبت‌نام');
       }
     };
 
-    // ========== کپی لینک ==========
     window.copyLink = function(username) {
       var link = location.origin + location.pathname + '?user=' + username;
       if (navigator.clipboard) {
         navigator.clipboard.writeText(link).then(function() {
-          alert('✅ لینک کپی شد!');
+          alert('لینک پروفایل کپی شد');
         });
       } else {
-        prompt('📋 لینک پروفایل:', link);
+        prompt('لینک پروفایل:', link);
       }
     };
 
-    // ========== خروج ==========
     window.logout = function() {
       localStorage.removeItem('user');
       location.reload();
     };
 
-    // ========== شروع ==========
     async function init() {
       try {
         var params = new URLSearchParams(location.search);
         var viewUser = params.get('user');
         
-        // حالت ۱: دیدن پروفایل دیگران
         if (viewUser) {
           showLoading('در حال دریافت پروفایل...');
           var res = await api('get_user', { username: viewUser });
@@ -375,7 +370,6 @@
           return;
         }
         
-        // حالت ۲: کاربر لاگین شده
         var local = JSON.parse(localStorage.getItem('user') || 'null');
         if (local && local.username) {
           showLoading('در حال بازیابی حساب...');
@@ -384,22 +378,19 @@
             showProfile(res.data);
             return;
           }
-          // اگه کاربر حذف شده
           localStorage.removeItem('user');
         }
         
-        // حالت ۳: نمایش فرم ورود
         showLoginRegister();
         
       } catch(e) {
-        showError('خطا در بارگذاری: ' + e.message);
+        showError('خطا در بارگذاری');
       }
     }
 
-    // ========== timeout کلی ==========
     var timeout = setTimeout(function() {
       if (app.querySelector('.loading')) {
-        showError('⏱️ بارگذاری طولانی شد');
+        showError('بارگذاری طولانی شد');
       }
     }, 10000);
 
