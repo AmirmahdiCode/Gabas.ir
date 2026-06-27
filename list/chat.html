@@ -147,20 +147,18 @@
 
   <script>
     var API_URL = 'https://script.google.com/macros/s/AKfycbx6Eh-tM-FWt8wNx798RWGaM7BZ7JFfycwpi4mFPfoNti_rpY6DIyF_7OwPygbWxX05-g/exec';
-    var STORAGE_KEY = 'qabas_user';
     var currentUser = null;
 
-    // ========== تابع کمکی برای خوندن کاربر از localStorage ==========
+    // ========== توابع کمکی ==========
     function getStoredUser() {
       try {
-        var data = localStorage.getItem(STORAGE_KEY);
+        var data = localStorage.getItem('qabas_user');
         return data ? JSON.parse(data) : null;
       } catch(e) {
         return null;
       }
     }
 
-    // ========== نمایش آواتار ==========
     function getAvatarHtml(avatar) {
       if (!avatar) return '<i class="fa-solid fa-user"></i>';
       if (avatar.startsWith('fa-')) {
@@ -173,17 +171,35 @@
     }
 
     // ========== شروع ==========
-    window.addEventListener('DOMContentLoaded', function() {
+    function init() {
+      // اول localStorage (مثل ایندکس)
       currentUser = getStoredUser();
-      
+
+      // اگه نبود، از URL بخون (برای وقتی از پروفایل میاد)
+      if (!currentUser || !currentUser.username) {
+        var params = new URLSearchParams(location.search);
+        var userParam = params.get('user');
+        if (userParam) {
+          currentUser = { username: userParam, name: userParam };
+          localStorage.setItem('qabas_user', JSON.stringify(currentUser));
+        }
+      }
+
       if (currentUser && currentUser.username) {
         showChat();
+      } else {
+        showLoginPrompt();
       }
-      // اگه کاربر لاگین نکرده، صفحه ورود بمونه
-    });
+    }
+
+    function showLoginPrompt() {
+      document.getElementById('loginPrompt').style.display = 'flex';
+      document.getElementById('chatMessages').style.display = 'none';
+      document.getElementById('chatInputArea').style.display = 'none';
+    }
 
     function showChat() {
-      if (!currentUser) return;
+      if (!currentUser) return showLoginPrompt();
       document.getElementById('loginPrompt').style.display = 'none';
       document.getElementById('chatMessages').style.display = 'flex';
       document.getElementById('chatInputArea').style.display = 'flex';
@@ -191,6 +207,7 @@
       setInterval(loadMessages, 5000);
     }
 
+    // ========== پیام‌ها ==========
     async function loadMessages() {
       if (!currentUser) return;
       try {
@@ -220,11 +237,10 @@
           }).join('');
           container.scrollTop = container.scrollHeight;
         }
-      } catch(e) {
-        console.error('Error loading messages:', e);
-      }
+      } catch(e) {}
     }
 
+    // ========== ارسال پیام ==========
     async function sendMessage() {
       if (!currentUser) return;
       
@@ -272,9 +288,10 @@
       }
     }
 
-    // ========== Global ==========
     window.sendMessage = sendMessage;
-    window.loadMessages = loadMessages;
+
+    // ========== اجرا ==========
+    init();
   </script>
 </body>
 </html>
