@@ -60,6 +60,19 @@
       word-break: break-word;
     }
 
+    .test-box {
+      background: rgba(52,152,219,0.15);
+      border: 1px solid #3498db;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      color: #3498db;
+      text-align: center;
+      display: none;
+    }
+    .test-box.show { display: block; }
+
     .ai-reject {
       background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.3);
       border-radius: 10px; padding: 10px 14px; margin-bottom: 8px;
@@ -121,6 +134,8 @@
 
   <div class="chat-container" id="chatContainer">
 
+    <div class="test-box" id="testBox"></div>
+
     <div class="login-prompt" id="loginPrompt">
       <div class="login-card">
         <i class="fa-solid fa-comments login-icon"></i>
@@ -145,14 +160,13 @@
 
   <footer class="footer"><p class="footer-text"><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p></footer>
 
-    <script>
-    // ==================== API ها ====================
+  <script>
     var CHAT_API = 'https://script.google.com/macros/s/AKfycbx6Eh-tM-FWt8wNx798RWGaM7BZ7JFfycwpi4mFPfoNti_rpY6DIyF_7OwPygbWxX05-g/exec';
     var USER_API = 'https://script.google.com/macros/s/AKfycbxUIo8Ig-Ff7vnSXOOe00jT6p--ObusMg-KbR33yt9UchCBHHst5_kVNmo4_uthhgeLOw/exec';
     var STORAGE_KEY = 'qabas_user';
     var currentUser = null;
 
-    // ==================== localStorage (مثل پروفایل) ====================
+    // ========== توابع localStorage ==========
     function getLocalUser() {
       return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
     }
@@ -161,70 +175,70 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
     }
 
-    function clearLocalUser() {
-      localStorage.removeItem(STORAGE_KEY);
+    // ========== تست ==========
+    function showTest(msg) {
+      var box = document.getElementById('testBox');
+      box.innerHTML = '🧪 تست: ' + msg;
+      box.className = 'test-box show';
     }
 
-    // ==================== آواتار ====================
+    // ========== آواتار ==========
     function getAvatarHtml(avatar) {
       if (!avatar) return '<i class="fa-solid fa-user"></i>';
-      if (avatar.startsWith('fa-')) {
-        return '<i class="fa-solid ' + avatar + '"></i>';
-      }
-      if (avatar.startsWith('http')) {
-        return '<img src="' + avatar + '" alt="" onerror="this.parentElement.innerHTML=\'<i class=\\'fa-solid fa-user\\'></i>\'">';
-      }
+      if (avatar.startsWith('fa-')) return '<i class="fa-solid ' + avatar + '"></i>';
+      if (avatar.startsWith('http')) return '<img src="' + avatar + '" alt="">';
       return '<i class="fa-solid fa-user"></i>';
     }
 
-    // ==================== احراز هویت ====================
-    async function verifyUser(username) {
-      try {
-        var res = await fetch(USER_API, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'get_user', username: username })
-        });
-        var data = await res.json();
-        if (data.status === 'success' && data.data) {
-          return data.data;
-        }
-      } catch(e) {}
-      return null;
-    }
-
-    // ==================== شروع ====================
+    // ========== شروع ==========
     async function init() {
-      // اول localStorage (مثل ایندکس)
-      currentUser = getLocalUser();
+      // تست ۱: localStorage
+      var lsData = localStorage.getItem(STORAGE_KEY);
+      showTest('localStorage = ' + (lsData ? lsData.substring(0, 50) + '...' : 'null'));
 
-      // اگه نبود، از URL بخون
-      if (!currentUser || !currentUser.username) {
-        var params = new URLSearchParams(location.search);
-        var userParam = params.get('user');
-        if (userParam) {
-          var userData = await verifyUser(userParam);
-          if (userData) {
-            currentUser = userData;
+      // تست ۲: getLocalUser
+      currentUser = getLocalUser();
+      showTest('currentUser = ' + (currentUser && currentUser.username ? currentUser.username : 'null'));
+
+      // تست ۳: URL
+      var params = new URLSearchParams(location.search);
+      var userParam = params.get('user');
+      showTest('URL user = ' + (userParam || 'null'));
+
+      // اگه کاربر نبود، از URL تأیید بگیر
+      if ((!currentUser || !currentUser.username) && userParam) {
+        showTest('درحال تأیید از API...');
+        try {
+          var res = await fetch(USER_API, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'get_user', username: userParam })
+          });
+          var data = await res.json();
+          if (data.status === 'success' && data.data) {
+            currentUser = data.data;
             saveLocalUser(currentUser);
+            showTest('✅ کاربر تأیید شد: ' + currentUser.username);
+          } else {
+            showTest('❌ کاربر در API پیدا نشد');
           }
+        } catch(e) {
+          showTest('❌ خطا در اتصال به API');
         }
       }
 
+      // تصمیم نهایی
       if (currentUser && currentUser.username) {
+        showTest('✅ ورود به چت');
         showChat();
       } else {
-        showLoginPrompt();
+        showTest('❌ نمایش صفحه ورود');
+        document.getElementById('loginPrompt').style.display = 'flex';
+        document.getElementById('chatMessages').style.display = 'none';
+        document.getElementById('chatInputArea').style.display = 'none';
       }
-    }
-
-    function showLoginPrompt() {
-      document.getElementById('loginPrompt').style.display = 'flex';
-      document.getElementById('chatMessages').style.display = 'none';
-      document.getElementById('chatInputArea').style.display = 'none';
     }
 
     function showChat() {
-      if (!currentUser) return showLoginPrompt();
       document.getElementById('loginPrompt').style.display = 'none';
       document.getElementById('chatMessages').style.display = 'flex';
       document.getElementById('chatInputArea').style.display = 'flex';
@@ -232,43 +246,26 @@
       setInterval(loadMessages, 5000);
     }
 
-    // ==================== پیام‌ها ====================
     async function loadMessages() {
       if (!currentUser) return;
       try {
         var res = await fetch(CHAT_API, { 
           method: 'POST', 
-          body: JSON.stringify({ 
-            action: 'getMessages', 
-            username: currentUser.username,
-            friend_id: 'public' 
-          }) 
+          body: JSON.stringify({ action: 'getMessages', username: currentUser.username, friend_id: 'public' }) 
         });
         var d = await res.json();
         if (d.status === 'success' && d.data && d.data.messages) {
           var container = document.getElementById('chatMessages');
           container.innerHTML = d.data.messages.map(function(m) {
-            return '<div class="msg">' +
-              '<a href="profile.html?user=' + (m.sender_username || '') + '" class="msg-avatar">' +
-                getAvatarHtml(m.avatar) +
-              '</a>' +
-              '<div class="msg-content">' +
-                '<div class="msg-header">' +
-                  '<span class="msg-name" onclick="window.location.href=\'profile.html?user=' + (m.sender_username || '') + '\'">' + (m.sender_name || 'ناشناس') + '</span>' +
-                  '<span class="msg-time">' + (m.timestamp || '') + '</span>' +
-                '</div>' +
-                '<div class="msg-text">' + (m.message || '') + '</div>' +
-              '</div></div>';
+            return '<div class="msg"><a href="profile.html?user=' + (m.sender_username || '') + '" class="msg-avatar">' + getAvatarHtml(m.avatar) + '</a><div class="msg-content"><div class="msg-header"><span class="msg-name">' + (m.sender_name || 'ناشناس') + '</span><span class="msg-time">' + (m.timestamp || '') + '</span></div><div class="msg-text">' + (m.message || '') + '</div></div></div>';
           }).join('');
           container.scrollTop = container.scrollHeight;
         }
       } catch(e) {}
     }
 
-    // ==================== ارسال پیام ====================
     async function sendMessage() {
       if (!currentUser) return;
-      
       var input = document.getElementById('chatInput');
       var msg = input.value.trim();
       if (!msg) return;
@@ -276,7 +273,7 @@
       var btn = document.getElementById('sendBtn');
       var rejectDiv = document.getElementById('aiReject');
       rejectDiv.style.display = 'none';
-      btn.disabled = true; 
+      btn.disabled = true;
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
       try {
@@ -308,15 +305,13 @@
         rejectDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> خطا در ارتباط';
         rejectDiv.style.display = 'block';
       } finally {
-        btn.disabled = false; 
+        btn.disabled = false;
         btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
       }
     }
 
     window.sendMessage = sendMessage;
-
-    // ==================== اجرا ====================
     init();
   </script>
 </body>
-</html> 
+</html>
