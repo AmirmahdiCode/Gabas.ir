@@ -2,316 +2,448 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>قَبَس | چت</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>پروفایل | قَبَس</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;800&display=swap');
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --bg-header: #0a1a12; --bg-card: rgba(22, 38, 30, 0.7);
       --glass-border: rgba(201, 168, 76, 0.15); --gold: #c9a84c;
       --gold-light: #e2c87a; --text: #e8e6e0; --text-muted: #a4a098;
-      --red: #e74c3c;
+      --red: #e74c3c; --green: #4caf84; --warning: #f39c12; --info: #3498db;
     }
     body {
-      font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+      font-family: Tahoma, sans-serif;
       background: radial-gradient(ellipse at top, #1d3528 0%, #0a1410 60%);
-      color: var(--text); min-height: 100vh;
-      direction: rtl; display: flex; flex-direction: column;
+      color: var(--text); min-height: 100vh; direction: rtl;
+      display: flex; flex-direction: column;
     }
     .header {
       background: var(--bg-header); border-bottom: 1px solid rgba(201,168,76,0.2);
       padding: 14px 20px; display: flex; align-items: center;
       justify-content: space-between; position: sticky; top: 0; z-index: 100;
     }
-    .header-back { color: var(--gold); font-size: 14px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+    .header a { color: var(--gold); text-decoration: none; font-size: 14px; }
     .header-title {
-      font-family: 'Vazirmatn', sans-serif; font-size: 1.4rem; font-weight: 800;
-      background: linear-gradient(180deg, #f5dea3 0%, #c9a84c 50%, #8a6914 100%);
+      font-size: 1.4rem; font-weight: bold;
+      background: linear-gradient(180deg, #f5dea3, #c9a84c, #8a6914);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
+    .container { max-width: 500px; margin: 0 auto; padding: 20px 16px; flex: 1; width: 100%; }
 
-    .chat-container { max-width: 650px; margin: 0 auto; padding: 16px; flex: 1; width: 100%; display: flex; flex-direction: column; }
-    .chat-messages { flex: 1; overflow-y: auto; padding: 8px 0; display: flex; flex-direction: column; gap: 12px; }
-
-    .msg { display: flex; gap: 10px; animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-    .msg-avatar {
-      width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(201,168,76,0.12); color: var(--gold);
-      font-size: 15px; cursor: pointer; transition: all 0.3s;
-      text-decoration: none; border: 1.5px solid rgba(201,168,76,0.2);
-    }
-    .msg-avatar:hover { background: rgba(201,168,76,0.25); border-color: var(--gold); }
-    .msg-avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-    .msg-content { flex: 1; min-width: 0; }
-    .msg-header { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
-    .msg-name { font-weight: 700; font-size: 12px; color: var(--gold); cursor: pointer; }
-    .msg-name:hover { text-decoration: underline; }
-    .msg-time { font-size: 9px; color: var(--text-muted); }
-    .msg-text {
-      background: var(--bg-card); backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border); border-radius: 12px;
-      padding: 10px 14px; font-size: 13px; line-height: 1.7; color: var(--text);
-      word-break: break-word;
-    }
-
-    .test-box {
-      background: rgba(52,152,219,0.15);
-      border: 1px solid #3498db;
-      border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 10px;
-      font-size: 12px;
-      color: #3498db;
-      text-align: center;
-      display: none;
-    }
-    .test-box.show { display: block; }
-
-    .ai-reject {
-      background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.3);
-      border-radius: 10px; padding: 10px 14px; margin-bottom: 8px;
-      font-size: 12px; color: var(--red); display: none; text-align: center;
-    }
-
-    .chat-input-area {
-      display: flex; gap: 8px; padding: 12px 0;
-      background: linear-gradient(to top, rgba(10,26,18,0.95), transparent);
-      position: sticky; bottom: 0;
-    }
-    .chat-input-area input {
-      flex: 1; padding: 12px 16px; border: 1px solid var(--glass-border);
-      border-radius: 24px; font-size: 13px; background: var(--bg-card);
-      color: var(--text); outline: none; font-family: inherit;
-    }
-    .chat-input-area input:focus { border-color: var(--gold); }
-    .chat-input-area button {
-      width: 42px; height: 42px; border-radius: 50%; border: none;
-      background: var(--gold); color: #0a1410; font-size: 16px; cursor: pointer;
-      transition: all 0.3s; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-    }
-    .chat-input-area button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .login-prompt { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    .login-card {
+    .card {
       background: var(--bg-card); backdrop-filter: blur(16px);
       border: 1px solid var(--glass-border); border-radius: 20px;
-      padding: 36px 28px; max-width: 360px; width: 100%; text-align: center;
+      padding: 25px; margin-bottom: 15px;
     }
-    .login-card .login-icon { font-size: 52px; color: var(--gold); margin-bottom: 12px; display: block; }
-    .login-card h3 { color: var(--gold-light); font-size: 1.2rem; margin-bottom: 6px; font-weight: 700; }
-    .login-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px; }
-    .login-btns { display: flex; gap: 10px; }
-    .btn-login, .btn-register {
-      flex: 1; padding: 11px 16px; border-radius: 10px; font-weight: 600;
-      font-size: 13px; cursor: pointer; font-family: inherit;
-      text-decoration: none; text-align: center; transition: all 0.3s;
+    .card h3 {
+      color: var(--gold); margin-bottom: 15px; text-align: center;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 10px 14px; border: 1px solid var(--glass-border);
+      border-radius: 10px; font-size: 13px; background: rgba(255,255,255,0.04);
+      color: var(--text); outline: none; font-family: Tahoma;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .form-group textarea { resize: vertical; min-height: 70px; }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.1); }
+
+    .btn {
+      width: 100%; padding: 12px; border: none; border-radius: 12px;
+      font-size: 14px; font-weight: 700; cursor: pointer; font-family: Tahoma;
+      background: var(--gold); color: #0a1410; transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn:hover { box-shadow: 0 6px 20px rgba(201,168,76,0.3); transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-outline {
+      background: transparent; border: 1px solid var(--gold); color: var(--gold);
+    }
+    .btn-outline:hover { background: rgba(201,168,76,0.1); }
+    .btn-sm {
+      padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600;
+      border: 1px solid var(--gold); background: transparent; color: var(--gold);
+      cursor: pointer; font-family: Tahoma; transition: all 0.3s;
+      display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+    }
+    .btn-sm:hover { background: rgba(201,168,76,0.1); }
+    .btn-sm.danger { border-color: var(--red); color: var(--red); }
+    .btn-sm.danger:hover { background: rgba(231,76,60,0.1); }
+
+    .msg {
+      text-align: center; margin-top: 10px; font-size: 13px; padding: 10px 14px;
+      border-radius: 10px; display: none; align-items: center; justify-content: center; gap: 8px;
+    }
+    .msg.show { display: flex; }
+    .msg.success { background: rgba(76,175,132,0.15); color: var(--green); }
+    .msg.error { background: rgba(255,107,107,0.15); color: var(--red); }
+    .msg.info { background: rgba(52,152,219,0.15); color: var(--info); }
+
+    .tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+    .tab-btn {
+      flex: 1; padding: 12px; text-align: center; border-radius: 12px; font-size: 13px;
+      background: var(--bg-card); border: 1px solid var(--glass-border);
+      color: var(--text-muted); cursor: pointer; font-weight: 600;
       display: flex; align-items: center; justify-content: center; gap: 6px;
+      transition: all 0.3s;
     }
-    .btn-login { background: var(--gold); color: #0a1410; }
-    .btn-login:hover { box-shadow: 0 6px 20px rgba(201,168,76,0.35); }
-    .btn-register { background: transparent; color: var(--gold); border: 1.5px solid var(--gold); }
-    .btn-register:hover { background: rgba(201,168,76,0.08); }
+    .tab-btn.active { background: var(--gold); color: #0a1410; border-color: var(--gold); }
 
-    .footer { background: var(--bg-header); border-top: 1px solid rgba(201,168,76,0.2); text-align: center; padding: 16px; }
-    .footer-text { font-size: 11px; color: var(--text-muted); }
+    .profile-avatar {
+      width: 100px; height: 100px; border-radius: 50%;
+      margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;
+      background: rgba(201,168,76,0.12); border: 3px solid var(--gold);
+      font-size: 42px; color: var(--gold); overflow: hidden; position: relative;
+    }
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-edit-btn {
+      position: absolute; bottom: -5px; right: -5px;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--gold); color: #0a1410; border: 2px solid #0a1410;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; cursor: pointer; transition: all 0.3s;
+    }
+    .avatar-edit-btn:hover { transform: scale(1.1); }
 
-    @media (max-width: 500px) { .chat-container { padding: 8px; } .msg-text { font-size: 12px; } .login-card { padding: 28px 20px; } }
+    .profile-name { font-size: 22px; font-weight: 800; color: var(--gold-light); text-align: center; margin-bottom: 4px; }
+    .profile-username { font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 12px; }
+
+    .info-row {
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+      background: rgba(255,255,255,0.02); border-radius: 10px; margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .info-row i { color: var(--gold); width: 20px; text-align: center; font-size: 14px; }
+    .info-row .label { color: var(--text-muted); min-width: 80px; font-size: 11px; }
+    .info-row .value { color: var(--text); flex: 1; }
+
+    .profile-actions { display: flex; gap: 8px; margin-top: 20px; justify-content: center; flex-wrap: wrap; }
+
+    .avatar-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 15px 0;
+    }
+    .avatar-option {
+      width: 50px; height: 50px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.04); border: 2px solid transparent;
+      font-size: 22px; color: var(--text-muted); cursor: pointer;
+      transition: all 0.3s; margin: 0 auto;
+    }
+    .avatar-option:hover { border-color: var(--gold); color: var(--gold); }
+    .avatar-option.selected { border-color: var(--gold); background: rgba(201,168,76,0.2); color: var(--gold); }
+
+    .loading { text-align: center; padding: 40px; }
+    .spinner {
+      width: 48px; height: 48px; border: 3px solid rgba(201,168,76,0.2);
+      border-top-color: var(--gold); border-radius: 50%;
+      animation: spin 0.8s linear infinite; margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .footer {
+      background: var(--bg-header); border-top: 1px solid rgba(201,168,76,0.2);
+      text-align: center; padding: 12px; font-size: 10px; color: var(--text-muted); margin-top: auto;
+    }
+
+    @media (max-width: 400px) {
+      .avatar-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    }
   </style>
 </head>
 <body>
 
-  <header class="header">
-    <a href="../index.html" class="header-back"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
-    <div class="header-title">قَبَس چت</div>
-    <div style="width:60px;"></div>
-  </header>
+<header class="header">
+  <a href="../index.html"><i class="fa-solid fa-arrow-right"></i> بازگشت</a>
+  <div class="header-title">پروفایل</div>
+  <div></div>
+</header>
 
-  <div class="chat-container" id="chatContainer">
-
-    <div class="test-box" id="testBox"></div>
-
-    <div class="login-prompt" id="loginPrompt">
-      <div class="login-card">
-        <i class="fa-solid fa-comments login-icon"></i>
-        <h3>قَبَس چت</h3>
-        <p>برای شرکت در گفتگو وارد حساب کاربری خود شوید</p>
-        <div class="login-btns">
-          <a href="profile.html" class="btn-login"><i class="fa-solid fa-right-to-bracket"></i> ورود</a>
-          <a href="profile.html" class="btn-register"><i class="fa-solid fa-user-plus"></i> ثبت‌نام</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="chat-messages" id="chatMessages" style="display:none;"></div>
-    <div class="ai-reject" id="aiReject"></div>
-
-    <div class="chat-input-area" id="chatInputArea" style="display:none;">
-      <input type="text" id="chatInput" placeholder="پیام خود را بنویسید..." onkeypress="if(event.key==='Enter')sendMessage()">
-      <button onclick="sendMessage()" id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
-    </div>
-
+<div class="container" id="app">
+  <div class="loading">
+    <div class="spinner"></div>
+    <p style="color:var(--text-muted);">در حال بارگذاری...</p>
   </div>
+</div>
 
-  <footer class="footer"><p class="footer-text"><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p></footer>
+<footer class="footer">
+  <p><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p>
+</footer>
 
-  <script>
-    var CHAT_API = 'https://script.google.com/macros/s/AKfycbx6Eh-tM-FWt8wNx798RWGaM7BZ7JFfycwpi4mFPfoNti_rpY6DIyF_7OwPygbWxX05-g/exec';
-    var USER_API = 'https://script.google.com/macros/s/AKfycbxUIo8Ig-Ff7vnSXOOe00jT6p--ObusMg-KbR33yt9UchCBHHst5_kVNmo4_uthhgeLOw/exec';
-    var STORAGE_KEY = 'qabas_user';
-    var currentUser = null;
+<script>
+var API = 'https://script.google.com/macros/s/AKfycbxUIo8Ig-Ff7vnSXOOe00jT6p--ObusMg-KbR33yt9UchCBHHst5_kVNmo4_uthhgeLOw/exec';
+var STORAGE_KEY = 'qabas_user';
+var app = document.getElementById('app');
 
-    // ========== توابع localStorage ==========
-    function getLocalUser() {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+var avatarIcons = [
+  'fa-user', 'fa-crown', 'fa-star', 'fa-heart', 'fa-fire',
+  'fa-moon', 'fa-sun', 'fa-bolt', 'fa-skull', 'fa-ghost',
+  'fa-dragon', 'fa-cat', 'fa-dog', 'fa-fish', 'fa-crow',
+  'fa-otter', 'fa-spider', 'fa-hippo', 'fa-dove', 'fa-feather'
+];
+
+function getLocalUser() {
+  return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+}
+
+function saveLocalUser(user) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+}
+
+function clearLocalUser() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+function showLoading(msg) {
+  app.innerHTML = '<div class="loading"><div class="spinner"></div><p style="color:var(--text-muted);">' + (msg || 'در حال بارگذاری...') + '</p></div>';
+}
+
+async function api(action, data) {
+  data.action = action;
+  try {
+    var res = await fetch(API, { method: 'POST', body: JSON.stringify(data) });
+    var text = await res.text();
+    return JSON.parse(text);
+  } catch(e) {
+    return { status: 'error', message: 'خطا در ارتباط با سرور' };
+  }
+}
+
+function showProfile(user) {
+  var local = getLocalUser();
+  var isOwner = local && local.username === user.username;
+
+  var avatarHtml = user.avatar && user.avatar.startsWith('fa-')
+    ? '<i class="fa-solid ' + user.avatar + '"></i>'
+    : (user.avatar ? '<img src="' + user.avatar + '" alt="">' : '<i class="fa-solid fa-user"></i>');
+
+  var html = '<div class="card">';
+  html += '<div class="profile-avatar">' + avatarHtml;
+  if (isOwner) {
+    html += '<div class="avatar-edit-btn" onclick="showEditProfile()"><i class="fa-solid fa-pen"></i></div>';
+  }
+  html += '</div>';
+  html += '<div class="profile-name">' + (user.name || 'بی‌نام') + '</div>';
+  html += '<div class="profile-username">@' + user.username + '</div>';
+
+  if (user.bio) {
+    html += '<div class="info-row"><i class="fa-solid fa-quote-right"></i><span class="value">' + user.bio + '</span></div>';
+  }
+  if (user.birth_date) {
+    html += '<div class="info-row"><i class="fa-solid fa-cake-candles"></i><span class="label">تولد:</span><span class="value">' + user.birth_date + '</span></div>';
+  }
+  if (user.interests) {
+    html += '<div class="info-row"><i class="fa-solid fa-heart"></i><span class="label">علاقه‌مندی‌ها:</span><span class="value">' + user.interests + '</span></div>';
+  }
+
+  var statusText = user.online_status === 'online' ? 'آنلاین' : 'آفلاین';
+  var statusColor = user.online_status === 'online' ? 'var(--green)' : 'var(--text-muted)';
+  html += '<div class="info-row"><i class="fa-solid fa-circle" style="color:' + statusColor + ';font-size:10px;"></i><span class="label">وضعیت:</span><span class="value" style="color:' + statusColor + '">' + statusText + '</span></div>';
+
+  if (user.last_seen) {
+    html += '<div class="info-row"><i class="fa-regular fa-clock"></i><span class="label">آخرین بازدید:</span><span class="value">' + user.last_seen + '</span></div>';
+  }
+
+  html += '<div class="profile-actions">';
+  html += '<button class="btn-sm" onclick="copyLink(\'' + user.username + '\')"><i class="fa-solid fa-link"></i> کپی لینک</button>';
+  if (isOwner) {
+    html += '<button class="btn-sm" onclick="showEditProfile()"><i class="fa-solid fa-pen-to-square"></i> ویرایش</button>';
+    html += '<button class="btn-sm danger" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>';
+  }
+  html += '</div></div>';
+
+  app.innerHTML = html;
+}
+
+window.showEditProfile = function() {
+  var user = getLocalUser() || {};
+  var html = '<div class="card"><h3><i class="fa-solid fa-pen-to-square"></i> ویرایش پروفایل</h3>';
+  html += '<p style="text-align:center;color:var(--text-muted);font-size:12px;margin-bottom:8px;">یک آیکون انتخاب کنید:</p>';
+  html += '<div class="avatar-grid">';
+  avatarIcons.forEach(function(icon) {
+    var selected = user.avatar === icon ? ' selected' : '';
+    html += '<div class="avatar-option' + selected + '" onclick="selectAvatar(\'' + icon + '\')" id="av_' + icon + '"><i class="fa-solid ' + icon + '"></i></div>';
+  });
+  html += '</div>';
+  html += '<input type="hidden" id="editAvatar" value="' + (user.avatar || 'fa-user') + '">';
+  html += '<div class="form-group"><label><i class="fa-solid fa-user"></i> نام</label><input id="editName" value="' + (user.name || '') + '" placeholder="نام کامل"></div>';
+  html += '<div class="form-group"><label><i class="fa-solid fa-quote-right"></i> بیوگرافی</label><textarea id="editBio" placeholder="درباره خودت...">' + (user.bio || '') + '</textarea></div>';
+  html += '<div class="form-group"><label><i class="fa-solid fa-heart"></i> علاقه‌مندی‌ها</label><input id="editInterests" value="' + (user.interests || '') + '" placeholder="مثلاً: کتاب، موسیقی، ورزش"></div>';
+  html += '<div class="form-group"><label><i class="fa-solid fa-cake-candles"></i> تاریخ تولد</label><input id="editBirthdate" value="' + (user.birth_date || '') + '" placeholder="مثلاً: ۱۳۷۵/۰۶/۱۵"></div>';
+  html += '<div id="editMsg" class="msg"></div>';
+  html += '<button class="btn" onclick="saveProfile()"><i class="fa-solid fa-check"></i> ذخیره تغییرات</button>';
+  html += '<button class="btn btn-outline" style="margin-top:8px;" onclick="cancelEdit()"><i class="fa-solid fa-xmark"></i> لغو</button>';
+  html += '</div>';
+  app.innerHTML = html;
+};
+
+window.selectAvatar = function(icon) {
+  document.querySelectorAll('.avatar-option').forEach(function(el) { el.classList.remove('selected'); });
+  document.getElementById('av_' + icon).classList.add('selected');
+  document.getElementById('editAvatar').value = icon;
+};
+
+window.cancelEdit = function() {
+  var user = getLocalUser();
+  if (user && user.username) { showProfile(user); }
+  else { showLoginRegister(); }
+};
+
+window.saveProfile = async function() {
+  var user = getLocalUser() || {};
+  var name = document.getElementById('editName').value.trim();
+  var bio = document.getElementById('editBio').value.trim();
+  var interests = document.getElementById('editInterests').value.trim();
+  var birth_date = document.getElementById('editBirthdate').value.trim();
+  var avatar = document.getElementById('editAvatar').value;
+  var msg = document.getElementById('editMsg');
+
+  if (!name) {
+    msg.className = 'msg error show';
+    msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> نام الزامی است';
+    return;
+  }
+
+  msg.className = 'msg info show';
+  msg.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال ذخیره...';
+
+  var res = await api('update_profile', {
+    username: user.username, name: name, bio: bio,
+    interests: interests, birth_date: birth_date, avatar: avatar
+  });
+
+  if (res.status === 'success') {
+    user.name = name; user.bio = bio; user.interests = interests;
+    user.birth_date = birth_date; user.avatar = avatar;
+    saveLocalUser(user);
+    msg.className = 'msg success show';
+    msg.innerHTML = '<i class="fa-solid fa-circle-check"></i> تغییرات ذخیره شد';
+    setTimeout(function() { showProfile(user); }, 1000);
+  } else {
+    msg.className = 'msg error show';
+    msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ' + (res.message || 'خطا');
+  }
+};
+
+function showLoginRegister() {
+  app.innerHTML = `
+    <div class="tabs">
+      <button id="tabLogin" class="tab-btn active" onclick="switchTab('login')"><i class="fa-solid fa-right-to-bracket"></i> ورود</button>
+      <button id="tabRegister" class="tab-btn" onclick="switchTab('register')"><i class="fa-solid fa-user-plus"></i> ثبت‌نام</button>
+    </div>
+    <div id="loginForm" class="card">
+      <h3><i class="fa-solid fa-key"></i> ورود به حساب</h3>
+      <div class="form-group"><label><i class="fa-solid fa-user"></i> نام کاربری</label><input id="loginUser" placeholder="نام کاربری"></div>
+      <div class="form-group"><label><i class="fa-solid fa-lock"></i> رمز عبور</label><input type="password" id="loginPass" placeholder="رمز عبور"></div>
+      <div id="loginMsg" class="msg"></div>
+      <button class="btn" id="loginBtn" onclick="doLogin()"><i class="fa-solid fa-right-to-bracket"></i> ورود</button>
+    </div>
+    <div id="registerForm" class="card" style="display:none;">
+      <h3><i class="fa-solid fa-user-plus"></i> ایجاد حساب</h3>
+      <div class="form-group"><label><i class="fa-solid fa-user"></i> نام *</label><input id="regName" placeholder="نام کامل"></div>
+      <div class="form-group"><label><i class="fa-solid fa-at"></i> نام کاربری *</label><input id="regUser" placeholder="نام کاربری"></div>
+      <div class="form-group"><label><i class="fa-solid fa-lock"></i> رمز عبور *</label><input type="password" id="regPass" placeholder="حداقل ۳ کاراکتر"></div>
+      <div class="form-group"><label><i class="fa-solid fa-pen"></i> بیوگرافی</label><textarea id="regBio" placeholder="درباره خودت..."></textarea></div>
+      <div id="regMsg" class="msg"></div>
+      <button class="btn" id="regBtn" onclick="doRegister()"><i class="fa-solid fa-check"></i> ثبت‌نام</button>
+    </div>`;
+}
+
+window.switchTab = function(tab) {
+  document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+  document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
+  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+};
+
+window.doLogin = async function() {
+  var u = document.getElementById('loginUser').value.trim();
+  var p = document.getElementById('loginPass').value;
+  var msg = document.getElementById('loginMsg');
+  var btn = document.getElementById('loginBtn');
+  msg.className = 'msg';
+  if (!u || !p) { msg.className = 'msg error show'; msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> فیلدها را پر کنید'; return; }
+  btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ورود...';
+  var res = await api('login', { username: u, password: p });
+  btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> ورود';
+  if (res.status === 'success') {
+    saveLocalUser(res.data);
+    showProfile(res.data);
+  } else {
+    msg.className = 'msg error show';
+    msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ' + (res.message || 'خطا');
+  }
+};
+
+window.doRegister = async function() {
+  var n = document.getElementById('regName').value.trim();
+  var u = document.getElementById('regUser').value.trim();
+  var p = document.getElementById('regPass').value;
+  var b = document.getElementById('regBio').value.trim();
+  var msg = document.getElementById('regMsg');
+  var btn = document.getElementById('regBtn');
+  msg.className = 'msg';
+  if (!n || !u || !p) { msg.className = 'msg error show'; msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> فیلدهای ستاره‌دار را پر کنید'; return; }
+  btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ثبت‌نام...';
+  var res = await api('register', { username: u, password: p, name: n, bio: b });
+  btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-check"></i> ثبت‌نام';
+  if (res.status === 'success') {
+    msg.className = 'msg success show';
+    msg.innerHTML = '<i class="fa-solid fa-circle-check"></i> ثبت‌نام موفق! وارد شوید';
+    setTimeout(function() { switchTab('login'); }, 1500);
+  } else {
+    msg.className = 'msg error show';
+    msg.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ' + (res.message || 'خطا');
+  }
+};
+
+window.copyLink = function(username) {
+  var link = location.origin + location.pathname + '?user=' + username;
+  if (navigator.clipboard) { navigator.clipboard.writeText(link).then(function() { alert('لینک کپی شد'); }); }
+  else { prompt('لینک:', link); }
+};
+
+window.logout = function() {
+  clearLocalUser();
+  location.reload();
+};
+
+async function init() {
+  var params = new URLSearchParams(location.search);
+  var viewUser = params.get('user');
+
+  if (viewUser) {
+    showLoading('دریافت پروفایل...');
+    var res = await api('get_user', { username: viewUser });
+    if (res.status === 'success' && res.data) { showProfile(res.data); }
+    else { app.innerHTML = '<div class="card" style="text-align:center;"><p style="color:var(--text-muted);">کاربر پیدا نشد</p><a href="' + location.pathname + '" class="btn-sm" style="margin-top:12px;">بازگشت</a></div>'; }
+    return;
+  }
+
+  var local = getLocalUser();
+  if (local && local.username) {
+    showLoading('بازیابی حساب...');
+    var res = await api('get_user', { username: local.username });
+    if (res.status === 'success' && res.data) {
+      saveLocalUser(res.data);
+      showProfile(res.data);
+      return;
     }
+    clearLocalUser();
+  }
 
-    function saveLocalUser(user) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
-    }
+  showLoginRegister();
+}
 
-    // ========== تست ==========
-    function showTest(msg) {
-      var box = document.getElementById('testBox');
-      box.innerHTML = '🧪 تست: ' + msg;
-      box.className = 'test-box show';
-    }
+var timeout = setTimeout(function() {
+  if (app.querySelector('.loading')) { app.innerHTML = '<div class="card" style="text-align:center;"><p style="color:var(--red);">بارگذاری طولانی شد</p><button class="btn-sm" onclick="location.reload()">تلاش مجدد</button></div>'; }
+}, 10000);
 
-    // ========== آواتار ==========
-    function getAvatarHtml(avatar) {
-      if (!avatar) return '<i class="fa-solid fa-user"></i>';
-      if (avatar.startsWith('fa-')) return '<i class="fa-solid ' + avatar + '"></i>';
-      if (avatar.startsWith('http')) return '<img src="' + avatar + '" alt="">';
-      return '<i class="fa-solid fa-user"></i>';
-    }
-
-    // ========== شروع ==========
-    async function init() {
-      // تست ۱: localStorage
-      var lsData = localStorage.getItem(STORAGE_KEY);
-      showTest('localStorage = ' + (lsData ? lsData.substring(0, 50) + '...' : 'null'));
-
-      // تست ۲: getLocalUser
-      currentUser = getLocalUser();
-      showTest('currentUser = ' + (currentUser && currentUser.username ? currentUser.username : 'null'));
-
-      // تست ۳: URL
-      var params = new URLSearchParams(location.search);
-      var userParam = params.get('user');
-      showTest('URL user = ' + (userParam || 'null'));
-
-      // اگه کاربر نبود، از URL تأیید بگیر
-      if ((!currentUser || !currentUser.username) && userParam) {
-        showTest('درحال تأیید از API...');
-        try {
-          var res = await fetch(USER_API, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'get_user', username: userParam })
-          });
-          var data = await res.json();
-          if (data.status === 'success' && data.data) {
-            currentUser = data.data;
-            saveLocalUser(currentUser);
-            showTest('✅ کاربر تأیید شد: ' + currentUser.username);
-          } else {
-            showTest('❌ کاربر در API پیدا نشد');
-          }
-        } catch(e) {
-          showTest('❌ خطا در اتصال به API');
-        }
-      }
-
-      // تصمیم نهایی
-      if (currentUser && currentUser.username) {
-        showTest('✅ ورود به چت');
-        showChat();
-      } else {
-        showTest('❌ نمایش صفحه ورود');
-        document.getElementById('loginPrompt').style.display = 'flex';
-        document.getElementById('chatMessages').style.display = 'none';
-        document.getElementById('chatInputArea').style.display = 'none';
-      }
-    }
-
-    function showChat() {
-      document.getElementById('loginPrompt').style.display = 'none';
-      document.getElementById('chatMessages').style.display = 'flex';
-      document.getElementById('chatInputArea').style.display = 'flex';
-      loadMessages();
-      setInterval(loadMessages, 5000);
-    }
-
-    async function loadMessages() {
-      if (!currentUser) return;
-      try {
-        var res = await fetch(CHAT_API, { 
-          method: 'POST', 
-          body: JSON.stringify({ action: 'getMessages', username: currentUser.username, friend_id: 'public' }) 
-        });
-        var d = await res.json();
-        if (d.status === 'success' && d.data && d.data.messages) {
-          var container = document.getElementById('chatMessages');
-          container.innerHTML = d.data.messages.map(function(m) {
-            return '<div class="msg"><a href="profile.html?user=' + (m.sender_username || '') + '" class="msg-avatar">' + getAvatarHtml(m.avatar) + '</a><div class="msg-content"><div class="msg-header"><span class="msg-name">' + (m.sender_name || 'ناشناس') + '</span><span class="msg-time">' + (m.timestamp || '') + '</span></div><div class="msg-text">' + (m.message || '') + '</div></div></div>';
-          }).join('');
-          container.scrollTop = container.scrollHeight;
-        }
-      } catch(e) {}
-    }
-
-    async function sendMessage() {
-      if (!currentUser) return;
-      var input = document.getElementById('chatInput');
-      var msg = input.value.trim();
-      if (!msg) return;
-
-      var btn = document.getElementById('sendBtn');
-      var rejectDiv = document.getElementById('aiReject');
-      rejectDiv.style.display = 'none';
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-
-      try {
-        var checkRes = await fetch(CHAT_API, { 
-          method: 'POST', 
-          body: JSON.stringify({ action: 'checkMessage', message: msg }) 
-        });
-        var checkData = await checkRes.json();
-
-        if (checkData.status === 'success' && checkData.data && checkData.data.status === 'approved') {
-          await fetch(CHAT_API, { 
-            method: 'POST', 
-            body: JSON.stringify({ 
-              action: 'sendMessage', 
-              username: currentUser.username,
-              sender_name: currentUser.name || currentUser.username,
-              avatar: currentUser.avatar || '',
-              receiver_id: 'public', 
-              message: msg 
-            }) 
-          });
-          input.value = '';
-          loadMessages();
-        } else {
-          rejectDiv.innerHTML = '<i class="fa-solid fa-robot"></i> ' + ((checkData.data && checkData.data.reason) || 'پیام تأیید نشد');
-          rejectDiv.style.display = 'block';
-        }
-      } catch(e) {
-        rejectDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> خطا در ارتباط';
-        rejectDiv.style.display = 'block';
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
-      }
-    }
-
-    window.sendMessage = sendMessage;
-    init();
-  </script>
+init().then(function() { clearTimeout(timeout); });
+</script>
 </body>
 </html>
