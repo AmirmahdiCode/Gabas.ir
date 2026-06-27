@@ -145,82 +145,58 @@
 
   <footer class="footer"><p class="footer-text"><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p></footer>
 
-    <script>
-    // API ها
+  <script>
     var CHAT_API = 'https://script.google.com/macros/s/AKfycbx6Eh-tM-FWt8wNx798RWGaM7BZ7JFfycwpi4mFPfoNti_rpY6DIyF_7OwPygbWxX05-g/exec';
     var USER_API = 'https://script.google.com/macros/s/AKfycbxUIo8Ig-Ff7vnSXOOe00jT6p--ObusMg-KbR33yt9UchCBHHst5_kVNmo4_uthhgeLOw/exec';
+    var STORAGE_KEY = 'qabas_user';
     var currentUser = null;
 
-    // ========== توابع کمکی ==========
-    function getStoredUser() {
-      try {
-        var data = localStorage.getItem('qabas_user');
-        return data ? JSON.parse(data) : null;
-      } catch(e) {
-        return null;
-      }
+    function getLocalUser() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+    }
+
+    function saveLocalUser(user) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
     }
 
     function getAvatarHtml(avatar) {
       if (!avatar) return '<i class="fa-solid fa-user"></i>';
-      if (avatar.startsWith('fa-')) {
-        return '<i class="fa-solid ' + avatar + '"></i>';
-      }
-      if (avatar.startsWith('http')) {
-        return '<img src="' + avatar + '" alt="" onerror="this.parentElement.innerHTML=\'<i class=\\'fa-solid fa-user\\'></i>\'">';
-      }
+      if (avatar.startsWith('fa-')) return '<i class="fa-solid ' + avatar + '"></i>';
+      if (avatar.startsWith('http')) return '<img src="' + avatar + '" alt="">';
       return '<i class="fa-solid fa-user"></i>';
     }
 
-    // ========== احراز هویت از API کاربران ==========
-    async function verifyUser(username) {
-      try {
-        var res = await fetch(USER_API, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'get_user', username: username })
-        });
-        var data = await res.json();
-        if (data.status === 'success' && data.data) {
-          return data.data;
-        }
-      } catch(e) {}
-      return null;
-    }
-
-    // ========== شروع ==========
     async function init() {
-      // اول localStorage (مثل ایندکس)
-      currentUser = getStoredUser();
+      currentUser = getLocalUser();
 
-      // اگه نبود، از URL بخون
       if (!currentUser || !currentUser.username) {
         var params = new URLSearchParams(location.search);
         var userParam = params.get('user');
         if (userParam) {
-          // از API کاربران تأیید بگیر
-          var userData = await verifyUser(userParam);
-          if (userData) {
-            currentUser = userData;
-            localStorage.setItem('qabas_user', JSON.stringify(currentUser));
-          }
+          try {
+            var res = await fetch(USER_API, {
+              method: 'POST',
+              body: JSON.stringify({ action: 'get_user', username: userParam })
+            });
+            var data = await res.json();
+            if (data.status === 'success' && data.data) {
+              currentUser = data.data;
+              saveLocalUser(currentUser);
+            }
+          } catch(e) {}
         }
       }
 
       if (currentUser && currentUser.username) {
         showChat();
       } else {
-        showLoginPrompt();
+        document.getElementById('loginPrompt').style.display = 'flex';
+        document.getElementById('chatMessages').style.display = 'none';
+        document.getElementById('chatInputArea').style.display = 'none';
       }
     }
 
-    function showLoginPrompt() {
-      document.getElementById('loginPrompt').style.display = 'flex';
-      document.getElementById('chatMessages').style.display = 'none';
-      document.getElementById('chatInputArea').style.display = 'none';
-    }
-
     function showChat() {
-      if (!currentUser) return showLoginPrompt();
       document.getElementById('loginPrompt').style.display = 'none';
       document.getElementById('chatMessages').style.display = 'flex';
       document.getElementById('chatInputArea').style.display = 'flex';
@@ -228,43 +204,26 @@
       setInterval(loadMessages, 5000);
     }
 
-    // ========== پیام‌ها (با CHAT_API) ==========
     async function loadMessages() {
       if (!currentUser) return;
       try {
         var res = await fetch(CHAT_API, { 
           method: 'POST', 
-          body: JSON.stringify({ 
-            action: 'getMessages', 
-            username: currentUser.username,
-            friend_id: 'public' 
-          }) 
+          body: JSON.stringify({ action: 'getMessages', username: currentUser.username, friend_id: 'public' }) 
         });
         var d = await res.json();
         if (d.status === 'success' && d.data && d.data.messages) {
           var container = document.getElementById('chatMessages');
           container.innerHTML = d.data.messages.map(function(m) {
-            return '<div class="msg">' +
-              '<a href="profile.html?user=' + (m.sender_username || '') + '" class="msg-avatar">' +
-                getAvatarHtml(m.avatar) +
-              '</a>' +
-              '<div class="msg-content">' +
-                '<div class="msg-header">' +
-                  '<span class="msg-name" onclick="window.location.href=\'profile.html?user=' + (m.sender_username || '') + '\'">' + (m.sender_name || 'ناشناس') + '</span>' +
-                  '<span class="msg-time">' + (m.timestamp || '') + '</span>' +
-                '</div>' +
-                '<div class="msg-text">' + (m.message || '') + '</div>' +
-              '</div></div>';
+            return '<div class="msg"><a href="profile.html?user=' + (m.sender_username || '') + '" class="msg-avatar">' + getAvatarHtml(m.avatar) + '</a><div class="msg-content"><div class="msg-header"><span class="msg-name">' + (m.sender_name || 'ناشناس') + '</span><span class="msg-time">' + (m.timestamp || '') + '</span></div><div class="msg-text">' + (m.message || '') + '</div></div></div>';
           }).join('');
           container.scrollTop = container.scrollHeight;
         }
       } catch(e) {}
     }
 
-    // ========== ارسال پیام (با CHAT_API) ==========
     async function sendMessage() {
       if (!currentUser) return;
-      
       var input = document.getElementById('chatInput');
       var msg = input.value.trim();
       if (!msg) return;
@@ -272,7 +231,7 @@
       var btn = document.getElementById('sendBtn');
       var rejectDiv = document.getElementById('aiReject');
       rejectDiv.style.display = 'none';
-      btn.disabled = true; 
+      btn.disabled = true;
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
       try {
@@ -304,14 +263,12 @@
         rejectDiv.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> خطا در ارتباط';
         rejectDiv.style.display = 'block';
       } finally {
-        btn.disabled = false; 
+        btn.disabled = false;
         btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
       }
     }
 
     window.sendMessage = sendMessage;
-
-    // ========== اجرا ==========
     init();
   </script>
 </body>
