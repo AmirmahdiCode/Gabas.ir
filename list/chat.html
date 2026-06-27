@@ -145,8 +145,10 @@
 
   <footer class="footer"><p class="footer-text"><i class="fa-solid fa-fire"></i> قَبَس — شعله‌ای از نور شهدا</p></footer>
 
-  <script>
-    var API_URL = 'https://script.google.com/macros/s/AKfycbx6Eh-tM-FWt8wNx798RWGaM7BZ7JFfycwpi4mFPfoNti_rpY6DIyF_7OwPygbWxX05-g/exec';
+    <script>
+    // API ها
+    var CHAT_API = 'https://script.google.com/macros/s/AKfycbx6Eh-tM-FWt8wNx798RWGaM7BZ7JFfycwpi4mFPfoNti_rpY6DIyF_7OwPygbWxX05-g/exec';
+    var USER_API = 'https://script.google.com/macros/s/AKfycbxUIo8Ig-Ff7vnSXOOe00jT6p--ObusMg-KbR33yt9UchCBHHst5_kVNmo4_uthhgeLOw/exec';
     var currentUser = null;
 
     // ========== توابع کمکی ==========
@@ -170,18 +172,37 @@
       return '<i class="fa-solid fa-user"></i>';
     }
 
+    // ========== احراز هویت از API کاربران ==========
+    async function verifyUser(username) {
+      try {
+        var res = await fetch(USER_API, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'get_user', username: username })
+        });
+        var data = await res.json();
+        if (data.status === 'success' && data.data) {
+          return data.data;
+        }
+      } catch(e) {}
+      return null;
+    }
+
     // ========== شروع ==========
-    function init() {
+    async function init() {
       // اول localStorage (مثل ایندکس)
       currentUser = getStoredUser();
 
-      // اگه نبود، از URL بخون (برای وقتی از پروفایل میاد)
+      // اگه نبود، از URL بخون
       if (!currentUser || !currentUser.username) {
         var params = new URLSearchParams(location.search);
         var userParam = params.get('user');
         if (userParam) {
-          currentUser = { username: userParam, name: userParam };
-          localStorage.setItem('qabas_user', JSON.stringify(currentUser));
+          // از API کاربران تأیید بگیر
+          var userData = await verifyUser(userParam);
+          if (userData) {
+            currentUser = userData;
+            localStorage.setItem('qabas_user', JSON.stringify(currentUser));
+          }
         }
       }
 
@@ -207,11 +228,11 @@
       setInterval(loadMessages, 5000);
     }
 
-    // ========== پیام‌ها ==========
+    // ========== پیام‌ها (با CHAT_API) ==========
     async function loadMessages() {
       if (!currentUser) return;
       try {
-        var res = await fetch(API_URL, { 
+        var res = await fetch(CHAT_API, { 
           method: 'POST', 
           body: JSON.stringify({ 
             action: 'getMessages', 
@@ -240,7 +261,7 @@
       } catch(e) {}
     }
 
-    // ========== ارسال پیام ==========
+    // ========== ارسال پیام (با CHAT_API) ==========
     async function sendMessage() {
       if (!currentUser) return;
       
@@ -255,14 +276,14 @@
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
 
       try {
-        var checkRes = await fetch(API_URL, { 
+        var checkRes = await fetch(CHAT_API, { 
           method: 'POST', 
           body: JSON.stringify({ action: 'checkMessage', message: msg }) 
         });
         var checkData = await checkRes.json();
 
         if (checkData.status === 'success' && checkData.data && checkData.data.status === 'approved') {
-          await fetch(API_URL, { 
+          await fetch(CHAT_API, { 
             method: 'POST', 
             body: JSON.stringify({ 
               action: 'sendMessage', 
